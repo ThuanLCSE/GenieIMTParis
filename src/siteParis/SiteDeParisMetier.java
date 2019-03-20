@@ -84,6 +84,8 @@ public class SiteDeParisMetier {
 	 */
 	public String inscrireJoueur(String nom, String prenom, String pseudo, String passwordGestionnaire) throws MetierException, JoueurExistantException, JoueurException {
 		this.validitePasswordGestionnaire(passwordGestionnaire);
+		Joueur foundJoueur = this.rechercherJoueur(nom,prenom,pseudo);
+		if (foundJoueur != null) throw new JoueurExistantException();
 		Joueur newbie = new Joueur(nom, prenom, pseudo); 
 		newbie.setPassword(DEFAULT_PASS);
 		this.joueur.add(newbie);
@@ -110,10 +112,31 @@ public class SiteDeParisMetier {
 	 * 
 	 */
 	public long desinscrireJoueur(String nom, String prenom, String pseudo, String passwordGestionnaire) throws MetierException, JoueurInexistantException, JoueurException {
-		return 0;
+		this.validitePasswordGestionnaire(passwordGestionnaire);
+		Joueur foundJoueur = this.rechercherJoueur(nom,prenom,pseudo);
+		if (foundJoueur == null) throw new JoueurInexistantException();
+		this.joueur.remove(foundJoueur);
+		return foundJoueur.getJetonRestant();
 	}
 
 
+
+	private Joueur rechercherJoueur(String nom, String prenom, String pseudo) {
+		for (Joueur j : this.joueur) { 
+			if (j.equal(nom, prenom, pseudo)) {
+				return j;
+			} 
+		}
+		return null;
+	}
+	private Competition rechercherCompetition(String nom) {
+		for (Competition c : this.competition) { 
+			if (c.equal(nom)) {
+				return c;
+			} 
+		}
+		return null;
+	}
 
 	/**
 	 * ajouter une compétition.  
@@ -135,7 +158,12 @@ public class SiteDeParisMetier {
 	 * n'est pas instanciée ou est dépassée.
 	 */
 	public void ajouterCompetition(String competition, DateFrancaise dateCloture, String [] competiteurs, String passwordGestionnaire) throws MetierException, CompetitionExistanteException, CompetitionException  {
-
+		this.validitePasswordGestionnaire(passwordGestionnaire);
+		if (this.rechercherCompetition(competition) != null) throw new CompetitionExistanteException();
+		Competition comp = new Competition(competition);
+		comp.setDateCloture(dateCloture);
+		comp.setCompetiteurs(competiteurs);
+		this.competition.add(comp);
 	}
 
 
@@ -170,8 +198,16 @@ public class SiteDeParisMetier {
 	 * si la date de clôture de la compétition est dans le futur.
 	 * 
 	 */	
-	public void solderVainqueur(String competition, String vainqueur, String passwordGestionnaire) throws MetierException,  CompetitionInexistanteException, CompetitionException  {
-
+	public void solderVainqueur(String competition, String vainqueur, String passwordGestionnaire) throws MetierException,   CompetitionInexistanteException, CompetitionException  {
+		this.validitePasswordGestionnaire(passwordGestionnaire);
+		Competition foundComp  = this.rechercherCompetition(competition);
+		if (foundComp == null) throw new CompetitionInexistanteException();
+		if (!foundComp.getDateCloture().estDansLePasse()) throw new  CompetitionException();
+		foundComp.setVainqueur(vainqueur); 
+		//credit joueur apres
+		
+		if (foundComp.getStatut().equals(Competition.SOLDEE)) throw new CompetitionInexistanteException();
+		foundComp.setStatut(Competition.SOLDEE);
 	}
 
 
@@ -328,6 +364,7 @@ public class SiteDeParisMetier {
 	protected void validitePasswordGestionnaire(String passwordGestionnaire) throws MetierException {
 	    if (passwordGestionnaire==null) throw new MetierException();
 	    if (!passwordGestionnaire.matches("[0-9A-Za-z]{8,}")) throw new MetierException();
+	    gestionnaire.validitePasswordGestionnaire(passwordGestionnaire);
 	}
 
 	/** 
@@ -335,7 +372,7 @@ public class SiteDeParisMetier {
 	 * @uml.associationEnd multiplicity="(0 -1)" ordering="true" inverse="siteDeParisMetier:siteParis.Joueur"
 	 * @uml.association name="gerer"
 	 */
-	private ArrayList<Joueur> joueur = new java.util.ArrayList();
+	private ArrayList<Joueur> joueur = new java.util.ArrayList<Joueur>();
 
 	/**
 	 * @uml.property  name="gestionnaire"
@@ -348,14 +385,14 @@ public class SiteDeParisMetier {
 	 * @uml.associationEnd multiplicity="(0 -1)" ordering="true" inverse="siteDeParisMetier:siteParis.Competition"
 	 * @uml.association name="contenir"
 	 */
-	private ArrayList competition = new java.util.ArrayList();
+	private ArrayList<Competition> competition = new java.util.ArrayList<Competition>();
 
 	/**
 	 * Getter of the property <tt>joueurs</tt>
 	 * @return  Returns the joueur.
 	 * @uml.property  name="joueurs"
 	 */
-	public ArrayList getJoueurs() {
+	public ArrayList<Joueur> getJoueurs() {
 		return joueur;
 	}
 

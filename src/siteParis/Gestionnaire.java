@@ -30,13 +30,19 @@ public class Gestionnaire {
 		
 		/**
 		 */
-		public void validitePasszordGestionnaire()	throws MetierException {
+		public void validitePasswordGestionnaire(String password)	throws MetierException {
+			if (!this.password.equals(password)) throw new MetierException();
+			return;
 		}
 
 			
 			/**
 			 */
-			public Gestionnaire(String password){
+			public Gestionnaire(String password) throws MetierException{
+				if (password == null) throw new MetierException();
+				if (password.length() < 8 ) throw new MetierException();
+				if (password.contains(" ")) throw new MetierException();
+				if (password.contains("-")) throw new MetierException();
 				this.password = password;
 			}
 

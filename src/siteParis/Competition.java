@@ -7,11 +7,15 @@ import java.util.ArrayList;
 
 public class Competition {
 
+	public static final String EN_ATTENTE = "en attente / not soldee yet";
+	public static final String SOLDEE = "soldée";
 	/**
 	 * le nom de la competition, min length : 3 characters
 	 * @uml.property  name="nom"
 	 */
 	private String nom = "";
+	private String statut = EN_ATTENTE;
+
 
 	/**
 	 * Getter of the property <tt>nom</tt>
@@ -51,7 +55,8 @@ public class Competition {
 	 * @param vainqueur  The vainqueur to set.
 	 * @uml.property  name="vainqueur"
 	 */
-	public void setVainqueur(String vainqueur) {
+	public void setVainqueur(String vainqueur) throws CompetitionException {
+		if (!this.rechercherNomCompetiteur(vainqueur)) throw new CompetitionException();
 		this.vainqueur = vainqueur;
 	}
 
@@ -59,14 +64,14 @@ public class Competition {
 	 * la date de cloture de la competition
 	 * @uml.property  name="dateCloture"
 	 */
-	private Date dateCloture = new java.util.Date();
+	private DateFrancaise dateCloture;
 
 	/**
 	 * Getter of the property <tt>dateCloture</tt>
 	 * @return  Returns the dateCloture.
 	 * @uml.property  name="dateCloture"
 	 */
-	public Date getDateCloture() {
+	public DateFrancaise getDateCloture() {
 		return dateCloture;
 	}
 
@@ -75,7 +80,10 @@ public class Competition {
 	 * @param dateCloture  The dateCloture to set.
 	 * @uml.property  name="dateCloture"
 	 */
-	public void setDateCloture(Date dateCloture) {
+	public void setDateCloture(DateFrancaise dateCloture) throws CompetitionException {
+		if (dateCloture == null) throw new CompetitionException(); 
+		if (dateCloture.estDansLePasse()) throw new CompetitionException(); 
+		
 		this.dateCloture = dateCloture;
 	}
 
@@ -91,36 +99,48 @@ public class Competition {
 		 * @uml.associationEnd  multiplicity="(0 -1)" ordering="true" inverse="competition:siteParis.Competiteur"
 		 * @uml.association  name="contenir"
 		 */
-		private ArrayList competiteurs = new java.util.ArrayList();
+		private ArrayList<Competiteur> competiteurs = new java.util.ArrayList<Competiteur>();
+		public ArrayList<Competiteur> getCompetiteurs() {
+			return competiteurs;
+		}
+
+		public void setCompetiteurs(String[] competiteurs) throws CompetitionException, MetierException {
+			if (competiteurs == null) throw new MetierException();
+			if (competiteurs.length < 2) throw new CompetitionException();
+			for (String nom : competiteurs) {
+				if (this.rechercherNomCompetiteur(nom)) throw new CompetitionException();
+				Competiteur compteur = new Competiteur(nom);
+				this.competiteurs.add(compteur);
+			}
+		}
+
+		public ArrayList<Mise> getMise() {
+			return mise;
+		}
+
+		public void setMise(ArrayList<Mise> mise) {
+			this.mise = mise;
+		}
+
 		/** 
 		 * @uml.property name="mises"
 		 * @uml.associationEnd multiplicity="(0 -1)" ordering="true" inverse="competition:siteParis.Mise"
 		 * @uml.association name="contenir"
 		 */
-		private ArrayList mise = new java.util.ArrayList();
+		private ArrayList<Mise> mise = new java.util.ArrayList<Mise>();
 
 		/**
 		 * Getter of the property <tt>mises</tt>
 		 * @return  Returns the mise.
 		 * @uml.property  name="mises"
-		 */
-		public ArrayList getMises() {
-			return mise;
-		}
-
-		/**
-		 * Setter of the property <tt>mises</tt>
-		 * @param mises  The mise to set.
-		 * @uml.property  name="mises"
-		 */
-		public void setMises(ArrayList mises) {
-			mise = mises;
-		}
-
+		 */ 
 			
 			/**
 			 */
 			public boolean equal(String nom){
+				if (this.nom.equals(nom))  {
+					return true;
+				} else
 				return false;	
 			}
 
@@ -136,14 +156,20 @@ public class Competition {
 					
 					/**
 					 */
-					public boolean verifierNomCompetiteur(ArrayList competiteurs){
+					public boolean rechercherNomCompetiteur(String nom){
+						for (Competiteur c : competiteurs) {
+							if (c.equal(nom)) return true;
+						}
 						return false;	
 					}
 
 						
 						/**
 						 */
-						public Competition(String nom){
+						public Competition(String nom) throws CompetitionException{
+							if (nom==null) throw new CompetitionException();
+						    if (!nom.matches("[A-Za-z0-9]{4,}")) throw new CompetitionException();
+							this.nom = nom;
 						}
 
 							
@@ -153,5 +179,13 @@ public class Competition {
 								
 																return false;
 															 }
+
+								public String getStatut() {
+									return statut;
+								}
+
+								public void setStatut(String statut) {
+									this.statut = statut;
+								}
 
 }

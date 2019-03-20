@@ -1132,12 +1132,13 @@ public class TestMetier {
 	public static void main (String [] args) {
 
 		testConstructeurSiteDeParisMetier();
-//		testValiditePasswordGestionnaire();
-//		testInscrireDesinscrireJoueur();
-//		testCrediterDebiterJoueur();
-//		testAjouterCompetition();
-//		testMiserVainqueur();
-//		testSolderVainqueur();
+		testValiditePasswordGestionnaire();
+		testInscrireDesinscrireJoueur();
+//		missing test number of joueur in system
+		testCrediterDebiterJoueur();
+		testAjouterCompetition();
+		testMiserVainqueur();
+		testSolderVainqueur();
 //		testConsulterCompetitions();
 //		testConsulterCompetiteurs();
 //		testConsulterJoueurs();		

@@ -117,8 +117,8 @@ public class Joueur {
 		 * @return  Returns the jetons.
 		 * @uml.property  name="jetonRestant"
 		 */
-		public double getJetonRestant() {
-			return jetonRestant;
+		public long getJetonRestant() {
+			return (long) jetonRestant;
 		}
 
 		/** 
@@ -158,15 +158,23 @@ public class Joueur {
 				
 				/**
 				 */
-				public boolean equal(String nom, boolean prenom, String pseudo){
-				
-								return false;	
-							 }
+				public boolean equal(String nom, String prenom, String pseudo){ 
+					if ((this.nom.equals(nom) && this.prenom.equals(prenom)) || this.pseudo.equals(pseudo))  {
+						return true;
+					} else
+					return false;	
+				 }
 
 					
 					/**
 					 */
-					public Joueur(String nom, String prenom, String pseudo){
+					public Joueur(String nom, String prenom, String pseudo) throws JoueurException{
+						if (nom==null) throw new JoueurException(); 
+						if (prenom==null) throw new JoueurException();
+						if (pseudo==null) throw new JoueurException(); 
+					    if (!nom.matches("[A-Za-z]+")) throw new JoueurException();
+					    if (!prenom.matches("[^ ][A-Za-z]*")) throw new JoueurException();
+					    if (!pseudo.matches("[A-Za-z0-9]{4,}")) throw new JoueurException();
 						this.nom = nom;
 						this.prenom = prenom;
 						this.pseudo = pseudo;

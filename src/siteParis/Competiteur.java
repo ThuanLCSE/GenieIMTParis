@@ -31,13 +31,19 @@ public class Competiteur {
 		/**
 		 */
 		public boolean equal(String nom){
+			if (this.nom.equals(nom))  {
+				return true;
+			} else
 			return false;	
 		}
 
 			
 			/**
 			 */
-			public Competiteur(String nom){
+			public Competiteur(String nom) throws CompetitionException{
+				if (nom==null) throw new CompetitionException(); 
+			    if (!nom.matches("[A-Za-z0-9]{4,}")) throw new CompetitionException();
+				this.nom = nom;
 			}
 
 }
