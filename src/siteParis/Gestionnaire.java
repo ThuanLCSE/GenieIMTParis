@@ -37,6 +37,7 @@ public class Gestionnaire {
 			/**
 			 */
 			public Gestionnaire(String password){
+				this.password = password;
 			}
 
 }

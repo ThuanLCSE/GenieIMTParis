@@ -46,6 +46,8 @@ public class SiteDeParisMetier {
 
 
 
+	private static final String DEFAULT_PASS = "unPasswordUnique";
+
 	/**
 	 * constructeur de <code>SiteDeParisMetier</code>. 
 	 * 
@@ -56,14 +58,10 @@ public class SiteDeParisMetier {
 	 */
 	public SiteDeParisMetier(String passwordGestionnaire) throws MetierException {
 		this.gestionnaire = new Gestionnaire(passwordGestionnaire);
-		
-
+		this.competition = new ArrayList<>();
+		this.joueur = new ArrayList<>();
 	}
-
-
-
-
-
+ 
 	// Les méthodes du gestionnaire (avec mot de passe gestionnaire)
 
 
@@ -85,7 +83,11 @@ public class SiteDeParisMetier {
 	 * @return le mot de passe (déterminé par le site) du nouveau joueur inscrit.
 	 */
 	public String inscrireJoueur(String nom, String prenom, String pseudo, String passwordGestionnaire) throws MetierException, JoueurExistantException, JoueurException {
-		return "unPasswordUnique";
+		this.validitePasswordGestionnaire(passwordGestionnaire);
+		Joueur newbie = new Joueur(nom, prenom, pseudo); 
+		newbie.setPassword(DEFAULT_PASS);
+		this.joueur.add(newbie);
+		return DEFAULT_PASS;
 	}
 
 	/**
@@ -333,7 +335,7 @@ public class SiteDeParisMetier {
 	 * @uml.associationEnd multiplicity="(0 -1)" ordering="true" inverse="siteDeParisMetier:siteParis.Joueur"
 	 * @uml.association name="gerer"
 	 */
-	private ArrayList joueur = new java.util.ArrayList();
+	private ArrayList<Joueur> joueur = new java.util.ArrayList();
 
 	/**
 	 * @uml.property  name="gestionnaire"

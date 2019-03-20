@@ -166,7 +166,10 @@ public class Joueur {
 					
 					/**
 					 */
-					public Joueur(String nom, String prenom, String password){
+					public Joueur(String nom, String prenom, String pseudo){
+						this.nom = nom;
+						this.prenom = prenom;
+						this.pseudo = pseudo;
 					}
 
 						
