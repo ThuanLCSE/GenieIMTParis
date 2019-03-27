@@ -196,18 +196,41 @@ public class SiteDeParisMetier {
 	 * si le nom de la compétition ou du vainqueur est invalide, 
 	 * si il n'existe pas de compétiteur du nom du vainqueur dans la compétition,
 	 * si la date de clôture de la compétition est dans le futur.
+	 * @throws JoueurException 
+	 * @throws JoueurInexistantException 
 	 * 
 	 */	
-	public void solderVainqueur(String competition, String vainqueur, String passwordGestionnaire) throws MetierException,   CompetitionInexistanteException, CompetitionException  {
+	public void solderVainqueur(String competition, String vainqueur, String passwordGestionnaire) throws MetierException,   CompetitionInexistanteException, CompetitionException, JoueurException, JoueurInexistantException  {
 		this.validitePasswordGestionnaire(passwordGestionnaire);
 		Competition foundComp  = this.rechercherCompetition(competition);
 		if (foundComp == null) throw new CompetitionInexistanteException();
 		if (!foundComp.getDateCloture().estDansLePasse()) throw new  CompetitionException();
-		foundComp.setVainqueur(vainqueur); 
-		//credit joueur apres
-		
 		if (foundComp.getStatut().equals(Competition.SOLDEE)) throw new CompetitionInexistanteException();
+		if (!foundComp.contient(vainqueur)) throw new  CompetitionException();
+		
 		foundComp.setStatut(Competition.SOLDEE);
+		foundComp.setVainqueur(vainqueur); 
+		double sommeDeJetonsCompetition = foundComp.getMiseSomme();
+		double sommeDeJetonsCompetiteur = foundComp.getMiseSommeVainqueur();
+		ArrayList<JoueurAvecMise> winners = foundComp.getWinner();
+		for (JoueurAvecMise j : winners) {  
+			double montantGagne = j.getMiseMontant() * sommeDeJetonsCompetition / sommeDeJetonsCompetiteur;
+			Joueur foundJoueur = this.rechercherJoueur(j.getNom(), j.getPrenom(), j.getPseudo()); 
+			foundJoueur.setJetonRestant(montantGagne + foundJoueur.getJetonRestant());
+			foundJoueur.setJetonsEngages(foundJoueur.getJetonsEngages() - j.getMiseMontant());
+		}
+		ArrayList<JoueurAvecMise> losers = foundComp.getLosers(); 
+		
+		for (JoueurAvecMise j : losers) {  
+			double montantGagne = j.getMiseMontant();
+			Joueur foundJoueur = this.rechercherJoueur(j.getNom(), j.getPrenom(), j.getPseudo()); 
+			foundJoueur.setJetonsEngages(foundJoueur.getJetonsEngages() - j.getMiseMontant());
+			if (winners.size() == 0) {  
+				foundJoueur.setJetonRestant(montantGagne + foundJoueur.getJetonRestant());
+			}
+			
+		}
+		
 	}
 
 
@@ -230,7 +253,12 @@ public class SiteDeParisMetier {
 	 * @throws JoueurInexistantException   levée si il n'y a pas de joueur  avec les mêmes nom,  prénom et pseudo.
 	 */
 	public void crediterJoueur(String nom, String prenom, String pseudo, long sommeEnJetons, String passwordGestionnaire) throws MetierException, JoueurException, JoueurInexistantException {
-
+		this.validitePasswordGestionnaire(passwordGestionnaire); 
+		Joueur foundJoueur = this.rechercherJoueur(nom, prenom, pseudo);
+		Joueur.validiteNomPrenomPseudo(nom, prenom, pseudo);
+		if (foundJoueur == null) throw new JoueurInexistantException();
+		if (sommeEnJetons < 0) throw new MetierException(); 
+		foundJoueur.setJetonRestant(sommeEnJetons + foundJoueur.getJetonRestant());
 	}
 
 
@@ -255,7 +283,14 @@ public class SiteDeParisMetier {
 	 */
 
 	public void debiterJoueur(String nom, String prenom, String pseudo, long sommeEnJetons, String passwordGestionnaire) throws  MetierException, JoueurInexistantException, JoueurException {
-
+		this.validitePasswordGestionnaire(passwordGestionnaire); 
+		if (sommeEnJetons < 0) throw new MetierException();
+		if (sommeEnJetons < 0) throw new MetierException();
+		Joueur foundJoueur = this.rechercherJoueur(nom, prenom, pseudo);
+		if (foundJoueur == null) throw new JoueurInexistantException(); 
+		
+		if (foundJoueur.getJetonRestant() < sommeEnJetons) throw new JoueurException();
+		foundJoueur.setJetonRestant( foundJoueur.getJetonRestant()-sommeEnJetons );
 	}
 
 
@@ -279,7 +314,19 @@ public class SiteDeParisMetier {
 	 *  </ul>
 	 */
 	public LinkedList <LinkedList <String>> consulterJoueurs(String passwordGestionnaire) throws MetierException {
-		return new LinkedList <LinkedList <String>>();
+		this.validitePasswordGestionnaire(passwordGestionnaire); 
+		LinkedList <LinkedList <String>> results = new LinkedList <LinkedList <String>>();
+		for (Joueur j : joueur) {
+			LinkedList <String> res = new LinkedList<>();
+			res.add(j.getNom());
+			res.add(j.getPrenom());
+			res.add(j.getPseudo());
+			res.add((long) j.getJetonRestant() + "");
+			res.add((long) j.getJetonsEngages() + "");
+			results.add(res);
+			System.out.println(res);
+		}
+		return results;
 	}
 
 
@@ -316,7 +363,21 @@ public class SiteDeParisMetier {
 	 * si le <code>compteEnJetons</code> du joueur est insuffisant (il deviendrait négatif).
 	 */
     public void miserVainqueur(String pseudo, String passwordJoueur, long miseEnJetons, String competition, String vainqueurEnvisage) throws MetierException, JoueurInexistantException, CompetitionInexistanteException, CompetitionException, JoueurException  {
-
+    	if (miseEnJetons < 0 ) throw new MetierException();
+    	Joueur foundjoueur = this.rechercherJoueurPassword(pseudo, passwordJoueur);
+    	if (foundjoueur == null) throw new JoueurInexistantException(); 
+		Competition foundComp  = this.rechercherCompetition(competition);
+		if (foundComp == null) throw new CompetitionInexistanteException();
+		
+		Competition.validiteCompetitionVainqueur(competition, vainqueurEnvisage);
+		if (!foundComp.contient(vainqueurEnvisage)) throw new CompetitionException(); 
+		if (foundComp.getStatut() == Competition.SOLDEE || foundComp.getDateCloture().estDansLePasse()) throw new CompetitionException(); 
+		Joueur.validitePseudoPassword(pseudo, passwordJoueur);
+		if (foundjoueur.getJetonRestant() < miseEnJetons) throw new JoueurException();
+		
+		foundComp.addMise(foundjoueur, vainqueurEnvisage, miseEnJetons);
+    	foundjoueur.setJetonRestant(foundjoueur.getJetonRestant() - miseEnJetons);
+    	foundjoueur.setJetonsEngages(foundjoueur.getJetonsEngages() + miseEnJetons);
 	}
 
 
@@ -324,6 +385,15 @@ public class SiteDeParisMetier {
 
 	// Les méthodes sans mot de passe
 
+
+	private Joueur rechercherJoueurPassword(String pseudo, String passwordJoueur) {
+		for (Joueur j : this.joueur) { 
+			if (j.equalPassword(pseudo, passwordJoueur)) {
+				return j;
+			} 
+		}
+		return null; 
+	}
 
 	/**
 	 * connaître les compétitions en cours.
@@ -334,8 +404,18 @@ public class SiteDeParisMetier {
 	 *  <li>       la date de clôture de la compétition. </li>
 	 *  </ul>
 	 */
-	public LinkedList <LinkedList <String>> consulterCompetitions(){
-		return new LinkedList <LinkedList <String>>();
+	public LinkedList <LinkedList <String>> consulterCompetitions(){ 
+		LinkedList <LinkedList <String>> results = new LinkedList <LinkedList <String>>(); 
+		for (Competition c : competition) {
+			if (!c.getStatut().equals(Competition.SOLDEE)) {
+				LinkedList <String> res = new LinkedList<>();
+				res.add(c.getNom());
+				res.add(c.getDateCloture().toString());
+				results.add(res);
+			}
+			
+		} 
+		return results;
 	} 
 
 	/**
@@ -350,7 +430,17 @@ public class SiteDeParisMetier {
 	 * @return la liste des compétiteurs de la  compétition.
 	 */
 	public LinkedList <String> consulterCompetiteurs(String competition) throws CompetitionException, CompetitionInexistanteException{
-		return new LinkedList <String> ();
+		LinkedList <String> results = new LinkedList <String>();
+		Competition.validiteCompetition(competition);
+
+		Competition foundComp  = this.rechercherCompetition(competition);
+		if (foundComp == null) throw new CompetitionInexistanteException();
+		
+		for (Competiteur c : foundComp.getCompetiteurs()) {
+			String res =  c.getNom(); 
+			results.add(res);
+		}
+		return results; 
 	}
 
 	/**
@@ -405,7 +495,7 @@ public class SiteDeParisMetier {
 	 * @param joueurs  The joueur to set.
 	 * @uml.property  name="joueurs"
 	 */
-	public void setJoueurs(ArrayList joueurs) {
+	public void setJoueurs(ArrayList<Joueur> joueurs) {
 		joueur = joueurs;
 	}
 

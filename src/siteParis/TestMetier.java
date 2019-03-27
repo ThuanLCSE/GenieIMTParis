@@ -1139,9 +1139,9 @@ public class TestMetier {
 		testAjouterCompetition();
 		testMiserVainqueur();
 		testSolderVainqueur();
-//		testConsulterCompetitions();
-//		testConsulterCompetiteurs();
-//		testConsulterJoueurs();		
+		testConsulterCompetitions();
+		testConsulterCompetiteurs();
+		testConsulterJoueurs();		
 
 	}
 

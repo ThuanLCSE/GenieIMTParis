@@ -174,18 +174,97 @@ public class Competition {
 
 							
 								
-								
-								public boolean rechercherCompetiteur(String nomCompetiteur){
-								
-																return false;
-															 }
+				
+				public boolean rechercherCompetiteur(String nomCompetiteur){
+				
+												return false;
+											 }
 
-								public String getStatut() {
-									return statut;
-								}
+				public String getStatut() {
+					return statut;
+				}
 
-								public void setStatut(String statut) {
-									this.statut = statut;
-								}
+				public void setStatut(String statut) {
+					this.statut = statut;
+				}
+
+				public double getMiseSomme() {
+					double s = 0;
+					for (Mise m : mise) {
+						s += m.getJetons();
+					}
+					return s;
+				}
+
+				public double getMiseSommeVainqueur() {
+					double s = 0;
+					for (Mise m : mise) {
+						if (m.getCompetiteurChoisi().equals(this.vainqueur)) {
+							s += m.getJetons(); 
+						}
+					}
+					return s;
+				}
+
+				public ArrayList<JoueurAvecMise> getWinner() throws JoueurException {
+					ArrayList<JoueurAvecMise> wins = new ArrayList<>();
+					for (Mise m : mise) {
+						if (m.getCompetiteurChoisi().equals(this.vainqueur)) {
+							Joueur j = m.getJoueur();
+							JoueurAvecMise g = new JoueurAvecMise(j.getNom(), j.getPrenom(), j.getPseudo());
+							g.setMiseMontant(m.getJetons());
+							wins.add(g);
+						}
+					}
+					return wins;
+				}
+
+				public ArrayList<JoueurAvecMise> getLosers() throws JoueurException {
+					ArrayList<JoueurAvecMise> wins = new ArrayList<>();
+					for (Mise m : mise) {
+						if (!m.getCompetiteurChoisi().equals(this.vainqueur)) {
+							Joueur j = m.getJoueur();
+							JoueurAvecMise g = new JoueurAvecMise(j.getNom(), j.getPrenom(), j.getPseudo());
+							g.setMiseMontant(m.getJetons());
+							wins.add(g);
+						}
+					}
+					return wins;
+				}
+
+				public static void validiteCompetitionVainqueur(String competition, String vainqueurEnvisage) throws CompetitionException{
+					if (competition==null) throw new CompetitionException();
+				    if (!competition.matches("[A-Za-z0-9]{4,}")) throw new CompetitionException(); 
+					if (vainqueurEnvisage.length() < 2) throw new CompetitionException();
+				}
+
+				public boolean contient(String vainqueurEnvisage) {
+					for (Competiteur c : competiteurs) {
+						if (c.getNom().equals(vainqueurEnvisage)) return true; 
+					}
+					return false;
+				}
+
+				public static void validiteCompetition(String competition) throws CompetitionException{
+					if (competition==null) throw new CompetitionException();
+				    if (!competition.matches("[A-Za-z0-9]{4,}")) throw new CompetitionException(); 
+					
+				}
+
+				public void addMise(Joueur joueur, String vainqueurEnvisage, long miseEnJetons) {
+					for (Mise m : mise) {  
+						if (m.getJoueur().equal(joueur.getNom(), joueur.getPrenom(), joueur.getPseudo())) {
+							m.setJetons(miseEnJetons + m.getJetons());
+							joueur = null;
+							break;
+						}
+					}
+					if (joueur != null) {
+						Mise m = new Mise(miseEnJetons, joueur, vainqueurEnvisage);
+						mise.add(m);
+						
+					}
+					
+				}
 
 }

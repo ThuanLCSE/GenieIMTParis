@@ -79,7 +79,7 @@ public class Joueur {
 		/**
 		 */
 		public String toString(){
-			return "";	
+			return this.nom + " " +this.prenom + " " +this.pseudo + " " +(long) this.jetonRestant + " " +(long) this.jetonsEngages;	
 		}
 
 		/**
@@ -183,15 +183,41 @@ public class Joueur {
 						
 							
 							
-							public boolean diminuerJeton(double jetons){
-								return false;	
-							}
+		public boolean diminuerJeton(double jetons){
+			return false;	
+		}
 
-							
-							/**
-							 */
-							public boolean augmenterJeton(double jeton){
-								return false;	
-							}
+		
+		/**
+		 */
+		public boolean augmenterJeton(double jeton){
+			return false;	
+		}
+
+		public static void validiteNomPrenomPseudo(String nom2, String prenom2, String pseudo2) throws JoueurException{
+			if (nom2==null) throw new JoueurException(); 
+			if (prenom2==null) throw new JoueurException();
+			if (pseudo2==null) throw new JoueurException(); 
+		    if (!nom2.matches("[A-Za-z]+")) throw new JoueurException();
+		    if (!prenom2.matches("[^ ][A-Za-z]*")) throw new JoueurException();
+		    if (!pseudo2.matches("[A-Za-z0-9]{4,}")) throw new JoueurException();
+			
+		}
+
+		public boolean equalPassword(String pseudo2, String passwordJoueur) {
+			if ((this.pseudo.equals(pseudo2) && this.password.equals(passwordJoueur)))  {
+				return true;
+			} else
+			return false;	
+		}
+
+		public static void validitePseudoPassword(String pseudo2, String password) throws JoueurException {
+			if (pseudo2==null) throw new JoueurException();  
+		    if (!pseudo2.matches("[A-Za-z0-9]{4,}")) throw new JoueurException();
+		    if (password == null) throw new JoueurException();
+			if (password.length() < 8 ) throw new JoueurException();
+			if (password.contains(" ")) throw new JoueurException();
+			if (password.contains("-")) throw new JoueurException();
+		}
 
 }

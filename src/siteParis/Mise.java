@@ -80,6 +80,9 @@ public class Mise {
 		/**
 		 */
 		public Mise(double jetons, Joueur joueur, String vainqueurNom){
+			this.jetons = jetons;
+			this.joueur = joueur;
+			this.competiteurChoisi = vainqueurNom;
 		}
 
 }
