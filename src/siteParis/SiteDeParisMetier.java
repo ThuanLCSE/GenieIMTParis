@@ -123,7 +123,7 @@ public class SiteDeParisMetier {
 
 	private Joueur rechercherJoueur(String nom, String prenom, String pseudo) {
 		for (Joueur j : this.joueur) { 
-			if (j.equal(nom, prenom, pseudo)) {
+			if (j.equal(nom, prenom, pseudo)) { 
 				return j;
 			} 
 		}
@@ -258,7 +258,7 @@ public class SiteDeParisMetier {
 		this.validitePasswordGestionnaire(passwordGestionnaire); 
 		Joueur foundJoueur = this.rechercherJoueur(nom, prenom, pseudo);
 		Joueur.validiteNomPrenomPseudo(nom, prenom, pseudo);
-		if (foundJoueur == null) throw new JoueurInexistantException();
+		if (foundJoueur == null || !foundJoueur.getPseudo().equals(pseudo) || !foundJoueur.getNom().equals(nom)) throw new JoueurInexistantException();  
 		if (sommeEnJetons < 0) throw new MetierException(); 
 		foundJoueur.augmenterJeton(sommeEnJetons);
 	}
@@ -288,8 +288,9 @@ public class SiteDeParisMetier {
 		this.validitePasswordGestionnaire(passwordGestionnaire); 
 		if (sommeEnJetons < 0) throw new MetierException();
 		if (sommeEnJetons < 0) throw new MetierException();
+		Joueur.validiteNomPrenomPseudo(nom, prenom, pseudo);
 		Joueur foundJoueur = this.rechercherJoueur(nom, prenom, pseudo);
-		if (foundJoueur == null) throw new JoueurInexistantException(); 
+		if (foundJoueur == null || !foundJoueur.getPseudo().equals(pseudo)|| !foundJoueur.getNom().equals(nom)) throw new JoueurInexistantException();
 		
 		if (foundJoueur.getJetonRestant() < sommeEnJetons) throw new JoueurException();
 		foundJoueur.diminuerJeton(sommeEnJetons );
@@ -382,6 +383,7 @@ public class SiteDeParisMetier {
 	private Joueur rechercherJoueurPassword(String pseudo, String passwordJoueur) {
 		for (Joueur j : this.joueur) { 
 			if (j.equalPassword(pseudo, passwordJoueur)) {
+//				System.out.println(j.getPseudo() + " " + j.getPassword());
 				return j;
 			} 
 		}

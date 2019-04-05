@@ -184,7 +184,7 @@ public class Joueur {
 							
 							
 		public boolean diminuerJeton(double jetons){
-			this.jetonRestant -= jetons;
+			this.jetonRestant = this.jetonRestant - jetons;
 			return this.jetonRestant >= 0 ? true: false;	
 		}
 

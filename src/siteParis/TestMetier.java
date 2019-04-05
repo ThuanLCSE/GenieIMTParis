@@ -516,9 +516,133 @@ public class TestMetier {
 
 
 
-	public static void testCrediterDebiterJoueur () {
+	public static void testCrediterDebiterJoueur (){
+		try {
+				
+			SiteDeParisMetier siteDeParisMetier = new SiteDeParisMetier(new String("ilesCaimans"));
+	
+			DateFrancaise.setDate(1, 1, 2010);
+	
+			System.out.println("\n testCrediterDebiterJoueur");
+			
+			String passwdThuan = siteDeParisMetier.inscrireJoueur(new String("Thuan"), new String("Luong"), new String("etudia1"), new String("ilesCaimans"));					
+			String passwdNelson = siteDeParisMetier.inscrireJoueur(new String("Nelson"), new String("Yves"), new String("etudia2"), new String("ilesCaimans"));					
+			String passwdCamila = siteDeParisMetier.inscrireJoueur(new String("Camila"), new String("Chauvez"), new String("etudia3"), new String("ilesCaimans")); 
+	
+			// crédit  de joueurs
+	
+			siteDeParisMetier.crediterJoueur(new String("Thuan"), new String("Luong"), new String("etudia1"), 123, new String("ilesCaimans")); 
+			siteDeParisMetier.crediterJoueur(new String("Nelson"), new String("Yves"), new String("etudia2"), 456, new String("ilesCaimans"));
+			siteDeParisMetier.crediterJoueur(new String("Camila"), new String("Chauvez"), new String("etudia3"), 1, new String("ilesCaimans"));
+			
+			LinkedList <LinkedList <String>> joueurs = siteDeParisMetier.consulterJoueurs(new String("ilesCaimans"));
+			for (LinkedList <String> l : joueurs) {
+				if (l.get(2).equals(new String("etudia1")) && (!l.get(0).equals(new String("Thuan")) || !l.get(1).equals(new String("Luong")) || !l.get(3).equals("" + 123) || !l.get(4).equals("" + 0)))
+					System.out.println("le credit d'etudia1 devrait être égal à 123");				
+				if (l.get(2).equals(new String("etudia2")) && (!l.get(0).equals(new String("Nelson")) || !l.get(1).equals(new String("Yves")) || !l.get(3).equals("" + 456)|| !l.get(4).equals("" + 0)))
+					System.out.println("le credit d'etudia2 devrait être égal à 456");		
+				if (l.get(2).equals(new String("etudia3")) && (!l.get(0).equals(new String("Camila")) || !l.get(1).equals(new String("Chauvez")) || !l.get(3).equals("" + 1)|| !l.get(4).equals("" + 0)))
+					System.out.println("le credit d'etudia3 devrait être égal à 1");		 		
+			}
+			
+			siteDeParisMetier.debiterJoueur(new String("Thuan"), new String("Luong"), new String("etudia1"), 123, new String("ilesCaimans"));
+			try {
+				siteDeParisMetier.debiterJoueur(new String("Thuan"), new String("Luong"), new String("etudia1"), 1, new String("ilesCaimans"));
+				System.out.println("le compte en jetons du joueur est insuffisant, et l'exception JoueurException aurait dû être levée");
+			}
+			catch (JoueurException e) { } 
+			catch (Exception e) { 
+				System.out.println("le compte en jetons du joueur est insuffisant, et l'exception JoueurException aurait dû être levée");
+			}  
+			try {
+				siteDeParisMetier.crediterJoueur(new String("Camila"), new String("Chauvez"), new String("etudia3"), 1, new String(""));
+				System.out.println("le passwordGestionnaire  est incorrect, et l'exception MetierException aurait dû être levée");
+			}
+			catch (MetierException e) { } 
+			catch (Exception e) { 
+				System.out.println("le passwordGestionnaire  est incorrect, et l'exception MetierException aurait dû être levée");
+			} 
+			try {
+				siteDeParisMetier.crediterJoueur(new String("Camila"), new String("Chauvez"), new String("etudia3"), -1, new String("ilesCaimans"));
+				System.out.println("la somme en jetons est négative, et l'exception MetierException aurait dû être levée");
+			}
+			catch (MetierException e) { } 
+			catch (Exception e) { 
+				System.out.println("la somme en jetons est négative, et l'exception MetierException aurait dû être levée");
+			} 
+			try {
+				siteDeParisMetier.crediterJoueur(new String(""), new String("Chauvez"), new String("etudia3"), 1, new String("ilesCaimans"));
+				System.out.println("prenom est invalide, et l'exception JoueurException aurait dû être levée");
+			}
+			catch (JoueurException e) { } 
+			catch (Exception e) { 
+				System.out.println("prenom est invalide, et l'exception JoueurException aurait dû être levée");
+			} 
 
-		System.out.println("\n testCrediterDebiterJoueur");
+			try {
+				siteDeParisMetier.crediterJoueur(new String("Camila"), new String("Chauvez"), new String("etudia2"), 1, new String("ilesCaimans"));
+				System.out.println("il n'y a pas de joueur  avec les mêmes nom,  prénom et pseudo, et l'exception JoueurInexistantException aurait dû être levée");
+			}
+			catch (JoueurInexistantException e) { } 
+			catch (Exception e) { 
+				System.out.println("il n'y a pas de joueur  avec les mêmes nom,  prénom et pseudo, et l'exception JoueurInexistantException aurait dû être levée");
+			} 
+			 
+			siteDeParisMetier.crediterJoueur(new String("Thuan"), new String("Luong"), new String("etudia1"), 123, new String("ilesCaimans"));  
+			
+			siteDeParisMetier.debiterJoueur(new String("Thuan"), new String("Luong"), new String("etudia1"), 100, new String("ilesCaimans"));
+			siteDeParisMetier.debiterJoueur(new String("Nelson"), new String("Yves"), new String("etudia2"), 56, new String("ilesCaimans"));
+			siteDeParisMetier.debiterJoueur(new String("Camila"), new String("Chauvez"), new String("etudia3"), 1, new String("ilesCaimans"));
+			
+			joueurs = siteDeParisMetier.consulterJoueurs(new String("ilesCaimans"));
+			for (LinkedList <String> l : joueurs) {
+				if (l.get(2).equals(new String("etudia1")) && (!l.get(0).equals(new String("Thuan")) || !l.get(1).equals(new String("Luong")) || !l.get(3).equals("" + 23) || !l.get(4).equals("" + 0)))
+					System.out.println("le credit d'etudia1 devrait être égal à 23");				
+				if (l.get(2).equals(new String("etudia2")) && (!l.get(0).equals(new String("Nelson")) || !l.get(1).equals(new String("Yves")) || !l.get(3).equals("" + 400)|| !l.get(4).equals("" + 0)))
+					System.out.println("le credit d'etudia2 devrait être égal à 400");		
+				if (l.get(2).equals(new String("etudia3")) && (!l.get(0).equals(new String("Camila")) || !l.get(1).equals(new String("Chauvez")) || !l.get(3).equals("" + 0)|| !l.get(4).equals("" + 0)))
+					System.out.println("le credit d'etudia3 devrait être égal à 0");		 		
+			}
+			 
+			try {
+				siteDeParisMetier.debiterJoueur(new String("Nelson"), new String("Yves"), new String("etudia2"), 56, new String(""));
+				System.out.println("le passwordGestionnaire  est incorrect, et l'exception MetierException aurait dû être levée");
+			}
+			catch (MetierException e) { } 
+			catch (Exception e) { 
+				System.out.println("le passwordGestionnaire  est incorrect, et l'exception MetierException aurait dû être levée");
+			} 
+			try {
+				siteDeParisMetier.debiterJoueur(new String("Nelson"), new String("Yves"), new String("etudia2"), -1, new String("ilesCaimans"));
+				System.out.println("la somme en jetons est négative, et l'exception MetierException aurait dû être levée");
+			}
+			catch (MetierException e) { } 
+			catch (Exception e) { 
+				System.out.println("la somme en jetons est négative, et l'exception MetierException aurait dû être levée");
+			} 
+			try {
+				siteDeParisMetier.debiterJoueur(new String(""), new String("Chauvez"), new String("etudia3"), 1, new String("ilesCaimans"));
+				System.out.println("prenom est invalide, et l'exception JoueurException aurait dû être levée");
+			}
+			catch (JoueurException e) { } 
+			catch (Exception e) { 
+				System.out.println("prenom est invalide, et l'exception JoueurException aurait dû être levée");
+			} 
+
+			try {
+				siteDeParisMetier.debiterJoueur(new String("Nelson"), new String("Yves"), new String("etudia3"), 1, new String("ilesCaimans"));
+				System.out.println("il n'y a pas de joueur  avec les mêmes nom,  prénom et pseudo, et l'exception JoueurInexistantException aurait dû être levée");
+			}
+			catch (JoueurInexistantException e) { } 
+			catch (Exception e) { 
+				System.out.println("il n'y a pas de joueur  avec les mêmes nom,  prénom et pseudo, et l'exception JoueurInexistantException aurait dû être levée");
+			} 
+			
+		}
+		catch (Exception e) {
+			System.out.println("\n Exception imprévue : " + e);
+			e.printStackTrace();
+		}
 
 
 
@@ -528,10 +652,99 @@ public class TestMetier {
 
 
 	public static void testMiserVainqueur () {
+		try {
+				
+			SiteDeParisMetier siteDeParisMetier = new SiteDeParisMetier(new String("ilesCaimans"));
+			
+			DateFrancaise.setDate(1, 1, 2010);
+			System.out.println("\n testMiserVainqueur");
+			siteDeParisMetier.ajouterCompetition(new String("ChampionnatDeFrance2012"), new DateFrancaise(4, 6, 2012, 15, 00), new String [] {new String("Lyon"), new String("Marseille"), "Paris", new String("Rennes"), new String("Brest"), "StEtienne", new String("Lille"), "Nancy", "Toulouse", "Auxerre"}, new String("ilesCaimans"));
+			siteDeParisMetier.ajouterCompetition(new String("finaleRG2012"), new DateFrancaise(7, 6, 2012, 15, 00), new String [] {new String("Tsonga"), new String("Nadal")}, new String("ilesCaimans"));
+			String passwdThuan = siteDeParisMetier.inscrireJoueur(new String("Thuan"), new String("Luong"), new String("etudia1"), new String("ilesCaimans"));					
+			String passwdNelson = siteDeParisMetier.inscrireJoueur(new String("Nelson"), new String("Yves"), new String("etudia2"), new String("ilesCaimans"));					
+			String passwdCamila = siteDeParisMetier.inscrireJoueur(new String("Camila"), new String("Chauvez"), new String("etudia3"), new String("ilesCaimans")); 
+	
+	
+			// parier correctement sur un vainqueur 
+			siteDeParisMetier.crediterJoueur(new String("Thuan"), new String("Luong"), new String("etudia1"), 40, new String("ilesCaimans")); 
+			siteDeParisMetier.crediterJoueur(new String("Nelson"), new String("Yves"), new String("etudia2"), 20, new String("ilesCaimans"));
+			siteDeParisMetier.crediterJoueur(new String("Camila"), new String("Chauvez"), new String("etudia3"), 1, new String("ilesCaimans"));
+			
+			siteDeParisMetier.miserVainqueur(new String("etudia1"), new String(passwdThuan), 40, new String("ChampionnatDeFrance2012"), new String("Lyon"));
+			siteDeParisMetier.miserVainqueur(new String("etudia2"), new String(passwdNelson), 20, new String("ChampionnatDeFrance2012"), new String("Brest"));
+			siteDeParisMetier.miserVainqueur(new String("etudia3"), new String(passwdCamila), 1, new String("ChampionnatDeFrance2012"), new String("Lille")); 
+			LinkedList <LinkedList <String>> joueurs = siteDeParisMetier.consulterJoueurs(new String("ilesCaimans"));
+			for (LinkedList <String> l : joueurs) {
+				if (l.get(2).equals(new String("etudia1")) && (!l.get(0).equals(new String("Thuan")) || !l.get(1).equals(new String("Luong")) || !l.get(3).equals("" + 0) || !l.get(4).equals("" + 40)))
+					System.out.println("le credit d'etudia1 devrait être égal à 0");				
+				if (l.get(2).equals(new String("etudia2")) && (!l.get(0).equals(new String("Nelson")) || !l.get(1).equals(new String("Yves")) || !l.get(3).equals("" + 0)|| !l.get(4).equals("" + 20)))
+					System.out.println("le credit d'etudia2 devrait être égal à 0");		
+				if (l.get(2).equals(new String("etudia3")) && (!l.get(0).equals(new String("Camila")) || !l.get(1).equals(new String("Chauvez")) || !l.get(3).equals("" + 0)|| !l.get(4).equals("" + 1)))
+					System.out.println("le credit d'etudia3 devrait être égal à 0");		 		
+			}
+			
+			try {
+				siteDeParisMetier.miserVainqueur(new String("etudia3"), new String(passwdCamila), 1, new String("ChampionnatDeFrance2012"), new String("Lille")); 
+				System.out.println("le credit de etudia1 est negative, et l'exception JoueurException aurait dû être levée");
+			}
+			catch (JoueurException e) { } 
+			catch (Exception e) { 
+				System.out.println("le credit de etudia1 est negative, et l'exception JoueurException aurait dû être levée");
+			}  
+			try {
+				siteDeParisMetier.miserVainqueur(new String("etudia3"), new String(passwdCamila), -1, new String("ChampionnatDeFrance2012"), new String("Lille")); 
+				System.out.println(" la somme en jetons est négative, et l'exception MetierException aurait dû être levée");
+			}
+			catch (MetierException e) { } 
+			catch (Exception e) { 
+				System.out.println("la somme en jetons est négative, et l'exception MetierException aurait dû être levée");
+			} 
+			try {
+				siteDeParisMetier.miserVainqueur(new String("etudia4"), new String(passwdCamila), 0, new String("ChampionnatDeFrance2012"), new String("Lille")); 
+				System.out.println(" il n'y a pas de joueur avec les mêmes pseudos et password, et l'exception JoueurInexistantException aurait dû être levée");
+			}
+			catch (JoueurInexistantException e) { } 
+			catch (Exception e) { 
+				e.printStackTrace();
+				System.out.println("il n'y a pas de joueur avec les mêmes pseudos et password, et l'exception JoueurInexistantException aurait dû être levée");
+			} 
+			try {
+				siteDeParisMetier.miserVainqueur(new String("etudia3"), new String(passwdCamila), 0, new String("ChampionnatDeFrance"), new String("Lille")); 
+				System.out.println("il n'existe pas de compétition de même nom, et l'exception CompetitionInexistanteException aurait dû être levée");
+			}
+			catch (CompetitionInexistanteException e) { } 
+			catch (Exception e) { 
+				e.printStackTrace();
+				System.out.println("il n'existe pas de compétition de même nom, et l'exception CompetitionInexistanteException aurait dû être levée");
+			} 
+			try {
+				siteDeParisMetier.miserVainqueur(new String("etudia3"), new String(passwdCamila), 0, new String("ChampionnatDeFrance2012"), new String("Lyon123")); 
+				System.out.println("il n'existe pas un compétiteur de  nom Lyon123, et l'exception CompetitionException aurait dû être levée");
+			}
+			catch (CompetitionException e) { } 
+			catch (Exception e) { 
+				e.printStackTrace();
+				System.out.println("il n'existe pas un compétiteur de  nom Lyon123, et l'exception CompetitionException aurait dû être levée");
+			} 
 
-		System.out.println("\n testMiserVainqueur");
-
-
+			DateFrancaise.setDate(4, 6, 2012, 18, 10);
+			siteDeParisMetier.solderVainqueur(new String("ChampionnatDeFrance2012"),"Nancy", new String("ilesCaimans"));
+			try {
+				siteDeParisMetier.miserVainqueur(new String("etudia3"), new String(passwdCamila), 0, new String("ChampionnatDeFrance2012"), new String("Lille")); 
+				System.out.println("la compétition n'est plus ouverte, et l'exception CompetitionException aurait dû être levée");
+			}
+			catch (CompetitionException e) { } 
+			catch (Exception e) { 
+				e.printStackTrace();
+				System.out.println("la compétition n'est plus ouverte, et l'exception CompetitionException aurait dû être levée");
+			} 
+			
+			
+		}
+		catch (Exception e) {
+			System.out.println("\n Exception imprévue : " + e);
+			e.printStackTrace();
+		}
 	}
 
 
