@@ -210,12 +210,14 @@ public class SiteDeParisMetier {
 		
 		foundComp.setStatut(Competition.SOLDEE);
 		foundComp.setVainqueur(vainqueur); 
+		//
 		double sommeDeJetonsCompetition = foundComp.getMiseSomme();
 		double sommeDeJetonsCompetiteur = foundComp.getMiseSommeVainqueur();
 		ArrayList<JoueurAvecMise> winners = foundComp.getWinner();
 		for (JoueurAvecMise j : winners) {  
 			double montantGagne = j.getMiseMontant() * sommeDeJetonsCompetition / sommeDeJetonsCompetiteur;
 			Joueur foundJoueur = this.rechercherJoueur(j.getNom(), j.getPrenom(), j.getPseudo()); 
+			
 			foundJoueur.setJetonRestant(montantGagne + foundJoueur.getJetonRestant());
 			foundJoueur.setJetonsEngages(foundJoueur.getJetonsEngages() - j.getMiseMontant());
 		}
@@ -258,7 +260,7 @@ public class SiteDeParisMetier {
 		Joueur.validiteNomPrenomPseudo(nom, prenom, pseudo);
 		if (foundJoueur == null) throw new JoueurInexistantException();
 		if (sommeEnJetons < 0) throw new MetierException(); 
-		foundJoueur.setJetonRestant(sommeEnJetons + foundJoueur.getJetonRestant());
+		foundJoueur.augmenterJeton(sommeEnJetons);
 	}
 
 
@@ -290,7 +292,7 @@ public class SiteDeParisMetier {
 		if (foundJoueur == null) throw new JoueurInexistantException(); 
 		
 		if (foundJoueur.getJetonRestant() < sommeEnJetons) throw new JoueurException();
-		foundJoueur.setJetonRestant( foundJoueur.getJetonRestant()-sommeEnJetons );
+		foundJoueur.diminuerJeton(sommeEnJetons );
 	}
 
 
@@ -323,19 +325,10 @@ public class SiteDeParisMetier {
 			res.add(j.getPseudo());
 			res.add((long) j.getJetonRestant() + "");
 			res.add((long) j.getJetonsEngages() + "");
-			results.add(res);
-			System.out.println(res);
+			results.add(res); 
 		}
 		return results;
-	}
-
-
-
-
-
-
-
-
+	} 
 	// Les méthodes avec mot de passe utilisateur
 
 
@@ -376,7 +369,7 @@ public class SiteDeParisMetier {
 		if (foundjoueur.getJetonRestant() < miseEnJetons) throw new JoueurException();
 		
 		foundComp.addMise(foundjoueur, vainqueurEnvisage, miseEnJetons);
-    	foundjoueur.setJetonRestant(foundjoueur.getJetonRestant() - miseEnJetons);
+    	foundjoueur.diminuerJeton(miseEnJetons);
     	foundjoueur.setJetonsEngages(foundjoueur.getJetonsEngages() + miseEnJetons);
 	}
 

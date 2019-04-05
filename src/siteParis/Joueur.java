@@ -184,14 +184,16 @@ public class Joueur {
 							
 							
 		public boolean diminuerJeton(double jetons){
-			return false;	
+			this.jetonRestant -= jetons;
+			return this.jetonRestant >= 0 ? true: false;	
 		}
 
 		
 		/**
 		 */
 		public boolean augmenterJeton(double jeton){
-			return false;	
+			this.jetonRestant += jeton;
+			return this.jetonRestant >= 0 ? true: false;	
 		}
 
 		public static void validiteNomPrenomPseudo(String nom2, String prenom2, String pseudo2) throws JoueurException{
