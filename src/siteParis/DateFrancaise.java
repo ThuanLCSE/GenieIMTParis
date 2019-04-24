@@ -1,8 +1,6 @@
 package siteParis;
    import java.util.*;
 
-
-
 /**
  * 
  * @author prou
@@ -48,7 +46,6 @@ package siteParis;
            public static void setDate(DateFrancaise date) throws DateFrancaiseException {
              dateSimulee = new DateFrancaise(date.get(Calendar.DAY_OF_MONTH), date.get(Calendar.MONTH)+1, date.get(Calendar.YEAR), date.get(Calendar.HOUR_OF_DAY), date.get(Calendar.MINUTE));
           }
-           
            
  
    /**
@@ -129,8 +126,7 @@ package siteParis;
             date.get(Calendar.SECOND)); 
       }
    
-   
-   
+  
    /**
    * renvoie true si la DateFrancaise  est dans le passé par rapport à la DateFrancaise du moment  simulé 
    */
@@ -150,15 +146,6 @@ package siteParis;
          s += get(Calendar.SECOND) + " sec"; 
          return s;
       }
-   
-   
-
-   
-   
-   
-   
-   
-   
    
    
    /**
