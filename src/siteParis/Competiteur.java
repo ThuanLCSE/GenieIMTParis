@@ -45,5 +45,4 @@ public class Competiteur {
 		if (!nom.matches("[A-Za-z0-9]{4,}")) throw new CompetitionException();
 		this.nom = nom;
 	}
-
 }
