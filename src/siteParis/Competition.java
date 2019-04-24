@@ -183,12 +183,6 @@ public class Competition {
 		this.nom = nom;
 	}
 
-
-
-
-
-
-
 	public boolean rechercherCompetiteur(String nomCompetiteur){
 
 		return false;
