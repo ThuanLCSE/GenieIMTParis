@@ -14,6 +14,3 @@ public class CompetitionExistanteException extends Exception {
             super(motif);
          } 
    }
-
-
-
