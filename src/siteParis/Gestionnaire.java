@@ -35,7 +35,6 @@ public class Gestionnaire {
 			return;
 		}
 
-			
 			/**
 			 */
 			public Gestionnaire(String password) throws MetierException{
