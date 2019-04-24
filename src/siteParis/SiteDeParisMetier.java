@@ -92,7 +92,7 @@ public class SiteDeParisMetier {
 		this.joueur.add(newbie);
 		return DEFAULT_PASS;
 	}
-
+	//Inscrire un joueur. A la fin, ça donne un mot de pass pour le nouveau joueur.
 	/**
 	 * supprimer un joueur.
 	 *
@@ -121,7 +121,7 @@ public class SiteDeParisMetier {
 		this.joueur.remove(foundJoueur);
 		return foundJoueur.getJetonRestant();
 	}
-
+	//Supprimer un joueur. Une fois validé, si le joueur existe, il y a une remboursement de jetons.
 
 
 	private Joueur rechercherJoueur(String nom, String prenom, String pseudo) {
@@ -131,6 +131,8 @@ public class SiteDeParisMetier {
 			}
 		}
 		return null;
+		
+	// Il donne une liste qui donne information du joueur cherché, comme son nom, prénom, pseudo.
 	}
 	private Competition rechercherCompetition(String nom) {
 		for (Competition c : this.competition) {
@@ -140,7 +142,8 @@ public class SiteDeParisMetier {
 		}
 		return null;
 	}
-
+	//Il donne une liste des competitions avec le nom de chacune.
+	
 	/**
 	 * ajouter une compétition.
 	 *
@@ -171,7 +174,7 @@ public class SiteDeParisMetier {
 		if (this.competition == null) this.competition = new ArrayList<>();
 		this.competition.add(comp);
 	}
-
+	//Creation d'une nouvelle compétition.
 
 	/**
 	 * solder une compétition vainqueur (compétition avec vainqueur).
@@ -242,7 +245,7 @@ public class SiteDeParisMetier {
 		}
 
 	}
-
+	//Solder une compétition vainqueur.
 
 
 	/**
@@ -270,7 +273,7 @@ public class SiteDeParisMetier {
 		if (sommeEnJetons < 0) throw new MetierException();
 		foundJoueur.augmenterJeton(sommeEnJetons);
 	}
-
+	//Créditer le compte d'un joueur avec des jetons.
 
 	/**
 	 * débiter le compte en jetons d'un joueur du site de paris.
@@ -304,7 +307,7 @@ public class SiteDeParisMetier {
 		foundJoueur.diminuerJeton(sommeEnJetons );
 	}
 
-
+	//Débiter le compte d'un joueur.
 
 	/**
 	 * consulter les  joueurs.
@@ -338,8 +341,10 @@ public class SiteDeParisMetier {
 		}
 		return results;
 	}
-	// Les méthodes avec mot de passe utilisateur
 
+	// Il donne une liste qui donne information du joueur cherché, comme son nom, prénom, pseudo.
+
+	// Les méthodes avec mot de passe utilisateur
 
 
 	/**
@@ -382,7 +387,7 @@ public class SiteDeParisMetier {
 		foundjoueur.setJetonsEngages(foundjoueur.getJetonsEngages() + miseEnJetons);
 	}
 
-
+  	  //Mise d'une vanqueur. La compte du joueur est debité avec les jetons misés.
 
 
 	// Les méthodes sans mot de passe
@@ -420,7 +425,7 @@ public class SiteDeParisMetier {
 		}
 		return results;
 	}
-
+	//But de connaître les compétitions en cours. Il montre une liste de competitions avec leurs noms et date de clôture de chaque compétition.
 	/**
 	 * connaître  la liste des noms des compétiteurs d'une compétition.
 	 *
@@ -445,7 +450,7 @@ public class SiteDeParisMetier {
 		}
 		return results;
 	}
-
+	//Liste de compétiteurs de la compétition.
 	/**
 	 * vérifier la validité du password du gestionnaire.
 	 *
