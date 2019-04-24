@@ -154,8 +154,6 @@ public class Joueur {
 		this.jetonsEngages = jetonsEngages;
 	}
 
-
-
 	/**
 	 */
 	public boolean equal(String nom, String prenom, String pseudo){
@@ -164,8 +162,7 @@ public class Joueur {
 		} else
 			return false;
 	}
-
-
+	
 	/**
 	 */
 	public Joueur(String nom, String prenom, String pseudo) throws JoueurException{
@@ -180,14 +177,10 @@ public class Joueur {
 		this.pseudo = pseudo;
 	}
 
-
-
-
 	public boolean diminuerJeton(double jetons){
 		this.jetonRestant = this.jetonRestant - jetons;
 		return this.jetonRestant >= 0 ? true: false;
 	}
-
 
 	/**
 	 */
