@@ -245,7 +245,7 @@ public class SiteDeParisMetier {
 		}
 
 	}
-	//Solder une compétition vainqueur.
+	//Solder une compétition vainqueur. Retourne la quantité de jetons.
 
 
 	/**
