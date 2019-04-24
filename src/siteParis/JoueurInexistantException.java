@@ -13,5 +13,3 @@ public class JoueurInexistantException extends Exception {
         super(motif);
      } 
 }
-
-
