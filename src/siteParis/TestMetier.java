@@ -883,7 +883,6 @@ public class TestMetier {
 			catch (Exception e) { 
 				System.out.println("le credit de bernard devrait être égal à 1789, et aucune exception n'aurait dû être levée mais c'est : " + e.getClass().getName());
 			}
-
 			//  aure doit avoir un crédit de 785
 
 			try {
