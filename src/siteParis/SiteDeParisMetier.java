@@ -45,7 +45,9 @@ import java.util.ArrayList;
 public class SiteDeParisMetier {
 
 
-
+	/**
+	 * le mot de pass par defaut du joueur
+	 */
 	private static final String DEFAULT_PASS = "unPasswordUnique";
 
 	/**
@@ -58,6 +60,7 @@ public class SiteDeParisMetier {
 	 */
 	public SiteDeParisMetier(String passwordGestionnaire) throws MetierException {
 		this.gestionnaire = new Gestionnaire(passwordGestionnaire);
+		//instancier la list des competition et des joueurs
 		this.competition = new ArrayList<>();
 		this.joueur = new ArrayList<>();
 	}
@@ -83,8 +86,10 @@ public class SiteDeParisMetier {
 	 * @return le mot de passe (déterminé par le site) du nouveau joueur inscrit.
 	 */
 	public String inscrireJoueur(String nom, String prenom, String pseudo, String passwordGestionnaire) throws MetierException, JoueurExistantException, JoueurException {
+		//valider les parametres
 		this.validitePasswordGestionnaire(passwordGestionnaire);
 		Joueur.validiteNomPrenomPseudo(nom,prenom,pseudo);
+		//verifier si un joueur existe avec les mêmes noms et prénoms ou le même pseudo
 		Joueur foundJoueur = this.rechercherJoueur(nom,prenom,pseudo);
 		if (foundJoueur != null) throw new JoueurExistantException();
 		Joueur newbie = new Joueur(nom, prenom, pseudo);
@@ -113,36 +118,66 @@ public class SiteDeParisMetier {
 	 *
 	 */
 	public long desinscrireJoueur(String nom, String prenom, String pseudo, String passwordGestionnaire) throws MetierException, JoueurInexistantException, JoueurException {
+		//valider les parametres
 		this.validitePasswordGestionnaire(passwordGestionnaire);
 		Joueur.validiteNomPrenomPseudo(nom,prenom,pseudo);
-		Joueur foundJoueur = this.rechercherJoueur(nom,prenom,pseudo);
+		//verifier si il n'y a pas de joueur  avec le même nom, prenom et pseudo
+		Joueur foundJoueur = this.rechercherJoueurTousMemeDonnees(nom,prenom,pseudo);
 		if (foundJoueur == null) throw new JoueurInexistantException();
 		if (foundJoueur.getJetonsEngages() != 0) throw new JoueurException();
 		this.joueur.remove(foundJoueur);
+		//Supprimer un joueur. Une fois validé, si le joueur existe, il y a une remboursement de jetons.
 		return foundJoueur.getJetonRestant();
 	}
-	//Supprimer un joueur. Une fois validé, si le joueur existe, il y a une remboursement de jetons.
 
-
+	/**
+	 * Chercher un joueur avec les mêmes noms et prénoms ou le même pseudo.
+	 * @param nom
+	 * @param prenom
+	 * @param pseudo
+	 * @return le trouve trouve ou null
+	 */
 	private Joueur rechercherJoueur(String nom, String prenom, String pseudo) {
 		for (Joueur j : this.joueur) {
 			if (j.equal(nom, prenom, pseudo)) {
+				// Return les donnees du joueur trouve
 				return j;
 			}
 		}
 		return null;
-		
-	// Il donne une liste qui donne information du joueur cherché, comme son nom, prénom, pseudo.
+
 	}
+	/**
+	 * Chercher un joueur avec les mêmes noms,prénoms et pseudo.
+	 * @param nom
+	 * @param prenom
+	 * @param pseudo
+	 * @return le trouve trouve ou null
+	 */
+	private Joueur rechercherJoueurTousMemeDonnees(String nom, String prenom, String pseudo) {
+		for (Joueur j : this.joueur) {
+			if (j.equalTous(nom, prenom, pseudo)) {
+				// Return les donnees du joueur trouve
+				return j;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Chercher une competition avec les mêmes noms
+	 * @param nom
+	 * @return
+	 */
 	private Competition rechercherCompetition(String nom) {
 		for (Competition c : this.competition) {
 			if (c.equal(nom)) {
+				// Return les donnees de la competition trouvee
 				return c;
 			}
 		}
 		return null;
 	}
-	//Il donne une liste des competitions avec le nom de chacune.
 	
 	/**
 	 * ajouter une compétition.
@@ -164,17 +199,18 @@ public class SiteDeParisMetier {
 	 * n'est pas instanciée ou est dépassée.
 	 */
 	public void ajouterCompetition(String competition, DateFrancaise dateCloture, String [] competiteurs, String passwordGestionnaire) throws MetierException, CompetitionExistanteException, CompetitionException  {
+		//valider les parametres
 		this.validitePasswordGestionnaire(passwordGestionnaire);
 		if (competiteurs == null ) throw  new MetierException();
 		Competition.validiteNomCompeteurDate(competition,competiteurs,dateCloture);
+		//verifier si une compétition existe avec le même nom
 		if (this.rechercherCompetition(competition) != null) throw new CompetitionExistanteException();
 		Competition comp = new Competition(competition);
 		comp.setDateCloture(dateCloture);
 		comp.setCompetiteurs(competiteurs);
-		if (this.competition == null) this.competition = new ArrayList<>();
+		//Ajouter la nouvelle compétition.
 		this.competition.add(comp);
 	}
-	//Creation d'une nouvelle compétition.
 
 	/**
 	 * solder une compétition vainqueur (compétition avec vainqueur).
@@ -210,34 +246,39 @@ public class SiteDeParisMetier {
 	 *
 	 */
 	public void solderVainqueur(String competition, String vainqueur, String passwordGestionnaire) throws MetierException,   CompetitionInexistanteException, CompetitionException, JoueurException, JoueurInexistantException  {
-
+		//valider les parametres
 		this.validitePasswordGestionnaire(passwordGestionnaire);
 		Competition.validiteCompetitionVainqueur(competition,vainqueur);
+		//valider si il n'existe pas de compétition de même nom
 		Competition foundComp  = this.rechercherCompetition(competition);
 		if (foundComp == null) throw new CompetitionInexistanteException();
+		//valider si la date de clôture de la compétition est dans le futur
 		if (!foundComp.getDateCloture().estDansLePasse()) throw new  CompetitionException();
-		if (foundComp.getStatut().equals(Competition.SOLDEE)) throw new CompetitionInexistanteException();
+		if (foundComp.getStatut().equals(Competition.SOLDEE)) throw new CompetitionException();
+		//valider si il n'existe pas de compétiteur du nom du vainqueur dans la compétition
 		if (!foundComp.contient(vainqueur)) throw new  CompetitionException();
 
 		foundComp.setStatut(Competition.SOLDEE);
 		foundComp.setVainqueur(vainqueur);
-		//
+		// calculer la somme de jeton dans la competition et la somme de jeton miser sur le vainqueur
 		double sommeDeJetonsCompetition = foundComp.getMiseSomme();
-		double sommeDeJetonsCompetiteur = foundComp.getMiseSommeVainqueur();
+		double sommeDeJetonsMiseSurVainqueur = foundComp.getMiseSommeVainqueur();
 		ArrayList<JoueurAvecMise> winners = foundComp.getWinner();
+		//rembourser les joueurs qui avaient mise sur le vainqueur
 		for (JoueurAvecMise j : winners) {
-			double montantGagne = j.getMiseMontant() * sommeDeJetonsCompetition / sommeDeJetonsCompetiteur;
+			double montantGagne = j.getMiseMontant() * sommeDeJetonsCompetition / sommeDeJetonsMiseSurVainqueur ;
 			Joueur foundJoueur = this.rechercherJoueur(j.getNom(), j.getPrenom(), j.getPseudo());
 
 			foundJoueur.setJetonRestant(montantGagne + foundJoueur.getJetonRestant());
 			foundJoueur.setJetonsEngages(foundJoueur.getJetonsEngages() - j.getMiseMontant());
 		}
+		//rembourser les joueurs qui n'avaient pas mise sur le vainqueur
 		ArrayList<JoueurAvecMise> losers = foundComp.getLosers();
-
 		for (JoueurAvecMise j : losers) {
 			double montantGagne = j.getMiseMontant();
 			Joueur foundJoueur = this.rechercherJoueur(j.getNom(), j.getPrenom(), j.getPseudo());
 			foundJoueur.setJetonsEngages(foundJoueur.getJetonsEngages() - j.getMiseMontant());
+			//en cas ou il n'y a pas les mises sur le vainqueur, les jetons seront rembourses 100%
 			if (winners.size() == 0) {
 				foundJoueur.setJetonRestant(montantGagne + foundJoueur.getJetonRestant());
 			}
@@ -245,7 +286,6 @@ public class SiteDeParisMetier {
 		}
 
 	}
-	//Solder une compétition vainqueur. Retourne la quantité de jetons.
 
 
 	/**
@@ -266,10 +306,12 @@ public class SiteDeParisMetier {
 	 * @throws JoueurInexistantException   levée si il n'y a pas de joueur  avec les mêmes nom,  prénom et pseudo.
 	 */
 	public void crediterJoueur(String nom, String prenom, String pseudo, long sommeEnJetons, String passwordGestionnaire) throws MetierException, JoueurException, JoueurInexistantException {
+		//valider les parametres
 		this.validitePasswordGestionnaire(passwordGestionnaire);
 		Joueur.validiteNomPrenomPseudo(nom, prenom, pseudo);
-		Joueur foundJoueur = this.rechercherJoueur(nom, prenom, pseudo);
-		if (foundJoueur == null || !foundJoueur.getPseudo().equals(pseudo) || !foundJoueur.getNom().equals(nom)) throw new JoueurInexistantException();
+		//valider si il n'y a pas de joueur  avec les mêmes nom,  prénom et pseudo
+		Joueur foundJoueur = this.rechercherJoueurTousMemeDonnees(nom, prenom, pseudo);
+		if (foundJoueur == null) throw new JoueurInexistantException();
 		if (sommeEnJetons < 0) throw new MetierException();
 		foundJoueur.augmenterJeton(sommeEnJetons);
 	}
@@ -296,12 +338,13 @@ public class SiteDeParisMetier {
 	 */
 
 	public void debiterJoueur(String nom, String prenom, String pseudo, long sommeEnJetons, String passwordGestionnaire) throws  MetierException, JoueurInexistantException, JoueurException {
+		//valider les parametres
 		this.validitePasswordGestionnaire(passwordGestionnaire);
 		if (sommeEnJetons < 0) throw new MetierException();
 		Joueur.validiteNomPrenomPseudo(nom, prenom, pseudo);
-		Joueur foundJoueur = this.rechercherJoueur(nom, prenom, pseudo);
+		//valider si il n'y a pas de joueur  avec les mêmes nom,  prénom et pseudo
+		Joueur foundJoueur = this.rechercherJoueurTousMemeDonnees(nom, prenom, pseudo);
 		if (foundJoueur == null) throw new JoueurInexistantException();
-		if (!foundJoueur.getPseudo().equals(pseudo)|| !foundJoueur.getNom().equals(nom)) throw new JoueurInexistantException();
 
 		if (foundJoueur.getJetonRestant() < sommeEnJetons) throw new JoueurException();
 		foundJoueur.diminuerJeton(sommeEnJetons );
@@ -328,6 +371,7 @@ public class SiteDeParisMetier {
 	 *  </ul>
 	 */
 	public LinkedList <LinkedList <String>> consulterJoueurs(String passwordGestionnaire) throws MetierException {
+		//valider les parametres
 		this.validitePasswordGestionnaire(passwordGestionnaire);
 		LinkedList <LinkedList <String>> results = new LinkedList <LinkedList <String>>();
 		for (Joueur j : joueur) {
@@ -370,29 +414,32 @@ public class SiteDeParisMetier {
 	 * si le <code>compteEnJetons</code> du joueur est insuffisant (il deviendrait négatif).
 	 */
 	public void miserVainqueur(String pseudo, String passwordJoueur, long miseEnJetons, String competition, String vainqueurEnvisage) throws MetierException, JoueurInexistantException, CompetitionInexistanteException, CompetitionException, JoueurException  {
+		//valider les parametres
 		if (miseEnJetons < 0 ) throw new MetierException();
+		Competition.validiteCompetitionVainqueur(competition, vainqueurEnvisage);
+		Joueur.validitePseudoPassword(pseudo, passwordJoueur);
+		//rechercher le joueur avec le meme pseudo et password
 		Joueur foundjoueur = this.rechercherJoueurPassword(pseudo, passwordJoueur);
 		if (foundjoueur == null) throw new JoueurInexistantException();
+		//valider la competition  de même nom
 		Competition foundComp  = this.rechercherCompetition(competition);
 		if (foundComp == null) throw new CompetitionInexistanteException();
-
-		Competition.validiteCompetitionVainqueur(competition, vainqueurEnvisage);
+		//valider si la competition est ouverte et le vainqueur est bon
 		if (!foundComp.contient(vainqueurEnvisage)) throw new CompetitionException();
 		if (foundComp.getStatut() == Competition.SOLDEE || foundComp.getDateCloture().estDansLePasse()) throw new CompetitionException();
-		Joueur.validitePseudoPassword(pseudo, passwordJoueur);
 		if (foundjoueur.getJetonRestant() < miseEnJetons) throw new JoueurException();
-
+		//Mise d'une vanqueur. La compte du joueur est debité avec les jetons misés.
 		foundComp.addMise(foundjoueur, vainqueurEnvisage, miseEnJetons);
 		foundjoueur.diminuerJeton(miseEnJetons);
 		foundjoueur.setJetonsEngages(foundjoueur.getJetonsEngages() + miseEnJetons);
 	}
 
-  	  //Mise d'une vanqueur. La compte du joueur est debité avec les jetons misés.
-
-
-	// Les méthodes sans mot de passe
-
-
+	/**
+	 * Chercher un joueur avec le même pseudo et password.
+	 * @param pseudo
+	 * @param passwordJoueur
+	 * @return
+	 */
 	private Joueur rechercherJoueurPassword(String pseudo, String passwordJoueur) {
 		for (Joueur j : this.joueur) {
 			if (j.equalPassword(pseudo, passwordJoueur)) {
@@ -423,9 +470,9 @@ public class SiteDeParisMetier {
 			}
 
 		}
+		//Rendre une liste de competitions avec leurs noms et date de clôture de chaque compétition.
 		return results;
 	}
-	//But de connaître les compétitions en cours. Il montre une liste de competitions avec leurs noms et date de clôture de chaque compétition.
 	/**
 	 * connaître  la liste des noms des compétiteurs d'une compétition.
 	 *
@@ -448,9 +495,9 @@ public class SiteDeParisMetier {
 			String res =  c.getNom();
 			results.add(res);
 		}
+		//Rendre la liste de compétiteurs de la compétition.
 		return results;
 	}
-	//Liste de compétiteurs de la compétition.
 	/**
 	 * vérifier la validité du password du gestionnaire.
 	 *

@@ -27,22 +27,27 @@ public class Gestionnaire {
 		this.password = password;
 	}
 
-		
-		/**
-		 */
-		public void validitePasswordGestionnaire(String password)	throws MetierException {
-			if (!this.password.equals(password)) throw new MetierException();
-			return;
-		}
 
-			/**
-			 */
-			public Gestionnaire(String password) throws MetierException{
-				if (password == null) throw new MetierException();
-				if (password.length() < 8 ) throw new MetierException();
-				if (password.contains(" ")) throw new MetierException();
-				if (password.contains("-")) throw new MetierException();
-				this.password = password;
-			}
+	/**
+	 * Verifier si le mot de passe dans parametre avait
+	 * le meme valuer avec le mot de passe actuel
+	 */
+	public void validitePasswordGestionnaire(String password)	throws MetierException {
+		if (!this.password.equals(password)) throw new MetierException();
+		return;
+	}
+
+	/**
+	 * Constructor
+	 * @throws MetierException  levée
+	 * si le <code>password</code>  est invalide
+	 */
+	public Gestionnaire(String password) throws MetierException{
+		if (password == null) throw new MetierException();
+		if (password.length() < 8 ) throw new MetierException();
+		if (password.contains(" ")) throw new MetierException();
+		if (password.contains("-")) throw new MetierException();
+		this.password = password;
+	}
 
 }

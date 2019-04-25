@@ -155,6 +155,8 @@ public class Joueur {
 	}
 
 	/**
+	 * Comparer avec un autre joueur par le même nom et prenom ou le meme pseudo
+	 * @return true si ils ont le même nom et prenom ou le meme pseudo
 	 */
 	public boolean equal(String nom, String prenom, String pseudo){
 		if ((this.nom.equals(nom) && this.prenom.equals(prenom)) || this.pseudo.equals(pseudo))  {
@@ -162,8 +164,20 @@ public class Joueur {
 		} else
 			return false;
 	}
+	/**
+	 * Comparer avec un autre joueur par le même nom, prenom et pseudo
+	 * @return true si ils ont le même nom, prenom et pseudo
+	 */
+	public boolean equalTous(String nom, String prenom, String pseudo){
+		if (this.nom.equals(nom) && this.prenom.equals(prenom) && this.pseudo.equals(pseudo))  {
+			return true;
+		} else
+			return false;
+	}
 	
 	/**
+	 * @throws JoueurException levée si <code>nom</code>,
+	 * <code>prenom</code>, <code>pseudo</code> sont invalides.
 	 */
 	public Joueur(String nom, String prenom, String pseudo) throws JoueurException{
 		if (nom==null) throw new JoueurException();
@@ -177,18 +191,34 @@ public class Joueur {
 		this.pseudo = pseudo;
 	}
 
+	/**
+	 * diminuer la somme de jeton restant du joueur
+	 * @param jetons : la somme a diminuer
+	 * @return true si la somme de jeton restant est positive
+	 */
 	public boolean diminuerJeton(double jetons){
 		this.jetonRestant = this.jetonRestant - jetons;
 		return this.jetonRestant >= 0 ? true: false;
 	}
 
 	/**
+	 * augmanter la somme de jeton restant du joueur
+	 * @param jetons : la somme a augmenter
+	 * @return true si la somme de jeton restant est positive
 	 */
 	public boolean augmenterJeton(double jeton){
 		this.jetonRestant += jeton;
 		return this.jetonRestant >= 0 ? true: false;
 	}
 
+	/**
+	 * valider le nom, prenom, pseudo pour un joueur
+	 * @param nom2
+	 * @param prenom2
+	 * @param pseudo2
+	 * @throws JoueurException levée si <code>nom</code>, <code>prenom</code>,
+	 * <code>pseudo</code> sont invalides.
+	 */
 	public static void validiteNomPrenomPseudo(String nom2, String prenom2, String pseudo2) throws JoueurException{
 		if (nom2==null) throw new JoueurException();
 		if (prenom2==null) throw new JoueurException();
@@ -199,6 +229,14 @@ public class Joueur {
 
 	}
 
+	/**
+	 * verifier si le password en parametre avait le meme valeur du mot de pass
+	 * ,quand le pseudo en parametre ait le meme valeur
+	 * @param pseudo2
+	 * @param passwordJoueur
+	 * @return true si le pseudo, et le passwordJoueur ont le meme valeur avec
+	 * le pseudo et password du joueur
+	 */
 	public boolean equalPassword(String pseudo2, String passwordJoueur) {
 		if ((this.pseudo.equals(pseudo2) && this.password.equals(passwordJoueur)))  {
 			return true;
@@ -206,6 +244,13 @@ public class Joueur {
 			return false;
 	}
 
+	/**
+	 * valider le pseudo et password pour un joueur
+	 * @param pseudo2
+	 * @param password
+	 * @throws JoueurException levée si <code>password</code> ou
+	 * <code>pseudo</code> sont invalides.
+	 */
 	public static void validitePseudoPassword(String pseudo2, String password) throws JoueurException {
 		if (pseudo2==null) throw new JoueurException();
 		if (!pseudo2.matches("[A-Za-z0-9]{4,}")) throw new JoueurException();
