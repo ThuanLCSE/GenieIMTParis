@@ -93,12 +93,6 @@ public class Competition {
 
 
 	/**
-	 */
-	public String toString(){
-		return "";
-	}
-
-	/**
 	 * Le tableau des competiteur d'une competition
 	 * @uml.property  name="competiteurs"
 	 * @uml.associationEnd  multiplicity="(0 -1)" ordering="true" inverse="competition:siteParis.Competiteur"
