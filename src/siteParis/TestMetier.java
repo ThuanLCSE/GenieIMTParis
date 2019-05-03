@@ -304,8 +304,21 @@ public class TestMetier {
 			catch (Exception e) { 
 				System.out.println("désinscrire un joueur avec un  password gestionnaire incorrect n'a pas levé l'exception MetierException mais " + e.getClass().getName());
 			}
+			siteDeParisMetier.ajouterCompetition(new String("ChampionnatDeFrance2012"), new DateFrancaise(4, 6, 2019, 15, 00), new String [] {new String("Lyon"), new String("Marseille"), "Paris", new String("Rennes"), new String("Brest"), "StEtienne", new String("Lille"), "Nancy", "Toulouse", "Auxerre"}, new String("ilesCaimans"));
 
-
+			siteDeParisMetier.crediterJoueur(new String("Prou"), new String("Bernard"), new String("nanard"), 456, new String("ilesCaimans"));
+			siteDeParisMetier.miserVainqueur(new String("nanard"), new String(passwdPascal), 1, new String("ChampionnatDeFrance2012"), new String("Lyon"));
+			
+			try {
+				
+				siteDeParisMetier.desinscrireJoueur(new String("Prou"), new String("Bernard"), new String("nanard"), new String("ilesCaimans"));
+				System.out.println("désinscrire un joueur a des mises en cours n'a pas levé l'exception JoueurException");
+			}
+			catch (JoueurException e) { }
+			catch (Exception e) { 
+				System.out.println("désinscrire un joueur déjà retiré n'a pas levé l'exception JoueurException mais " + e.getClass().getName());
+			}
+ 
 			// désinscription correcte d'un joueur 
 			siteDeParisMetier.desinscrireJoueur(new String("Prou"), new String("Pascal"), new String("pascal"), new String("ilesCaimans"));
 
@@ -317,8 +330,10 @@ public class TestMetier {
 			}
 			catch (JoueurInexistantException e) { }
 			catch (Exception e) { 
-				System.out.println("désinscrire un joueur déjà retiré n'a pas levé l'exception JoueurInexistantException mais " + e.getClass().getName());
+				System.out.println("désinscrire un joueur déjà retiré n'a pas levé l'exc"
+						+ "eption JoueurInexistantException mais " + e.getClass().getName());
 			}
+			
 
 		}
 		catch (Exception e) {
@@ -563,8 +578,16 @@ public class TestMetier {
 				System.out.println("le passwordGestionnaire  est incorrect, et l'exception MetierException aurait dû être levée");
 			} 
 			try {
+				siteDeParisMetier.crediterJoueur(new String("Camila"), new String("Chauvez"), new String("etudia3"), 1, new String("fqsdfdqs"));
+				System.out.println("le passwordGestionnaire  est incorrect, et l'exception MetierException aurait dû être levée");
+			}
+			catch (MetierException e) { } 
+			catch (Exception e) { 
+				System.out.println("le passwordGestionnaire  est incorrect, et l'exception MetierException aurait dû être levée");
+			} 
+			try {
 				siteDeParisMetier.crediterJoueur(new String("Camila"), new String("Chauvez"), new String("etudia3"), -1, new String("ilesCaimans"));
-				System.out.println("la somme en jetons est négative, et l'exception MetierException aurait dû être levée");
+				System.out.println("la somme en jetons du joueur est négative, et l'exception MetierException aurait dû être levée");
 			}
 			catch (MetierException e) { } 
 			catch (Exception e) { 
@@ -572,13 +595,36 @@ public class TestMetier {
 			} 
 			try {
 				siteDeParisMetier.crediterJoueur(new String(""), new String("Chauvez"), new String("etudia3"), 1, new String("ilesCaimans"));
-				System.out.println("prenom est invalide, et l'exception JoueurException aurait dû être levée");
+				System.out.println("le nom du joueur est invalide, et l'exception JoueurException aurait dû être levée");
+			}
+			catch (JoueurException e) { } 
+			catch (Exception e) { 
+				System.out.println("nom est invalide, et l'exception JoueurException aurait dû être levée");
+			} 
+			try {
+				siteDeParisMetier.crediterJoueur(new String("Null"), new String(""), new String("etudia3"), 1, new String("ilesCaimans"));
+				System.out.println("le prenom du joueur est invalide, et l'exception JoueurException aurait dû être levée");
 			}
 			catch (JoueurException e) { } 
 			catch (Exception e) { 
 				System.out.println("prenom est invalide, et l'exception JoueurException aurait dû être levée");
-			} 
-
+			}  
+			try {
+				siteDeParisMetier.crediterJoueur(new String("Null"), new String(""), null, 1, new String("ilesCaimans"));
+				System.out.println("le pseudo du joueur est invalide, et l'exception JoueurException aurait dû être levée");
+			}
+			catch (JoueurException e) { } 
+			catch (Exception e) { 
+				System.out.println("pseudo est invalide, et l'exception JoueurException aurait dû être levée");
+			}  
+			try {
+				siteDeParisMetier.crediterJoueur(new String("Null"), new String("dsqf"), new String("."), 1, new String("ilesCaimans"));
+				System.out.println("le pseudo du joueur est invalide, et l'exception JoueurException aurait dû être levée");
+			}
+			catch (JoueurException e) { } 
+			catch (Exception e) { 
+				System.out.println("pseudo est invalide, et l'exception JoueurException aurait dû être levée");
+			}  
 			try {
 				siteDeParisMetier.crediterJoueur(new String("Camila"), new String("Chauvez"), new String("etudia2"), 1, new String("ilesCaimans"));
 				System.out.println("il n'y a pas de joueur  avec les mêmes nom,  prénom et pseudo, et l'exception JoueurInexistantException aurait dû être levée");
@@ -622,7 +668,7 @@ public class TestMetier {
 			} 
 			try {
 				siteDeParisMetier.debiterJoueur(new String(""), new String("Chauvez"), new String("etudia3"), 1, new String("ilesCaimans"));
-				System.out.println("prenom est invalide, et l'exception JoueurException aurait dû être levée");
+				System.out.println("le prenom du joueur est invalide, et l'exception JoueurException aurait dû être levée");
 			}
 			catch (JoueurException e) { } 
 			catch (Exception e) { 
@@ -685,11 +731,11 @@ public class TestMetier {
 			
 			try {
 				siteDeParisMetier.miserVainqueur(new String("etudia3"), new String(passwdCamila), 1, new String("ChampionnatDeFrance2012"), new String("Lille")); 
-				System.out.println("le credit de etudia1 est negative, et l'exception JoueurException aurait dû être levée");
+				System.out.println("le credit de etudia3 est negative, et l'exception JoueurException aurait dû être levée");
 			}
 			catch (JoueurException e) { } 
 			catch (Exception e) { 
-				System.out.println("le credit de etudia1 est negative, et l'exception JoueurException aurait dû être levée");
+				System.out.println("le credit de etudia3 est negative, et l'exception JoueurException aurait dû être levée");
 			}  
 			try {
 				siteDeParisMetier.miserVainqueur(new String("etudia3"), new String(passwdCamila), -1, new String("ChampionnatDeFrance2012"), new String("Lille")); 
@@ -698,6 +744,15 @@ public class TestMetier {
 			catch (MetierException e) { } 
 			catch (Exception e) { 
 				System.out.println("la somme en jetons est négative, et l'exception MetierException aurait dû être levée");
+			}  
+			try {
+				siteDeParisMetier.miserVainqueur(new String("etudia4"), new String("dsqfdsqfdsq"), 0, new String("ChampionnatDeFrance2012"), new String("Lille")); 
+				System.out.println(" il n'y a pas de joueur avec les mêmes pseudos et password, et l'exception JoueurInexistantException aurait dû être levée");
+			}
+			catch (JoueurInexistantException e) { } 
+			catch (Exception e) { 
+				e.printStackTrace();
+				System.out.println("il n'y a pas de joueur avec les mêmes pseudos et password, et l'exception JoueurInexistantException aurait dû être levée");
 			} 
 			try {
 				siteDeParisMetier.miserVainqueur(new String("etudia4"), new String(passwdCamila), 0, new String("ChampionnatDeFrance2012"), new String("Lille")); 
@@ -707,15 +762,60 @@ public class TestMetier {
 			catch (Exception e) { 
 				e.printStackTrace();
 				System.out.println("il n'y a pas de joueur avec les mêmes pseudos et password, et l'exception JoueurInexistantException aurait dû être levée");
+			}
+			try {
+				siteDeParisMetier.miserVainqueur(new String("..f.."), new String(passwdCamila), 0, new String("ChampionnatDeFrance2012"), new String("Lille")); 
+				System.out.println(" LE PSEUDO NON VALIDE, et l'exception JoueurException aurait dû être levée");
+			}
+			catch (JoueurException e) { } 
+			catch (Exception e) { 
+				e.printStackTrace();
+				System.out.println("LE PSEUDO NON VALIDE, et l'exception JoueurException aurait dû être levée");
+			} 
+			try {
+				siteDeParisMetier.miserVainqueur(null, new String(passwdCamila), 0, new String("ChampionnatDeFrance2012"), new String("Lille")); 
+				System.out.println(" LE PSEUDO null, et l'exception JoueurException aurait dû être levée");
+			}
+			catch (JoueurException e) { } 
+			catch (Exception e) { 
+				e.printStackTrace();
+				System.out.println("LE PSEUDO null, et l'exception JoueurException aurait dû être levée");
+			}  
+			try {
+				siteDeParisMetier.miserVainqueur(new String("etudia3"), null, 0, new String("ChampionnatDeFrance2012"), new String("Lille")); 
+				System.out.println(" LE mot de paseee null, et l'exception JoueurException aurait dû être levée");
+			}
+			catch (JoueurException e) { } 
+			catch (Exception e) { 
+				e.printStackTrace();
+				System.out.println("LE PSEUDO null, et l'exception JoueurException aurait dû être levée");
+			} 
+			try {
+				siteDeParisMetier.miserVainqueur(new String("etudia3"), new String(passwdCamila), 0, new String("..zdqs"), new String("Lille")); 
+				System.out.println("le nom de competition invalide, et l'exception CompetitionException aurait dû être levée");
+			}
+			catch (CompetitionException e) { } 
+			catch (Exception e) { 
+				e.printStackTrace();
+				System.out.println("il n'existe pas de compétition  avec le même nom, et l'exception CompetitionException aurait dû être levée");
+			} 
+			try {
+				siteDeParisMetier.miserVainqueur(new String("etudia3"), new String(passwdCamila), 0, null, new String("Lille")); 
+				System.out.println("le nom de competition null, et l'exception CompetitionException aurait dû être levée");
+			}
+			catch (CompetitionException e) { } 
+			catch (Exception e) { 
+				e.printStackTrace();
+				System.out.println("il n'existe pas de compétition  avec le même nom, et l'exception CompetitionException aurait dû être levée");
 			} 
 			try {
 				siteDeParisMetier.miserVainqueur(new String("etudia3"), new String(passwdCamila), 0, new String("ChampionnatDeFrance"), new String("Lille")); 
-				System.out.println("il n'existe pas de compétition de même nom, et l'exception CompetitionInexistanteException aurait dû être levée");
+				System.out.println("il n'existe pas de compétition avec le même nom, et l'exception CompetitionInexistanteException aurait dû être levée");
 			}
 			catch (CompetitionInexistanteException e) { } 
 			catch (Exception e) { 
 				e.printStackTrace();
-				System.out.println("il n'existe pas de compétition de même nom, et l'exception CompetitionInexistanteException aurait dû être levée");
+				System.out.println("il n'existe pas de compétition  avec le même nom, et l'exception CompetitionInexistanteException aurait dû être levée");
 			} 
 			try {
 				siteDeParisMetier.miserVainqueur(new String("etudia3"), new String(passwdCamila), 0, new String("ChampionnatDeFrance2012"), new String("Lyon123")); 
@@ -726,6 +826,25 @@ public class TestMetier {
 				e.printStackTrace();
 				System.out.println("il n'existe pas un compétiteur de  nom Lyon123, et l'exception CompetitionException aurait dû être levée");
 			} 
+			try {
+				siteDeParisMetier.miserVainqueur(new String("etudia3"), new String(passwdCamila), 0, new String("ChampionnatDeFrance2012"), new String("/§?./")); 
+				System.out.println("le nom du compétiteur non valide, et l'exception CompetitionException aurait dû être levée");
+			}
+			catch (CompetitionException e) { } 
+			catch (Exception e) { 
+				e.printStackTrace();
+				System.out.println("le nom du compétiteur non valide , et l'exception CompetitionException aurait dû être levée");
+			} 
+			try {
+				siteDeParisMetier.miserVainqueur(new String("etudia3"), new String(passwdCamila), 0, new String("ChampionnatDeFrance2012"), null); 
+				System.out.println("le nom du compétiteur null, et l'exception CompetitionException aurait dû être levée");
+			}
+			catch (CompetitionException e) { } 
+			catch (Exception e) { 
+				e.printStackTrace();
+				System.out.println("le nom du compétiteur null , et l'exception CompetitionException aurait dû être levée");
+			} 
+
 
 			DateFrancaise.setDate(4, 6, 2012, 18, 10);
 			siteDeParisMetier.solderVainqueur(new String("ChampionnatDeFrance2012"),"Nancy", new String("ilesCaimans"));
@@ -841,7 +960,16 @@ public class TestMetier {
 			catch (Exception e) { 
 				System.out.println("uune compétition inexistante est  soldée sans lever CompetitionInexistanteException mais " + e.getClass().getName());
 			}
+			/** solder avec 0 gagnant
+			DateFrancaise.setDate(1, 6, 2012, 18, 10);
+			siteDeParisMetier.ajouterCompetition(new String("ring2012"), new DateFrancaise(7, 6, 2012, 15, 00), new String [] {new String("Tsonga"), new String("Nadal")}, new String("ilesCaimans"));
+			
+			siteDeParisMetier.miserVainqueur(new String("aure"), new String(passwdAureliane), 10, new String("ring2012"), new String("Tsonga"));
 
+			siteDeParisMetier.miserVainqueur(new String("nanard"), new String(passwdPascal), 0, new String("ring2012"), new String("Nadal"));
+			DateFrancaise.setDate(10, 6, 2012, 18, 10);
+			siteDeParisMetier.solderVainqueur(new String("ring2012"),"Nadal", new String("ilesCaimans"));
+			**/
 
 			// solder correctement un vainqueur
 
@@ -849,7 +977,9 @@ public class TestMetier {
 			siteDeParisMetier.solderVainqueur(new String("ChampionnatDeFrance2012"),"Nancy", new String("ilesCaimans"));
 			DateFrancaise.setDate(7, 6, 2012, 18, 30);
 			siteDeParisMetier.solderVainqueur(new String("finaleRG2012"),new String("Tsonga"), new String("ilesCaimans"));
-
+			
+			
+			
 			// solder une competition déja soldée
 			try {
 				siteDeParisMetier.solderVainqueur(new String("ChampionnatDeFrance2012"),"Nancy", new String("ilesCaimans"));
@@ -883,7 +1013,6 @@ public class TestMetier {
 			catch (Exception e) { 
 				System.out.println("le credit de bernard devrait être égal à 1789, et aucune exception n'aurait dû être levée mais c'est : " + e.getClass().getName());
 			}
-
 			//  aure doit avoir un crédit de 785
 
 			try {
