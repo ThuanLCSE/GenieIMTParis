@@ -13,5 +13,3 @@ package siteParis;
          super(motif);
       }
    }
-
-

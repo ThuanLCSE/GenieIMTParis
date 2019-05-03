@@ -12,5 +12,3 @@ public class MetierException extends Exception {
          super(motif);
       }
    }
-
-

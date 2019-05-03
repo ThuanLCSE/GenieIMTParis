@@ -84,5 +84,4 @@ public class Mise {
 			this.joueur = joueur;
 			this.competiteurChoisi = vainqueurNom;
 		}
-
 }

@@ -2,9 +2,16 @@ package siteParis;
 
 public class JoueurAvecMise extends Joueur {
 	private double miseMontant;
+
+	/**
+	 * Le joueur avec la somme d'une mise d'une competition
+	 * @param nom
+	 * @param prenom
+	 * @param pseudo
+	 * @throws JoueurException
+	 */
 	public JoueurAvecMise(String nom, String prenom, String pseudo) throws JoueurException {
 		super(nom, prenom, pseudo);
-		// TODO Auto-generated constructor stub
 	}
 	public double getMiseMontant() {
 		return miseMontant;
@@ -12,6 +19,4 @@ public class JoueurAvecMise extends Joueur {
 	public void setMiseMontant(double miseMontant) {
 		this.miseMontant = miseMontant;
 	}
-	
-
 }
