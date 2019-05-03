@@ -92,13 +92,7 @@ public class Competition {
 	}
 
 
-	/**
-	 */
-	public String toString(){
-		return "";
-	}
-
-	/**
+	/** 
 	 * Le tableau des competiteur d'une competition
 	 * @uml.property  name="competiteurs"
 	 * @uml.associationEnd  multiplicity="(0 -1)" ordering="true" inverse="competition:siteParis.Competiteur"
@@ -106,10 +100,10 @@ public class Competition {
 	 */
 	private ArrayList<Competiteur> competiteurs = new java.util.ArrayList<Competiteur>();
 	public ArrayList<Competiteur> getCompetiteurs() {
-		return competiteurs;
+		return competiteurs; 
 	}
 
-	/**
+	/** 
 	 * Attribuer les competiteurs dans une competition
 	 * @param competiteurs : un tableau des noms du competiteur
 	 * @throws MetierException levée si le tableau des
@@ -287,8 +281,8 @@ public class Competition {
 	 */
 	public static void validiteCompetitionVainqueur(String competition, String vainqueurEnvisage) throws CompetitionException{
 		if (competition==null) throw new CompetitionException();
-		if (!competition.matches("[A-Za-z0-9]{4,}")) throw new CompetitionException();
-		if (vainqueurEnvisage==null) throw new CompetitionException();
+		if (!competition.matches("[A-Za-z0-9]{4,}")) throw new CompetitionException(); 
+		if (vainqueurEnvisage==null) throw new CompetitionException(); 
 		if (vainqueurEnvisage.length() < 2) throw new CompetitionException();
 	}
 

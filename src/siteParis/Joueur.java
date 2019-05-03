@@ -155,8 +155,13 @@ public class Joueur {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Comparer avec un autre joueur par le même nom et prenom ou le même pseudo
 	 * @return true si ils ont le même nom et prenom ou le même pseudo
+=======
+	 * Comparer avec un autre joueur par le même nom et prenom ou le meme pseudo
+	 * @return true si ils ont le même nom et prenom ou le meme pseudo
+>>>>>>> branch 'master' of https://github.com/ThuanLCSE/GenieIMTParis.git
 	 */
 	public boolean equal(String nom, String prenom, String pseudo){
 		if ((this.nom.equals(nom) && this.prenom.equals(prenom)) || this.pseudo.equals(pseudo))  {
@@ -230,11 +235,19 @@ public class Joueur {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * verifier si le password en paramètre avait le même valeur du mot de pass
 	 * ,quand le pseudo en paramètre ait le même valeur
 	 * @param pseudo2
 	 * @param passwordJoueur
 	 * @return true si le pseudo, et le passwordJoueur ont le même valeur avec
+=======
+	 * verifier si le password en parametre avait le meme valeur du mot de pass
+	 * ,quand le pseudo en parametre ait le meme valeur
+	 * @param pseudo2
+	 * @param passwordJoueur
+	 * @return true si le pseudo, et le passwordJoueur ont le meme valeur avec
+>>>>>>> branch 'master' of https://github.com/ThuanLCSE/GenieIMTParis.git
 	 * le pseudo et password du joueur
 	 */
 	public boolean equalPassword(String pseudo2, String passwordJoueur) {

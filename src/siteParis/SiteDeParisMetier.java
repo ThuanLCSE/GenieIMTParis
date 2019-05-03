@@ -60,7 +60,9 @@ public class SiteDeParisMetier {
 	 */
 	public SiteDeParisMetier(String passwordGestionnaire) throws MetierException {
 		this.gestionnaire = new Gestionnaire(passwordGestionnaire);
+
 		//instancier la list des compétitions et des joueurs
+
 		this.competition = new ArrayList<>();
 		this.joueur = new ArrayList<>();
 	}
@@ -164,7 +166,7 @@ public class SiteDeParisMetier {
 		return null;
 	}
 
-	/**
+	/** 
 	 * Chercher une compétition avec les mêmes noms
 	 * @param nom
 	 * @return
@@ -172,7 +174,7 @@ public class SiteDeParisMetier {
 	private Competition rechercherCompetition(String nom) {
 		for (Competition c : this.competition) {
 			if (c.equal(nom)) {
-				// Return les donnees de la compétition trouvee
+				// Return les donnees de la compétition trouvee 
 				return c;
 			}
 		}
@@ -251,21 +253,20 @@ public class SiteDeParisMetier {
 		Competition.validiteCompetitionVainqueur(competition,vainqueur);
 		//valider si il n'existe pas de compétition de même nom
 		Competition foundComp  = this.rechercherCompetition(competition);
-		if (foundComp == null) throw new CompetitionInexistanteException();
+		if (foundComp == null) throw new CompetitionInexistanteException(); 
 		//valider si la compétition est déjà soldée
 		if (foundComp.getStatut().equals(Competition.SOLDEE)) throw new CompetitionInexistanteException();
 		//valider si la date de clôture de la compétition est dans le futur
-		if (!foundComp.getDateCloture().estDansLePasse()) throw new  CompetitionException();
+		if (!foundComp.getDateCloture().estDansLePasse()) throw new  CompetitionException(); 
 		//valider si il n'existe pas de compétiteur du nom du vainqueur dans la compétition
 		if (!foundComp.contient(vainqueur)) throw new  CompetitionException();
 
 		foundComp.setStatut(Competition.SOLDEE);
-		foundComp.setVainqueur(vainqueur);
-		// calculer la somme de jeton dans la compétition et la somme de jeton miser sur le vainqueur
+		foundComp.setVainqueur(vainqueur); 
+		// calculer la somme de jeton dans la compétition et la somme de jeton miser sur le vainqueur 
 		double sommeDeJetonsCompetition = foundComp.getMiseSomme();
 		double sommeDeJetonsMiseSurVainqueur = foundComp.getMiseSommeVainqueur();
-		ArrayList<JoueurAvecMise> winners = foundComp.getWinner();
-		
+		ArrayList<JoueurAvecMise> winners = foundComp.getWinner(); 
 		//rembourser les joueurs qui avaient mise sur le vainqueur
 		for (JoueurAvecMise j : winners) {
 			double montantGagne = j.getMiseMontant() * sommeDeJetonsCompetition / sommeDeJetonsMiseSurVainqueur ;
@@ -419,13 +420,13 @@ public class SiteDeParisMetier {
 		//valider les parametres
 		if (miseEnJetons < 0 ) throw new MetierException();
 		Competition.validiteCompetitionVainqueur(competition, vainqueurEnvisage);
-		Joueur.validitePseudoPassword(pseudo, passwordJoueur);
+		Joueur.validitePseudoPassword(pseudo, passwordJoueur); 
 		//rechercher le joueur avec le même pseudo et password
 		Joueur foundjoueur = this.rechercherJoueurPassword(pseudo, passwordJoueur);
 		if (foundjoueur == null) throw new JoueurInexistantException();
-		//valider la compétition  de même nom
+		//valider la compétition  de même nom 
 		Competition foundComp  = this.rechercherCompetition(competition);
-		if (foundComp == null) throw new CompetitionInexistanteException();
+		if (foundComp == null) throw new CompetitionInexistanteException(); 
 		//valider si la compétition est ouverte et le vainqueur est bon
 		if (!foundComp.contient(vainqueurEnvisage)) throw new CompetitionException();
 		if (foundComp.getStatut() == Competition.SOLDEE || foundComp.getDateCloture().estDansLePasse()) throw new CompetitionException();
@@ -433,7 +434,7 @@ public class SiteDeParisMetier {
 		//Mise d'une vanqueur. La compte du joueur est debité avec les jetons misés.
 		foundComp.addMise(foundjoueur, vainqueurEnvisage, miseEnJetons);
 		foundjoueur.diminuerJeton(miseEnJetons);
-		foundjoueur.setJetonsEngages(foundjoueur.getJetonsEngages() + miseEnJetons);
+		foundjoueur.setJetonsEngages(foundjoueur.getJetonsEngages() + miseEnJetons); 
 	}
 
 	/**
@@ -471,8 +472,8 @@ public class SiteDeParisMetier {
 				results.add(res);
 			}
 
-		}
-		//Rendre une liste de compétitions avec leurs noms et date de clôture de chaque compétition.
+		} 
+		//Rendre une liste de compétitions avec leurs noms et date de clôture de chaque compétition. 
 		return results;
 	}
 	/**
