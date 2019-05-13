@@ -1475,8 +1475,7 @@ public class TestMetier {
 
 		testConstructeurSiteDeParisMetier();
 		testValiditePasswordGestionnaire();
-		testInscrireDesinscrireJoueur();
-//		missing test number of joueur in system
+		testInscrireDesinscrireJoueur(); 
 		testCrediterDebiterJoueur();
 		testAjouterCompetition();
 		testMiserVainqueur();

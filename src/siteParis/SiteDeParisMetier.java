@@ -422,19 +422,19 @@ public class SiteDeParisMetier {
 		Competition.validiteCompetitionVainqueur(competition, vainqueurEnvisage);
 		Joueur.validitePseudoPassword(pseudo, passwordJoueur); 
 		//rechercher le joueur avec le même pseudo et password
-		Joueur foundjoueur = this.rechercherJoueurPassword(pseudo, passwordJoueur);
-		if (foundjoueur == null) throw new JoueurInexistantException();
+		Joueur foundJoueur = this.rechercherJoueurPassword(pseudo, passwordJoueur);
+		if (foundJoueur == null) throw new JoueurInexistantException();
 		//valider la compétition  de même nom 
 		Competition foundComp  = this.rechercherCompetition(competition);
 		if (foundComp == null) throw new CompetitionInexistanteException(); 
 		//valider si la compétition est ouverte et le vainqueur est bon
 		if (!foundComp.contient(vainqueurEnvisage)) throw new CompetitionException();
 		if (foundComp.getStatut() == Competition.SOLDEE || foundComp.getDateCloture().estDansLePasse()) throw new CompetitionException();
-		if (foundjoueur.getJetonRestant() < miseEnJetons) throw new JoueurException();
+		if (foundJoueur.getJetonRestant() < miseEnJetons) throw new JoueurException();
 		//Mise d'une vanqueur. La compte du joueur est debité avec les jetons misés.
-		foundComp.addMise(foundjoueur, vainqueurEnvisage, miseEnJetons);
-		foundjoueur.diminuerJeton(miseEnJetons);
-		foundjoueur.setJetonsEngages(foundjoueur.getJetonsEngages() + miseEnJetons); 
+		foundComp.addMise(foundJoueur, vainqueurEnvisage, miseEnJetons);
+		foundJoueur.diminuerJeton(miseEnJetons);
+		foundJoueur.setJetonsEngages(foundJoueur.getJetonsEngages() + miseEnJetons); 
 	}
 
 	/**
