@@ -1,0 +1,24 @@
+.navbar-brand > img{
+    height: 1.5em;
+}
+.top-bottom-border {
+	border-bottom: 1px solid;
+    border-top: 1px solid;
+}
+.item-category {
+	width: 100%;
+}
+.item-category  button > img {
+	height: 3em;
+}
+.item-category  button > i {
+    font-size: 2em;
+}
+.item-category > .col-4 > button {
+	width: 95%;
+}
+.item-category > div {
+	justify-content: center!important;
+    display: flex!important;
+    margin-bottom: 7px;
+}
