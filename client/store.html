@@ -1,0 +1,171 @@
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Bonjour, Courses - Livraison des courses a domicile</title>
+
+  <!-- Custom fonts for this theme -->
+  <link href="./css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="./css/bjrc.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+  <!-- Theme CSS -->
+  <link href="./css/freelancer.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+    <div class="container"> 
+    <a class="navbar-brand" href="./">
+      <img src="./img/logo.png" alt="logo">
+    </a> 
+      <a href="./" class="navbar-brand js-scroll-trigger">Bonjour, Courses</a>
+    <div class="navbar-toggler navbar-toggler-right text-uppercase  text-white rounded" >
+      </div>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+    </div>   
+    </div>
+  </nav>
+
+  <!-- Masthead -->
+  <header class="masthead bg-primary text-white text-center">  
+      <!-- Masthead Heading -->
+      <h3>Sélectionne ton magasin</h3>
+      
+  </header>
+
+  <!-- Portfolio Section -->
+  <section class="page-section portfolio" id="shopper">
+  	<form onsubmit="setStore(this); return false" method="POST">
+    <div class="container"> 
+      <div class="row">
+          <div class="form-group col-6 col-sm-2">
+            <label for="inpCodePost">Code postal</label>
+            <input type="text" class="form-control" id="inpCodePost" name="pcode" onblur="loadStoreByPCode(this.value)">
+          </div>
+          <div class="form-group col-6 col-sm-2">
+            <label for="sltStoreBrand">Magasin</label>
+            <select id="sltStoreBrand" class="browser-default custom-select">
+              <option selected>Ouvre ce menu de sélection</option> 
+            </select>
+          </div>
+          <div class="form-group col-12 col-sm-8">
+            <label for="sltStoreName">Suggestion de magasin</label>
+            <select id="sltStoreName" name='storeId' class="browser-default custom-select">
+            <option value="none" selected>Others</option> 
+          </select>
+          </div>
+          <div class="form-group col-12" >
+            <label for="inpStoreAdress">Adresse (Si aucune idée n'est laissée en blanc, votre ami vous en proposera une)</label>
+            <textarea class="form-control store-address-input" name='inpStoreAdress' id="inpStoreAdress" rows="3"></textarea> 
+          </div>
+           <button type="submit" class="btn btn-primary col-6 offset-3 col-md-2 offset-md-5"> 
+            OK
+           </button>
+      </div>
+    </div>
+  	</form> 
+  </section>
+  
+
+  <!-- Footer -->
+   <div id="includedFooter"></div>  
+
+  <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
+  <div class="scroll-to-top d-lg-none position-fixed ">
+    <a class="js-scroll-trigger d-block text-center text-white rounded" href="#page-top">
+      <i class="fa fa-chevron-up"></i>
+    </a>
+  </div>
+ 
+  <!-- Bootstrap core JavaScript -->
+  <script src="./js/jquery.min.js"></script>
+  <script src="./js/js.cookie.min.js"></script>
+  <script src="./js/bootstrap.min.js"></script>
+  <script src="./js/data.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="./js/jquery.easing.min.js"></script> 
+ 
+</body>
+<script type="text/javascript">
+  var sltedStore = Cookies.get('store')? JSON.parse(Cookies.get('store')) : null
+  $( ".store-address-input" ).prop("disabled", true);
+  var lstStores = []
+  $('#inpCodePost').val(Cookies.get('pcode'))
+  var loadStoreByPCode = (code) => {
+    $.post( "/store/findStore", { pcode: code })
+    .done(function( data ) {
+        $('#sltStoreBrand').empty()
+        var check = {};
+        lstStores = data
+        for (const store of data) {
+          if (check[store.brand] !== true) {
+            check[store.brand] = true
+            var optionValue = store.brand
+            var optionText = store.brand
+            $('#sltStoreBrand').append(`<option value="${optionValue}"> 
+                     ${optionText} 
+                </option>`);
+          }
+      }
+      sltedStore? $("#sltStoreBrand").val(sltedStore.brand) : $("#sltStoreBrand").prop("selectedIndex", 0).val()
+      $("#sltStoreBrand").change();  
+      if ($('#sltStoreBrand').children().length === 0) {
+        alert("No store data found in this region, please enter the address of the one you need")
+      }
+    }).fail((e) => console.log(e));
+  }
+  loadStoreByPCode( $('#inpCodePost').val())
+  
+  $('#sltStoreBrand').change(function() { 
+      $('#sltStoreName').empty()
+    for  (const store of lstStores) { 
+      if (store.brand === $( this ).val()){
+        var optionValue = store._id
+          var optionText = store.name + ", " + store.address
+          $('#sltStoreName').append(`<option value="${optionValue}"> 
+               ${optionText} 
+          </option>`);    
+      }
+    }
+    sltedStore? $("#sltStoreName").val(sltedStore._id) : null
+    $('#sltStoreName').append(`<option value="none"> 
+           Others
+      </option>`);
+    $('#sltStoreName').change()
+  });
+   
+  $('#sltStoreName').change(function() { 
+     if ($( this ).val() === 'none') {
+      // $( ".store-address-input" ).show();
+      $( ".store-address-input" ).prop("disabled", false);
+      $( ".store-address-input" ).val('')
+     } else {
+      $( ".store-address-input" ).prop("disabled", true);
+      var nameAddress = ""
+      for  (const store of lstStores) { 
+        if (store._id === $( this ).val()) nameAddress = store.name+ ", " +store.address
+      }
+        $('#inpStoreAdress').val(nameAddress)
+     }
+  });
+  var setStore = function(e) { 
+    sltedStore = lstStores.find(obj => obj._id === $('#sltStoreName').val());
+    Cookies.set("store", JSON.stringify(sltedStore))
+    window.location.href = "./tobuylist.html";
+  }
+  $("#includedFooter").load("./footer.html"); 
+</script>
+</html>
+

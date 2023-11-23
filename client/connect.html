@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<script data-ad-client="ca-pub-3937720286333723" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Bonjour, Courses - Livraison des courses a domicile</title>
+
+  <!-- Custom fonts for this theme -->
+  <link href="./css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css"> 
+  <!-- Theme CSS -->
+  <link href="./css/freelancer.min.css" rel="stylesheet">
+  <div id="fb-root"></div>
+  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v6.0"></script>
+</head>
+ 
+<body id="page-top">
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="#page-top">Bonjour, Courses</a>
+      <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto"> 
+          <li class="nav-item mx-0 mx-lg-1">
+            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about">Comment ça marche</a>
+          </li> 
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <style type="text/css"> 
+	.login-form-1{
+	    padding: 5%;
+	    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+	}
+	.login-form-1 h3{
+	    text-align: center;
+	    color: #333;
+	}
+	.login-form-2{
+	    padding: 5%;
+	    background: #0062cc;
+	    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+	}
+	.login-form-2 h3{
+	    text-align: center;
+	    color: #fff;
+	} 
+	.btnSubmit
+	{
+	    width: 50%;
+	    border-radius: 1rem;
+	    padding: 1.5%;
+	    border: none;
+	    cursor: pointer;
+	}
+	.login-form-1 .btnSubmit{
+	    font-weight: 600;
+	    color: #fff;
+	    background-color: #0062cc;
+	}
+	.login-form-2 .btnSubmit{
+	    font-weight: 600;
+	    color: #0062cc;
+	    background-color: #fff;
+	}
+	.login-form-2 .ForgetPwd{
+	    color: #fff;
+	    font-weight: 600;
+	    text-decoration: none;
+	}
+	.login-form-1 .ForgetPwd{
+	    color: #0062cc;
+	    font-weight: 600;
+	    text-decoration: none;
+	}
+  </style>
+  <!-- Masthead -->
+  <header class="masthead bg-primary">
+    <div class="container d-flex  flex-column"> 
+ 	 	<div class="row">
+            <div id="lgnForm" class="col-lg-6 col-sm-12 login-form-1">
+                <h3>Connexion</h3>
+                <form  onsubmit="login(); return false">
+                    <div class="form-group">
+                        <span class="badge badge-pill badge-danger" id="errMsg"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="inpLgnPhone" placeholder="Numéro de téléphone *" value="" />
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="inpLgnPwd" placeholder="Mot de passe *" value="" />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="btnSubmit" value="Connexion" />
+                    </div>
+                    <div class="form-group">
+                        <a href="#" class="ForgetPwd"  data-toggle="modal" data-target="#fgtPassMdl"> Mot de passe oublié?</a>
+                    </div>
+                </form>
+            </div>
+            <div id="rgtForm" class="col-lg-6 col-sm-12 login-form-2">
+                <h3>Inscription</h3>
+                <form onsubmit="register(); return false" >
+                    <div class="form-group">
+                        <span class="badge badge-pill badge-danger" id="errRgsMsg"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id='inpRgsPhone' placeholder="Numéro de téléphone (06...)" value="" />
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control" id='inpRgsEmail' placeholder="Email" value="" />
+                    </div> 
+                    <div class="form-group input-group">
+                        <input type="password" class="form-control" id='inpRgsPwd' placeholder="Mot de passe *" value="" aria-describedby="basic-addon2"/> 
+                     	<div class="input-group-append">
+          					    	<span class="input-group-text" id="basic-addon2"><i class="fas fa-eye"></i><input type='checkbox' id='checkShowPwd' /></span>
+          					  </div>
+                    </div> 
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                      <label class="form-check-label" for="exampleCheck1">J'accepte <a href="#">les conditions générales d’utilisation</a>.</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="btnSubmit" value="S'inscrire" />
+                    </div> 
+                </form>
+            </div>
+        </div>
+    </div>
+  </header> 
+  <section class="page-section bg-primary text-white mb-0" id="about"> 
+  </section>
+  <!-- Footer -->
+  <div id="includedFooter"></div>  
+ 
+  <!-- Bootstrap core JavaScript -->
+  <script src="./js/jquery.min.js"></script>
+  <script src="./js/bootstrap.min.js"></script>
+  <script  src="./js/js.cookie.min.js"></script> 
+  <script  src="./js/data.js"></script>
+  <!-- Plugin JavaScript -->
+  <script src="./js/jquery.easing.min.js"></script> 
+ 
+</body>
+<script type="text/javascript">   
+	$(document).ready(function(){
+    $("#about").load("./about.html"); 
+    $("#includedFooter").load("./footer.html"); 
+    Cookies.remove('uId')
+    Cookies.remove('token')
+       
+    $.get( "/sessionremove").done(function( data ) {  
+       
+    }).fail(function() {
+       
+    }); 
+    
+    $('#checkShowPwd').click(function(){ 
+        $(this).is(':checked') ? $('#inpRgsPwd').attr('type', 'text') : $('#inpRgsPwd').attr('type', 'password');
+    });
+  });
+  var url = new URL(window.location.href);
+  var act = url.searchParams.get("a"); 
+  if (act === "rgt") {
+  	$("#lgnForm").attr('class', 'col-lg-6 col-sm-12 login-form-1')
+  	$("#rgtForm").attr('class', 'col-lg-6 col-sm-12 login-form-2')
+  } else {
+  	$("#lgnForm").attr('class', 'col-lg-6 col-sm-12 login-form-2')
+  	$("#rgtForm").attr('class', 'col-lg-6 col-sm-12 login-form-1')
+  }
+  setCookieAuth= (data) => {
+     Cookies.set('uId', data.user.id, { expires: 7 }) 
+    Cookies.set('token', data.token, { expires: 7 }) 
+  }
+  function redirectUrl(urlRedirect) {
+    var did = url.searchParams.get("did")?'&did='+url.searchParams.get("did"):''
+    window.location.href = urlRedirect?urlRedirect+did:'./index.html'
+  }
+ /*Calling API functions*/
+  function login(){
+    $.post( "/users/login", { 
+      phone:  $("#inpLgnPhone").val(),
+      password :  $("#inpLgnPwd").val()
+    }).done(function( data ) { 
+        setCookieAuth(data) 
+        redirectUrl(url.searchParams.get("redurl"))
+    }).fail(() => {
+       $('#errMsg').html('Invalid Phone or Password');
+    }); 
+  }
+  function showRegisterForm(){
+    $('.loginForm').hide();
+    $('.registerForm').show();
+  }
+  function showLoginForm(){
+    $('.loginForm').show();
+    $('.registerForm').hide();
+  }
+  function register()  {
+    var password =  $("#inpRgsPwd").val()
+    var regPass  = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+    if (!regPass.test(password)) {
+       $('#errRgsMsg').html('Le mot de passe doit comporter au minimum huit caractères, au moins une lettre et un chiffre');
+    } else if (!$("#rgtForm > form")[0].checkValidity()) {
+       $('#errRgsMsg').html('L email n est pas valide ou un champ est manquant');
+    } else {
+      $('#errRgsMsg').html('')
+      //extract name from email
+      let email = $("#inpRgsEmail").val()
+      var name = email.substring(0,email.indexOf('@'))  
+      $.post( "/users/register", { 
+        phone:  $("#inpRgsPhone").val(),
+        email:  $("#inpRgsEmail").val(),
+        password:  $("#inpRgsPwd").val(),
+        name : name
+      }).done(function( data ) { 
+        $('#inpChgName').val(name);
+        setCookieAuth(data)
+        $('#chgNameMdl').modal('show');
+        getCredit()
+      }).fail(function(e) {
+        if (e.responseJSON.message === "Phone_exist"){
+          $('#errRgsMsg').html('Numéro de téléphone déjà utilisé');
+        } else if (e.responseJSON.message === "Email_exist"){
+          $('#errRgsMsg').html('Email déjà utilisé');
+        } else {
+          $('#errRgsMsg').html( "Something wrong happened" );
+        }
+      });
+    }
+  }   
+  setNameThenMove= (redUrl) => { 
+    $.post( "/users/update ", { 
+      id:  Cookies.get('uId'), 
+      name :  $('#inpChgName').val()
+    }).done(function( data ) { 
+        $.post( "/rb/create", { })
+        if (redUrl === "./tobuylist.html" && !Cookies.get('store')) {redUrl = './index.html'} 
+        redirectUrl(redUrl)
+    }).fail(function() {
+      alert( "Something wrong happened" );
+    });
+  }
+  showLoginForm()  
+  sendResetPwdEmail = () => {
+  	$.post( "/users/fgtpwd", { 
+      email:  $("#inpEmailPwd").val(),
+    }).done(function( data ) { 
+      	Cookies.set('email', $("#inpEmailPwd").val(), { expires: 7 })
+      	alert( "Done. Please check your email. The link will expire soon" );
+    }).fail(function() {
+      alert( "Email not found" );
+    });
+    return false
+  }
+  getCredit = () => {
+    $.post( "/users/getcredit", { 
+      id:  Cookies.get('uId')
+    }).done(function( data ) {  
+       $('#lblCredit').html('Votre compte a reçu ' + data.a +" "+ data.c+ ' credit');
+    }).fail(function() {
+       $('#lblCredit').html('');
+    });
+  }
+
+</script>
+<!-- Cookie consent -->
+<link rel="stylesheet" type="text/css" href="//wpcc.io/lib/1.0.2/cookieconsent.min.css"/><script src="//wpcc.io/lib/1.0.2/cookieconsent.min.js"></script><script>window.addEventListener("load", function(){window.wpcc.init({"corners":"normal","colors":{"popup":{"background":"#e2f7d4","text":"#000000","border":"#7fc25e"},"button":{"background":"#7fc25e","text":"#ffffff"}},"position":"bottom","padding":"small","margin":"small","fontsize":"large","border":"normal","content":{"href":"./privacy.html","message":"In order to improve your experience and our performance on Bonjour, Courses, we use cookie for storing the id in database and temporary data during the creation of demand. We also use cookie to secure your working session here, hence please do not share it to anyone else. ","button":"Agree!"}})});</script>
+
+</html> 
+<!-- Enter email recovery password  -->
+<div  class="portfolio-modal modal fade" id="fgtPassMdl" tabindex="-1" role="dialog" aria-labelledby="fgtPassMdlLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="fgtPassMdlLabel">Entrez ton email address</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="inpEmail">Email (ex exemple@gmail.com)</label>
+          <input type="email" name='email' class="form-control" id="inpEmailPwd">
+        </div> 
+        <button type="button" onclick="sendResetPwdEmail()" class="btn btn-primary"> 
+          Send reset password
+        </button>  
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Change name modal  -->
+<div  class="portfolio-modal modal fade" id="chgNameMdl" tabindex="-1" role="dialog" aria-labelledby="chgNameMdlLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="chgNameMdlLabel">Dis-nous ton prénom</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group"> 
+          <input type="text" class="form-control" id="inpChgName">
+        </div> 
+        <p id="lblCredit">
+        </p>
+        <button type="button"  onclick="setNameThenMove('./tobuylist.html')" class="btn btn-primary"> 
+          Faire ma première liste de courses
+        </button><!-- 
+        <button type="button" onclick="setNameThenMove('./profile.html#calendar')" class="btn btn-primary" disabled> 
+          Proposer mon calendrier d'achats
+        </button> -->
+        <button type="button" onclick="setNameThenMove('./index.html')" class="btn btn-primary"> 
+          Retour à la page d'accueil
+        </button>    
+      </div>
+    </div>
+  </div>
+</div>

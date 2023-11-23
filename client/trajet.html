@@ -1,0 +1,404 @@
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Bonjour, Courses - Livraison des courses a domicile</title>
+
+  <!-- Custom fonts for this theme -->
+  <link href="./css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="./css/bjrc.css" rel="stylesheet" type="text/css">
+
+
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+  <!-- Theme CSS -->
+  <link href="./css/freelancer.min.css" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <link href="./css/bootstrap-glyphicons.css" rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="./css/bootstrap-datetimepicker-standalone.css" />
+  <style type="text/css">
+  select {
+    font-size: 1.3rem;
+  }
+  </style>
+</head>
+
+<body id="page-top">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+    <div class="container"> 
+	 <a class="navbar-brand" href="./">
+      <img src="./img/logo.png" alt="logo">
+    </a> 
+      <a class="navbar-brand js-scroll-trigger">Bonjour, Courses</a>
+    <div class="navbar-toggler navbar-toggler-right text-uppercase  text-white rounded" >
+      </div>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+    </div>   
+    </div>
+  </nav>
+  <!-- Portfolio Section -->
+  <section class="page-section portfolio" id="shopper">
+    <h2 class="text-center">Décris ton trajet</h2>
+    <div class="container"> 
+      <form class="row" method="post" >
+          <h3 class="col-12">Choisis le magasin</h3>
+          <div class="form-group col-12 col-md-4">
+    		    <label for="sltStoreBrand" >Marque</label>
+    		    <select class="form-control" id="sltStoreBrand" name="sltStoreBrand">
+      			  <option selected>Ouvre ce menu de sélection</option> 
+      			</select>
+    	  	</div>
+    	  	<div class="form-group col-12 col-md-8">
+    		    <label for="sltStoreName">Magasin</label> 
+    		    <select  class="form-control" id="sltStoreName" name='storeId' >
+      			  <option value="none" selected>Autres</option> 
+      			</select>
+    	  	</div>
+    	  	<div class="form-group col-12" >
+    		    <label for="inpStoreAdress">Entre l'adresse(Si tu choisis "Autres")</label>
+    		    <input type="text"  class="form-control store-address-input" name='inpStoreAdress' id="inpStoreAdress" required/>
+    	  	</div> 
+          <div class='form-group col-6 col-md-2'>
+            <label for="inpTimeOfDay">L'heure</label>
+            <select class="form-control" name="inpTimeOfDay"  id="inpTimeOfDay">
+              <option>Le matin</option>
+              <option>Le midi</option>
+              <option>L'après-midi</option>
+              <option>Le soir</option>
+              <option>La nuit</option>
+            </select> 
+          </div>
+          <div class='form-group col-6 col-md-4'>
+            <label for="inpDate">Jour</label>
+            <div class="form-group">
+                <div class='input-group date' id='inpDate'>
+                    <input type='text' class="form-control" name="inpDate" required/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+          </div>
+        <h3 class="col-12">Choisis l'adresse
+            <select class="form-control" name="sltAddressId"  id="sltAddressId">
+              <option value="none">Créer une nouvelle adresse</option>
+            </select> 
+        </h3>
+        <div class="form-group col-2">
+          <label for="inpPostCode">Code Postal</label>
+          <input type="text" class="form-control" id="inpPostCode" name="inpPostCode" placeholder="ex: 29280">
+        </div> 
+        <div class="form-group col-10"> 
+
+          <label for="inpAddress1">Adresse line 1</label>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="ex: 655 avenue du Technopôle" id="inpAddress1" name="inpAddress1" required="">
+                <span class="input-group-addon" style="padding: 0;">
+                    <button class="btn btn-primary" id="basic-addon2" onclick="checkAddress()" type="button">Vérifier l'adresse</button>
+                </span>
+            </div>  
+          <small id="address1Err" class="form-text text-muted"></small>
+        </div>
+        <div class="form-group add-address-form col-12 col-md-6">
+          <label for="inpAddress2">Adresse line 2</label>
+          <input type="text" class="form-control" id="inpAddress2" name="inpAddress2" aria-describedby="address2Ex">
+          <small id="address2Ex" class="form-text text-muted">ex: Batiment A, chambre 01</small>
+        </div>
+       
+        <div class="form-group add-address-form col-12 col-md-6">
+          <label for="inpExtra">Extra message</label>
+          <input type="text" class="form-control" id="inpExtra" name="inpExtra" aria-describedby="extraEx">
+          <small id="extraEx" class="form-text text-muted">ex: access code 1234</small>
+        </div> 
+        <div class="form-group add-address-form col-12 col-md-4">
+          <label for="inpPhoneAddr">Téléphone <input type='checkbox' checked id='checkPhoneProfile'/>Utilise le numéro du compte</label>
+          <input type="text" class="form-control" id="inpPhoneAddr" name="inpPhoneAddr" disabled="disabled" aria-describedby="phoneExplain" value="-- Utilise le numéro du compte --">
+          <small id="phoneExplain" class="form-text text-muted">Que le client puisse vous contacter en arrivant</small>
+        </div>  
+        <div class="form-group guest-form col-6 col-md-2 "> 
+            <label for="inpPhone">Mettre le numero de contact ou <a href="./connect.html?redurl=./trajet.html">Se connecter</a></label>
+            <input type="text" class="form-control"  name="inpPhone" id="inpPhone"/>
+        </div>  
+        <div class="form-group guest-form col-6 col-md-4 "> 
+            <label for="inpName">Prénom</label>
+            <input type="text" class="form-control"  name="inpName" id="inpName"/>
+        </div>
+        <input type="hidden" name="oldPhone" value="">
+        <input type="hidden" name="x" value="">
+        <input type="hidden" name="y" value="">
+
+        <div class='col-12 text-center'>
+           <button type="submit"   class="btn btn-primary btn-submit"> 
+            OK
+           </button>
+        </div>
+    	</form> 
+    </div>
+  </section>
+  
+
+  <!-- Footer -->
+  <footer class="footer text-center">
+    <div class="container">
+      <div class="row">
+
+        <!-- Footer Location -->
+        <div class="col-lg-4 mb-5 mb-lg-0">
+          <h4 class="text-uppercase mb-4">Location</h4>
+          <p class="lead mb-0">655 avenue du technopôle 29280 plouzané</p>
+        </div>
+
+        <!-- Footer Social Icons -->
+        <div class="col-lg-4 mb-5 mb-lg-0">
+          <h4 class="text-uppercase mb-4">Around the Web</h4>
+          <a class="btn btn-outline-light btn-social mx-1" href="https://www.facebook.com/thuan.Luong.family">
+            <i class="fab fa-fw fa-facebook-f"></i>
+          </a>
+          <a class="btn btn-outline-light btn-social mx-1" href="https://twitter.com/LUONGCongThuan2/status/1225366504708956160">
+            <i class="fab fa-fw fa-twitter"></i>
+          </a>
+          <a class="btn btn-outline-light btn-social mx-1" href="https://www.linkedin.com/in/thuan-luong-dad251195/">
+            <i class="fab fa-fw fa-linkedin-in"></i>
+          </a> 
+        </div>
+
+        <!-- Footer About Text -->
+        <div class="col-lg-4">
+          <h4 class="text-uppercase mb-4">About Thuan</h4>
+          <p class="lead mb-0">Business Development at Alcatel-Lucent Enterprise.</p>
+        </div>
+
+      </div>
+    </div>
+  </footer>
+
+  <!-- Copyright Section -->
+  <section class="copyright py-4 text-center text-white">
+    <div class="container">
+      <small>Copyright &copy; My Website 2020</small>
+    </div>
+  </section>
+
+  <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
+  <div class="scroll-to-top d-lg-none position-fixed ">
+    <a class="js-scroll-trigger d-block text-center text-white rounded" href="#page-top">
+      <i class="fa fa-chevron-up"></i>
+    </a>
+  </div>
+ 
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="./js/jquery.min.js"></script>  
+  <script type="text/javascript" src="./js/data.js"></script>  
+  <script type="text/javascript" src="./js/moment.js"></script>
+  <script type="text/javascript" src="./js/js.cookie.min.js"></script>
+
+  <script type="text/javascript" src="./js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="./js/bootstrap-datetimepicker.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="./js/jquery.easing.min.js"></script> 
+ 
+</body>
+<script type="text/javascript">
+  function validSession(){
+    $.get( "/sessionalive").done(function( data ) {  
+      Cookies.set("uId", data.userId)
+      Cookies.set("token", data.token) 
+      $( ".guest-form" ).hide();  
+      loadAddress();
+      $('#sltAddressId').change(function () {
+         if ($( this ).val() === 'none') { 
+           $( ".add-address-form" ).show();
+          $('#inpAddress1').prop( "disabled", false)
+          $('#inpPostCode').prop( "disabled", false)
+          $('#inpAddress1').val("")
+          $('button[type=submit]').prop( "disabled", true)
+         } else {
+          var searchId = $(this).val();
+          var foundAddr = loadedAddress.find(function (item) { return item._id === searchId})
+          $('#inpPostCode').val(foundAddr.postCode)
+          $('#inpAddress1').val(foundAddr.line1)
+          $('#inpAddress1').prop( "disabled", true )
+          $('#inpPostCode').prop( "disabled", true )
+          $('button[type=submit]').prop( "disabled", false)
+           $( ".add-address-form" ).hide();      
+         }
+      }); 
+    }).fail(function(err) { 
+      $( ".guest-form" ).show();    
+      $( ".add-address-form" ).hide();   
+      $('#sltAddressId').hide();
+      $('button[type=submit]').prop( "disabled", true)
+      Cookies.remove('uId')
+      Cookies.remove('token') 
+
+    });  
+  }
+  var lstStores = []
+  $( document ).ready(function() {
+    validSession();
+    $('#inpDate').datetimepicker({
+        format: 'DD/MM/YYYY',
+        defaultDate: new Date(),
+       minDate: new Date(),
+    });
+    $.post( "/store/findStore", { pcode: Cookies.get('pcode') })
+      .done(function( data ) {
+        $('#sltStoreBrand').empty()
+        var check = {};
+        lstStores = data
+        for (const store of data) {
+          if (check[store.brand] !== true) {
+            check[store.brand] = true
+            var optionValue = store.brand
+            var optionText = store.brand
+            $('#sltStoreBrand').append(`<option value="${optionValue}"> 
+                     ${optionText} 
+                </option>`);
+          }
+      }
+      $("#sltStoreBrand").prop("selectedIndex", 0).val()
+      $("#sltStoreBrand").change();  
+       
+    });
+    
+    $('#sltStoreBrand').change(function() { 
+        $('#sltStoreName').empty()
+      for  (const store of lstStores) { 
+        if (store.brand === $( this ).val()){
+          var optionValue = store._id
+            var optionText = store.name + ", " + store.address
+            $('#sltStoreName').append(`<option value="${optionValue}"> 
+                     ${optionText} 
+                </option>`);
+        }
+      }
+      $('#sltStoreName').append(`<option value="none"> 
+             Autres
+        </option>`);
+      $('#sltStoreName').change()
+    });
+     
+    $('#sltStoreName').change(function() { 
+       if ($( this ).val() === 'none') {
+        // $( ".store-address-input" ).show(); 
+        $( ".store-address-input" ).val('')
+       } else {
+        var nameAddress = ""
+        for  (const store of lstStores) { 
+          if (store._id === $( this ).val()) nameAddress = store.name+ ", " +store.address
+        }
+          $('#inpStoreAdress').val(nameAddress)
+       }
+    });
+  })
+  $("form").submit(function(e){
+    if ($("#sltAddressId").val() == "none") {
+      /*if (!validatePhone($("#inpPhoneAddr").val())) {
+        $("#inpPhoneAddr").focus()
+        $("#inpPhoneAddr").addClass("border-danger");
+        return false
+      } else */
+      if ($("#inpAddress1").val().length < 3) {
+        $("#inpAddress1").addClass("border-danger");
+        $("#inpAddress1").focus()
+        return false
+      } else if ($("#inpPostCode").val().length <5) {
+        $("#inpPostCode").addClass("border-danger");
+        $("#inpPostCode").focus()
+        return false
+      } 
+      if (!Cookies.get('uId')) {
+        $('form')[0].oldPhone.value = false
+        $("#inpPhoneAddr").val($("#inpPhone").val())
+      }
+      e.currentTarget.action="/trajet/createwithaddress";
+    } else if ($("#sltAddressId").val() !== "none") {
+      e.currentTarget.action="/trajet/create";
+    }  
+  }); 
+ 
+  loadedAddress=  []
+  function loadAddress() {
+    $.ajax({
+      "async": true,
+      "crossDomain": true,
+      "url": "/users/getaddress?uid="+Cookies.get('uId'),
+      "method": "GET",
+      "headers": {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Authorization": "Bearer "+ Cookies.get('token') 
+      },
+      "data": {}
+    }).done(function( data ) { 
+      loadedAddress =data;
+      $('#sltAddressId').empty()
+      data.forEach(function (addr, index) {
+        $('#sltAddressId').append(`<option value="${addr._id}"> 
+           ${addr.line1}, ${addr.postCode}, ${addr.extra} 
+        </option>`);
+      })
+      $('#sltAddressId').append(`<option value="none"> 
+          Créer une nouvelle adresse</option>
+      `);
+      $('#sltAddressId').change()
+    }).fail(function() {
+      alert( "Something went wrong" );
+    });
+  }
+  function checkAddress () {
+    if ($("#inpPostCode").val().length < 5) {
+      $("#inpPostCode").focus()
+      $("#inpPostCode").addClass("border-danger");
+      return;
+    } else {
+      $("#inpPostCode").removeClass("border-danger");
+      $.get("https://api-adresse.data.gouv.fr/search/?q="+ $("#inpAddress1").val()+ "&postcode="+$("#inpPostCode").val()+"&limit=1")
+      .done(function( data ) { 
+        if (data.features.length == 0){
+
+          $('button[type=submit]').prop( "disabled", true)
+          $('#address1Err').text("Adresse non trouvée, veuillez vérifier à nouveau le code postal et l'adresse.")
+        } else { 
+          $('#address1Err').html(`Address valide, verifier avec <a href="https://www.google.com/maps/search/${data.features[0].geometry.coordinates[1]},${data.features[0].geometry.coordinates[0]}">GoogleMaps ici </a>`)
+          $('button[type=submit]').prop( "disabled", false)
+          console.log(data.features[0].geometry.coordinates[1])
+          console.log(data.features[0].geometry.coordinates[0])
+          $('form')[0].oldPhone.value= $('#checkPhoneProfile').prop("checked");
+          $('form')[0].x.value= data.features[0].geometry.coordinates[1];
+          $('form')[0].y.value= data.features[0].geometry.coordinates[0]; 
+        }
+      }).fail((e) => { 
+        $('#address1Err').text("Something went wrong")
+      }); 
+
+    }
+  }
+</script>
+</html>
+<!-- Loading modal -->
+<div  class="portfolio-modal modal fade" id="mdlLoading" tabindex="-1" role="dialog" aria-labelledby="chgNameMdlLabel" aria-hidden="true"  data-backdrop="static" data-keyboard="false">
+  <div class="h-100 modal-dialog modal-lg" role="document">
+    <div class="h-75 modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="chgNameMdlLabel">Loading</h5>
+      </div>
+      <div class="modal-body"> 
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

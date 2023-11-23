@@ -1,0 +1,19 @@
+{
+  "name": "BonjourCourses",
+  "short_name": "BjC",
+  "icons": [
+    {
+      "src": "/img/logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/img/logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }],
+  "start_url": "/index.html",
+  "display": "fullscreen",
+  "background_color": "#2c3e50",
+  "theme_color": "#1abc9c"
+}

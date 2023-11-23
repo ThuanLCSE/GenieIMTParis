@@ -1,0 +1,312 @@
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Bonjour, Courses - Livraison des courses a domicile</title>
+
+  <!-- Custom fonts for this theme -->
+  <link href="./css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="./css/bjrc.css" rel="stylesheet" type="text/css">
+  <link href="./css/jquery-ui.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+  <!-- Theme CSS -->
+  <link href="./css/freelancer.min.css" rel="stylesheet">
+  <div id="fb-root"></div>
+  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v6.0"></script>
+</head>
+<body id="page-top">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+    <div class="container"> 
+   <a class="navbar-brand" href="./">
+      <img src="./img/logo.png" alt="logo">
+    </a> 
+      <a class="navbar-brand js-scroll-trigger">Bonjour, Courses</a>
+    <div class="navbar-toggler navbar-toggler-right text-uppercase  text-white rounded" >
+      </div>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+    </div>   
+    </div>
+  </nav>
+
+  <!-- Masthead -->
+  <header class="masthead bg-primary text-white text-center">  
+      <!-- Masthead Heading -->
+      <h3>Trajet pour faire les courses à <span id='lblStore'></span> <span id='lblStoreAddress'></span></h3>
+      <h4> <span id='lblTime'></span>, <span id='lblDate'></span></h4>
+      <!-- Masthead Subheading -->
+      <p class="masthead-subheading font-weight-light mb-0">
+        <a class="btn btn-xl btn-outline-light" href='./trajet.html'> 
+            <i class="fas fa-car"></i> Proposer un nouveau trajet
+        </a>  
+        <a  class="btn btn-xl btn-outline-light" href="./"> 
+            <i class="fas fa-arrow-circle-left"></i> Retour à la page d'accueil
+        </a>
+      </p>
+  </header>
+
+  <!-- Portfolio Section -->
+  <section class="page-section portfolio" id="shopper">
+    <div class="container">  
+      <div class="row">    
+          <div class="form-group col-12 col-md-6  ">
+            <button class="btn btn-outline-primary ml-auto btn-ask-trajet" onclick="sendDemandToRainbow()"><i class="fas fa-comment-medical"></i> Demande-lui de rendre les courses </button>
+          </div> 
+          <div class="col-12"> 
+            <div class="row" id="lstDemandTrajet">
+              
+            </div>
+          </div>
+          <div class="form-group col-12 ">
+            <div class="fb-share-button"  id="btnShareFB" data-layout="button" data-size="large"><a target="_blank"  class="fb-xfbml-parse-ignore">Partager</a></div>
+            <button class="btn btn-danger"  data-toggle="modal" data-target="#mdlDelTrajetWithCode" type="button">Supprimer le trajet</button> 
+          </div>
+    	</div>
+    </div>
+  </section>
+  
+
+  <!-- Footer -->
+   <div id="includedFooter"></div>  
+  <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
+  <div class="scroll-to-top d-lg-none position-fixed ">
+    <a class="js-scroll-trigger d-block text-center text-white rounded" href="#page-top">
+      <i class="fa fa-chevron-up"></i>
+    </a>
+  </div>
+ 
+  <!-- Bootstrap core JavaScript -->
+  <script src="./js/jquery.min.js"></script>
+  <script src="./js/bootstrap.min.js"></script> 
+  <script src="./js/jquery-ui.js"></script> 
+  <script src="./js/jquery.cookie.js"></script> 
+   
+<div class="portfolio-modal modal fade" id="mdlDelTrajetWithCode" tabindex="-1" role="dialog" aria-labelledby="mdlDelTrajetWithCode" aria-hidden="true">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">
+          <i class="fas fa-times"></i>
+        </span>
+      </button>
+      <div class="modal-body ">
+        <div class="container">
+          <div class="row">
+              <div class="form-group col-6">
+                  <label for="inpCode"><b>Code (4 chiffres)</b></label>
+                  <input type="text" class="form-control"  name="code" id="inpCode" required>
+              </div> 
+               <div class="form-group col-6 ">
+                <button class="btn btn-primary" onclick="sendCode()" type="button">Envoie code par email</button> 
+              </div>
+              <div class="form-group col-12 ">
+                <h4>Es-tu sûr de vouloir supprimer ?</h4>
+              </div>
+              <div class="col-12 d-flex align-items-center ">
+                <button class="btn btn-primary " data-dismiss="modal" type="button">Non</button> 
+                <button class="btn btn-danger " onclick="deleteTrajetWithCode()" type="button">Oui</button> 
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
+<div class="portfolio-modal modal fade" id="mdlUserId" tabindex="-1" role="dialog" aria-labelledby="portfolioModal1Label" aria-hidden="true">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">
+          <i class="fas fa-times"></i>
+        </span>
+      </button>
+      <div class="modal-body ">
+        <div class="container">
+          <div class="row loginForm">
+              <div class="form-group col-12 ">
+              <label for="username"><b>Username</b></label>
+          <input type="text" class="form-control"  name="username" required>
+          </div>
+              <div class="form-group col-12 ">
+          <label for="psw"><b>Password</b></label>
+          <input type="password" class="form-control"  name="psw" required>
+          </div>
+
+        <button class="btn btn-primary col-12 mb-3" type="button">Login to my account</button> 
+        <button class="btn btn-primary col-12 " onclick="showRegisterForm()" type="button">Create new account</button> 
+        <div class="divider-custom">
+                <div class="divider-custom-line"></div>
+                  OR 
+                <div class="divider-custom-line"></div>
+              </div>
+              <div class="form-group col-12 ">
+              <label for="inpPhone">Enter you 06 (ca marche: 06 30 19 08 87)</label>
+              <input type="text" name='phone' class="form-control" id="inpPhone" />
+          </div>
+              <button class="btn btn-primary col-12 " onclick="buyWithPhone()"> 
+                Use my 06
+              </button>
+          </div>
+          <div class="row registerForm">
+            <div class="form-group col-12 ">
+              <label for="rgtUsername"><b>Phone number</b></label>
+              <input type="text" class="form-control" id="rgtUsername" name="rgtUsername" required>
+            </div>
+            <div class="form-group col-12 ">
+              <label for="rgtFullname"><b>Full name</b></label>
+              <input type="text" class="form-control" id="rgtFullname" name="rgtFullname" required>
+            </div>
+            <div class="form-group col-12 ">
+              <label for="rgtPassword"><b>Password</b></label>
+              <input type="password" class="form-control" id="rgtPassword" name="rgtPassword" required>
+            </div>
+            <button class="btn btn-primary col-12 mb-3 " onclick="register()" type="button">Create new account</button>   
+
+            <button class="btn btn-primary col-12 " type="button">Login to my account</button> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>  
+</body>
+<script  src="./js/js.cookie.min.js"></script>
+<script  src="./js/data.js"></script>
+
+<script type="text/javascript"> 
+
+
+  var url = new URL(window.location.href);
+  var idTrajet = url.searchParams.get("id"); 
+  var loadedTrajet = {};
+  $( document ).ready(function() {
+    $("#includedFooter").load("./footer.html"); 
+    $.ajax({
+        url: ' /trajet/detail',
+        type: 'POST', 
+        data: JSON.stringify({ 
+          'id' : idTrajet
+        }),
+        contentType: "application/json",
+        success: function(data){
+          loadedTrajet = data
+          $('#lblTime').text(data.timesOfDay)
+          $('#lblDate').text(data.date) 
+          $('#lblStore').text(data.brand)
+          $('#lblStoreAddress').text(data.store?data.store.address:data.address) 
+          $('#btnShareFB').attr("data-href","https://bonjourcourses.herokuapp.com/detailTrajet.html?id="+data._id) 
+          $('#btnShareFB').attr("href","https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbonjourcourses.herokuapp.com%2FdetailTrajet.html%3Fid%3D"+data._id + "&amp;src=sdkpreparse")
+          triggerAskBtn()
+          loadDemandMatch(data)
+        }
+    }); 
+  })
+  function triggerAskBtn () {
+    if (url.searchParams.get("fbclid") !== null ||
+      (loadedTrajet.uId !== Cookies.get("uId") && Cookies.get("uId")  !== undefined) ) {
+      $('.btn-ask-trajet').show()
+    } else {
+      $('.btn-ask-trajet').hide()      
+    }
+  }
+  var loadDemandAjax = {
+    "async": true,
+    "crossDomain": true,
+    "url": "/guest/demand/matchTrajet",
+    type: "POST",
+    contentType: "application/json",
+    dataType: "json",
+    "headers": {
+        "Authorization": "Bearer "+ Cookies.get('token') 
+    },
+    "data": {}
+  }
+  var loadDemandMatch = function(trajet) {
+    loadDemandAjax.data = JSON.stringify({
+         'store' :  trajet.store,
+         'address' : {
+            'x' : parseFloat(trajet.address.x),
+            'y' : parseFloat(trajet.address.y)
+         }
+        })
+    $.ajax(loadDemandAjax).done(function (data = []) {
+      $('#lstDemandTrajet').empty()  
+      listOffre = data
+      data.forEach(function (demand, index) {
+        var qtyTotal = 0
+        var shortDescrition = ""
+        for (const article of demand.tobuys) {
+            qtyTotal += parseInt(article.qty)
+            if (shortDescrition.length <= 200) {
+              shortDescrition +=  article.name.replace(" | Link", "") + ", "
+            }
+        } 
+        var chatBtn = (demand.userId == Cookies.get("uId") || demand.userId === null)? "" : `- <a href="./chatBox.html?id=${demand.userId}&did=${demand._id}" class="btn border-primary text-primary ml-auto">${demand.name} <i class="fas fa-comments"></i></a>`
+        chatBtn = (!demand.userId && demand.phone) ? `<a href="tel:${demand.phone}"  class="btn btn-outline-primary ml-auto" ><i class="fas fa-mobile-alt"></i> Texto</a>` : chatBtn 
+        var storeName = demand.store.name !== 'unknow' ? demand.store.name: "Magasin" 
+        $('#lstDemandTrajet').append(` 
+            <div class="mb-2 col-12">
+            <div class="card border-primary">
+              <div class="card-header font-weight-bold d-flex">${storeName} ${chatBtn? chatBtn: ""}</div>
+              <div class="card-body text-secondary">
+                <h5 class="card-title">${demand.address.line1}</h5>
+                <h6 class="card-subtitle mb-2">${qtyTotal} articles</h6>
+                <p class="card-text">${shortDescrition} <b><a href='#' onclick="consultDemand('${demand.phone}','${demand.userId}',${index}); return false;">Voir plus</a> </b>
+                </p>
+                <button onClick="showOnMap(${demand.address.x},${demand.address.y},'${demand.name}')" class="btn btn-outline-info"><i class="fas fa-map-marker-alt"> Location</i></button>
+                <button onClick="pickDemand('${demand._id}')" class="btn btn-primary"><i class="fas fa-hands-helping"></i> Je t aide</i></button>
+                
+              </div>
+            </div>
+          </div>`) 
+      });
+      if (data.length === 0) {$('#lstDemandTrajet').html(`Aucune demande correspondante à votre trajet trouvée`)}
+    }).fail(function (err) { console.log(err)})
+  }
+  function pickDemand(demandId) {
+    window.location.href = './pickDemand.html?did=' + demandId
+  }
+  function sendCode() {
+    $.ajax({
+        url: ' /trajet/sendCode',
+        type: 'POST', 
+        data: JSON.stringify({ 
+          'id' : idTrajet
+        }),
+        contentType: "application/json",
+        success: function(data){
+            alert("C'est bon, verifies tes mails: " +data)
+        }
+    }); 
+  }
+  deleteTrajetWithCode = () => {
+    $.ajax({
+       type: 'POST',
+       url: '/trajet/delWthCode',
+       data:  { 
+          id:   idTrajet,
+          code:  $("#inpCode").val()
+      },
+       success: function()
+       {
+          window.location.href = './index.html'
+       },
+       error: function()
+       {
+          alert("Code n'est pas valid")
+       }
+    })
+  }
+</script>
+
+</html>
+

@@ -1,0 +1,258 @@
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Bonjour, Courses - Livraison des courses a domicile</title>
+
+  <!-- Custom fonts for this theme -->
+  <link href="./css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="./css/bjrc.css" rel="stylesheet" type="text/css">
+  <link href="./css/jquery-ui.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+  <!-- Theme CSS -->
+  <link href="./css/freelancer.min.css" rel="stylesheet">
+  <div id="fb-root"></div>
+  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v6.0"></script>
+</head>
+<body id="page-top">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+    <div class="container"> 
+   <a class="navbar-brand" href="./">
+      <img src="./img/logo.png" alt="logo">
+    </a> 
+      <a class="navbar-brand js-scroll-trigger">Bonjour, Courses</a>
+    <div class="navbar-toggler navbar-toggler-right text-uppercase  text-white rounded" >
+      </div>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+    </div>   
+    </div>
+  </nav>
+
+  <!-- Masthead -->
+  <header class="masthead bg-primary text-white text-center">  
+      <!-- Masthead Heading -->
+      <h3>Ta demande est créée </h3>
+       <p class="masthead-subheading font-weight-light mb-0">
+        <!-- <a class="btn btn-xl btn-outline-light" href='./trajet.html'>  -->
+        <a  class="btn btn-xl btn-outline-light" href="./"> 
+            <i class="fas fa-arrow-circle-left"></i> Retour à la page d'accueil
+        </a>
+      </p>
+  </header>
+
+  <!-- Portfolio Section -->
+  <section class="page-section portfolio" id="shopper">
+    <div class="container">  
+      <div class="row">  
+          <div class="form-group col-12 col-lg-6  ">
+            <span><b>Adresse</b> </span> <span id='lblAddress'></span>
+          </div>
+          <div class="form-group col-6 col-lg-3  ">
+            <span><b>Name</b> </span> <span id='lblName'></span>
+          </div>
+          <div class="form-group  col-6 col-lg-3 " id="contactDiv">
+             
+          </div>
+          <div class="form-group col-12 col-lg-6  ">
+            <span><b>Magazin Adresse</b> </span> <span id='lblStoreAddress'></span>
+          </div>
+          <div class="form-group col-6 col-lg-3  ">
+            <span><b>Magazin</b> </span> <span id='lblStore'></span>
+          </div> 
+
+          <div class="col-6 col-lg-3 fb-share-button"  id="btnShareFB" data-layout="button" data-size="large"><a target="_blank"  class="fb-xfbml-parse-ignore">Partager</a></div>
+            </div>
+        <!--   <div class="form-group col-2 ">
+            <button class="btn btn-primary" onclick="sendCode()" type="button">Envoie code par email</button> 
+          </div> -->
+    	   
+  		 	<ul class="list-group col-lg-12 mb-3" id='lstToBuy'>
+  			  	  
+  			</ul> 
+          <div class="form-group  col-sm-12 offset-md-3 col-md-6" id="actionBtn">
+            <a class="btn btn-primary " href="./store.html">Créer un nouveau </a>
+            <button class="btn btn-danger"  data-toggle="modal" data-target="#mdlDelDemandWithCode" type="button">Supprimer la demande</button> 
+            <a href="#" class="btn btn-primary" id="modifyBtn"><i class="fas fa-edit"></i> Modifier</i></a>
+          </div>
+    	</div>
+    </div>
+  </section>
+  <div id="includedFooter"></div>  
+ 
+  <!-- Bootstrap core JavaScript -->
+  <script src="./js/jquery.min.js"></script>
+  <script src="./js/bootstrap.min.js"></script> 
+  <script src="./js/jquery-ui.js"></script> 
+  <script src="./js/js.cookie.min.js"></script> 
+   
+<div class="portfolio-modal modal fade" id="mdlDelDemandWithCode" tabindex="-1" role="dialog" aria-labelledby="mdlDelDemandWithCode" aria-hidden="true">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">
+          <i class="fas fa-times"></i>
+        </span>
+      </button>
+      <div class="modal-body ">
+        <div class="container">
+          <div class="row">
+              <div class="form-group col-6">
+                  <label for="inpCode"><b>Code (4 chiffres)</b></label>
+                  <input type="text" class="form-control"  name="code" id="inpCode" required>
+              </div> 
+               <div class="form-group col-6 ">
+                <button class="btn btn-primary" onclick="sendCode()" type="button">Envoie code par email</button> 
+              </div>
+              <h4>Es-tu sûr de vouloir supprimer ?</h4>
+            <button class="btn btn-primary col-6 " data-dismiss="modal" type="button">Non</button> 
+            <button class="btn btn-danger col-6 " onclick="deleteDemandWithCode()" type="button">Oui</button> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
+<div class="portfolio-modal modal fade" id="mdlUserId" tabindex="-1" role="dialog" aria-labelledby="portfolioModal1Label" aria-hidden="true">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">
+          <i class="fas fa-times"></i>
+        </span>
+      </button>
+      <div class="modal-body ">
+        <div class="container">
+          <div class="row loginForm">
+              <div class="form-group col-12 ">
+            	<label for="username"><b>Username</b></label>
+			    <input type="text" class="form-control"  name="username" required>
+	        </div>
+              <div class="form-group col-12 ">
+			    <label for="psw"><b>Password</b></label>
+			    <input type="password" class="form-control"  name="psw" required>
+	        </div>
+
+		    <button class="btn btn-primary col-12 mb-3" type="button">Login to my account</button> 
+        <button class="btn btn-primary col-12 " onclick="showRegisterForm()" type="button">Create new account</button> 
+		    <div class="divider-custom">
+                <div class="divider-custom-line"></div>
+                  OR 
+                <div class="divider-custom-line"></div>
+              </div>
+              <div class="form-group col-12 ">
+		          <label for="inpPhone">Enter you 06 (ca marche: 06 30 19 08 87)</label>
+		          <input type="text" name='phone' class="form-control" id="inpPhone" />
+	        </div>
+              <button class="btn btn-primary col-12 " onclick="buyWithPhone()"> 
+                Use my 06
+              </button>
+          </div>
+          <div class="row registerForm">
+            <div class="form-group col-12 ">
+              <label for="rgtUsername"><b>Phone number</b></label>
+              <input type="text" class="form-control" id="rgtUsername" name="rgtUsername" required>
+            </div>
+            <div class="form-group col-12 ">
+              <label for="rgtFullname"><b>Full name</b></label>
+              <input type="text" class="form-control" id="rgtFullname" name="rgtFullname" required>
+            </div>
+            <div class="form-group col-12 ">
+              <label for="rgtPassword"><b>Password</b></label>
+              <input type="password" class="form-control" id="rgtPassword" name="rgtPassword" required>
+            </div>
+            <button class="btn btn-primary col-12 mb-3 " onclick="register()" type="button">Create new account</button>   
+
+            <button class="btn btn-primary col-12 " type="button">Login to my account</button> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>  
+</body>
+<script  src="./js/data.js"></script>
+
+<script type="text/javascript"> 
+
+
+  var url = new URL(window.location.href);
+  var idDemand = url.searchParams.get("id"); 
+ $( document ).ready(function() {
+  $("#includedFooter").load("./footer.html"); 
+    $.ajax({
+        url: ' /demand/detail',
+        type: 'POST', 
+        data: JSON.stringify({ 
+          'id' : idDemand
+        }),
+        contentType: "application/json",
+        success: function(data){
+          (Cookies.get('uId') ===  data.userId) ? $('#actionBtn').show(): $('#actionBtn').hide()
+          $("#modifyBtn").attr('href', `./tobuylist.html?did=${data._id}`) 
+          $('#lblName').text(data.name)
+          $('#lblStore').text(data.store.name)
+          $('#lblStoreAddress').text(data.store.address)
+          $('#lblAddress').text(data.address.line1)
+          if (data.phone) {
+            $('#contactDiv').append(`<b><a href="tel:${data.phone}" >Envoie un texto</a></b>`)
+          } else if (Cookies.get('uId') !==  data.userId) {
+            $('#contactDiv').append(`<a href="./chatBox.html?id=${data.userId}&did=${data._id}" class="btn border-primary text-primary ml-auto">Envoie message <i class="fas fa-comments"></i></a>`)
+          }
+          $('#btnShareFB').attr("data-href","https://bonjourcourses.herokuapp.com/detail.html?id="+data._id) 
+          $('#btnShareFB').attr("href","https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbonjourcourses.herokuapp.com%2Fdetail.html%3Fid%3D"+data._id + "&amp;src=sdkpreparse")
+          for  (const item of data.tobuys) { 
+            $('#lstToBuy').append(`<li class="list-group-item d-flex justify-content-between align-items-center">
+               <label>${item.name}  ${validURL(item.link)? "| <a href="+ item.link +">Link</a>" : ""}</label>
+              
+              <span class="badge badge-primary badge-pill">${item.qty}</span>
+              
+            </li>`);
+          }
+        }
+    }); 
+  })
+  sendCode = () => {
+    $.ajax({
+        url: ' /demand/sendCode',
+        type: 'POST', 
+        data: JSON.stringify({ 
+          'id' : idDemand
+        }),
+        contentType: "application/json",
+        success: function(data){
+            alert("C'est bon, verifies tes mails: " +data)
+        }
+    }); 
+  }
+  deleteDemandWithCode = () => {
+    $.ajax({
+       type: 'POST',
+       url: '/demand/delWthCode',
+       data:  { 
+          id:   idDemand,
+          code:  $("#inpCode").val()
+      },
+       success: function()
+       {
+          window.location.href = './index.html'
+       },
+       error: function()
+       {
+          alert("Code n'est pas valid")
+       }
+    })
+  }
+</script>
+
+</html>
+

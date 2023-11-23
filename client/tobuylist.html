@@ -1,0 +1,805 @@
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Bonjour, Courses - Livraison des courses a domicile</title>
+
+  <!-- Custom fonts for this theme -->
+  <link href="./css/jquery-ui.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+  <script src="https://kit.fontawesome.com/4ef3dcc7e4.js" crossorigin="anonymous"></script>
+  <link href="./css/bjrc.css" rel="stylesheet" type="text/css">
+  <!-- <link href="./css/all.min.css" rel="stylesheet" type="text/css"> -->
+  
+  <link href="./css/bootstrap-glyphicons.css" rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="./css/bootstrap-datetimepicker-standalone.css" />
+
+  <!-- Theme CSS -->
+  <link href="./css/freelancer.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+    <div class="container"> 
+   <a class="navbar-brand" href="./">
+      <img src="./img/logo.png" alt="logo">
+    </a> 
+      <a class="navbar-brand js-scroll-trigger">Bonjour, Courses</a>
+    <div class="navbar-toggler navbar-toggler-right text-uppercase  text-white rounded" >
+      </div>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+    </div>   
+    </div>
+  </nav>
+
+  <!-- Masthead -->
+  <header class="masthead bg-primary text-white text-center">  
+      <!-- Masthead Heading -->
+      <h3 class="masthead-heading">Liste de courses</h3>
+      <h4 id="lblStoreToGo"></h4> 
+      <button class="btn btn-outline-light" data-toggle="modal" data-target="#mdlSetStoreToGo"> 
+          <i class="fas fa-edit"></i> Change le magasin
+      </button>
+  </header>
+
+  <!-- Portfolio Section -->
+  <section class="page-section portfolio" id="shopper">
+    <div class="container">  
+      <div class="row">  
+        <div class="form-group col-12 col-md-7">
+            <label for="inpProduct">Produit description </label>
+            <input type="checkbox" id="bioCheck" onclick='descriptionCheck(this," BIO");'>
+            <label class="form-check-label" for="bioCheck">BIO? </label>
+            <input type="checkbox" id="sucreCheck" onclick='descriptionCheck(this," sans sucre");'>
+            <label class="form-check-label" for="halalCheck">sans-sucre? </label>
+            <input type="checkbox" id="halalCheck" onclick='descriptionCheck(this," Halal");'>
+            <label class="form-check-label" for="sucreCheck">Halal? </label>
+            <input type="text" name='product' class="form-control" id="inpProduct" />
+        </div>
+        <div class=" form-group col-3 col-md-1">
+            <label for="inpQuantity">Quantity </label>
+            <select id="inpQuantity" name='qty' class="browser-default custom-select">
+              <option value="1" selected>1</option> 
+              <option value="2" >2</option> 
+              <option value="3" >3</option> 
+              <option value="4" >4</option> 
+              <option value="5" >5</option> 
+            </select>
+        </div>
+        <div class=" form-group col-9 col-md-4">
+            <label for="inpLink">Link référence (non oblige)</label>
+            <input type="text" name='url' class="form-control" id="inpLink" />
+        </div>
+        <div class="row item-category"></div>
+        <button type="button" onclick="loadCategory()" class="col-6 form-group btn btn-outline-secondary"> 
+         <i class="fas fa-redo"></i> Retour
+        </button>  
+        <button type="button" onclick="addProduct()" class="col-6 form-group btn btn-outline-primary"> 
+         <i class="fas fa-plus"></i> Ajouter 
+        </button>
+        <ul class="list-group col-lg-12 mb-3 px-2" id='lstToBuy'>
+  			  	<li class="list-group-item d-flex justify-content-between align-items-center" id='exemple'>
+  			    	<label>Aucun article ajouté</label>
+  			    	<label class="text-secondary font-weight-bold mr-4">0</label>
+  			  	</li> 
+  			</ul>
+        <div class='form-group col-6 col-md-12'>
+          <label for="inpWishedDate">Date livree souhaitee</label>
+          <div class="form-group">
+              <div class='input-group date' id='inpWishedDate'>
+                  <input type='text' class="form-control" name="inpWishedDate" required/>
+                  <span class="input-group-addon">
+                      <span class="glyphicon glyphicon-calendar"></span>
+                  </span>
+              </div>
+          </div>
+        </div>
+        <div class="form-group d-flex justify-content-center col-6 col-md-12 ">
+          <button type="button" onclick="uploadTobuy('perso')" class="btn btn-secondary mx-2"> 
+            <i class="far fa-save"></i> Terminer sans publier
+          </button> 
+          <button type="button" onclick="uploadTobuy('share')" class="btn btn-primary"> 
+            <i class="fas fa-bullhorn"></i> Publier pour trouver un coursier
+          </button>
+        </div>
+    	</div>
+    </div>
+  </section>
+  
+
+  <!-- Footer -->
+   <div id="includedFooter"></div>   
+  <div class="portfolio-modal modal fade" id="mdlPaymentDecision" tabindex="-1" role="dialog" aria-labelledby="portfolioModal1Label" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+      <div class="modal-content">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">
+            <i class="fas fa-times"></i>
+          </span>
+        </button>
+        <div class="modal-body ">
+          <div class="container">
+            <div class="row">
+              <div class="form-group  mb-2">
+                <label>Pay now to encourage your buddy taking account your lovely order</label> 
+              </div> 
+              <button class="btn btn-primary col-12 " onclick="paid()"> 
+                Pay now
+              </button>
+              <div class="form-group  mb-2">
+                <label>It's okay, I'll pay later with my account</label> 
+              </div> 
+              <button class="btn btn-primary col-12 " onclick="sa()"> 
+                Pay later (create new account)
+              </button> 
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 
+<div class="portfolio-modal modal fade" id="mdlBuyWithCode" tabindex="-1" role="dialog" aria-labelledby="mdlBuyWithCode" aria-hidden="true">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content"> 
+       
+      <div class="modal-body ">
+        <div class="container">
+          <div class="row">
+              <div class="form-group col-6 ">
+                  <label for="inpName"><b>Prénom</b></label>
+                  <input type="text" class="form-control"  name="name" id="inpName" required>
+              </div>
+              <div class="form-group col-6 ">
+                  <label for="inpCode"><b>Choisis ton code de sécurité</b></label>
+                  <input type="text" class="form-control"  name="code" id="inpCode" placeholder="0000"  required>
+              </div>
+              <div class="form-group col-12 ">
+                  <label for="inpEmail"><b>Email (afin de recuperer le code)</b></label>
+                  <input type="email" class="form-control"  name="email" id="inpEmail">
+              </div>
+              <div class="form-group col-12 d-flex justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Retour</button>
+                <button class="btn btn-primary" onclick="buyWithCode()" type="button">OK</button> 
+                <a class="btn btn-primary" href="./connect.html?redurl=./tobuylist.html">Se connecter</a>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
+<div class="portfolio-modal modal fade" id="mdlUserId" tabindex="-1" role="dialog" aria-labelledby="portfolioModal1Label" aria-hidden="true">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">
+          <i class="fas fa-times"></i>
+        </span>
+      </button>
+      <div class="modal-body ">
+        <div class="container">
+          <div class="row loginForm">
+              <div class="form-group col-12 ">
+              <label for="username"><b>Username</b></label>
+          <input type="text" class="form-control"  name="username" required>
+          </div>
+              <div class="form-group col-12 ">
+          <label for="psw"><b>Password</b></label>
+          <input type="password" class="form-control"  name="psw" required>
+          </div>
+
+        <button class="btn btn-primary col-12 mb-3" type="button">Login to my account</button> 
+        <button class="btn btn-primary col-12 " onclick="showRegisterForm()" type="button">Create new account</button> 
+        <div class="divider-custom">
+                <div class="divider-custom-line"></div>
+                  OR 
+                <div class="divider-custom-line"></div>
+              </div>
+              <div class="form-group col-12 ">
+              <label for="inpPhone">Enter you 06 (ca marche: 06 30 19 08 87)</label>
+              <input type="text" name='phone' class="form-control" id="inpPhone" />
+          </div>
+              <button class="btn btn-primary col-12 " onclick="buyWithPhone()"> 
+                Use my 06
+              </button>
+          </div>
+          <div class="row registerForm">
+            <div class="form-group col-12 ">
+              <label for="rgtUsername"><b>Phone number</b></label>
+              <input type="text" class="form-control" id="rgtUsername" name="rgtUsername" required>
+            </div>
+            <div class="form-group col-12 ">
+              <label for="rgtFullname"><b>Full name</b></label>
+              <input type="text" class="form-control" id="rgtFullname" name="rgtFullname" required>
+            </div>
+            <div class="form-group col-12 ">
+              <label for="rgtPassword"><b>Password</b></label>
+              <input type="password" class="form-control" id="rgtPassword" name="rgtPassword" required>
+            </div>
+            <button class="btn btn-primary col-12 mb-3 " onclick="register()" type="button">Create new account</button>   
+
+            <button class="btn btn-primary col-12 " type="button">Login to my account</button> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>  
+</body>
+<div class="portfolio-modal modal fade" id="mdlSetStoreToGo" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Entres le code postal pour voir les magasins</h5> 
+      </div>
+      <div class="modal-body ">
+        <div class="container">
+          <div class="row">
+            <div class="form-group col-6 col-sm-2">
+              <label for="inpCodePost">Code postal</label>
+              <input type="text" class="form-control" id="inpCodePost" name="pcode" onblur="loadStoreByPCode(this.value)">
+              <small id="errPostCode" class="form-text text-danger"></small>
+            </div>
+              <div class="form-group col-6 col-sm-4">
+                <label for="sltStoreBrandToGo">Magasin</label>
+                <select id="sltStoreBrand" class="browser-default custom-select">
+                  <option selected>Ouvre ce menu de sélection</option> 
+                </select>
+              </div>
+              <div class="form-group col-12 col-sm-6">
+                <label for="sltStoreName">Nom du magasin</label>
+                <select id="sltStoreName" name='storeId' class="browser-default custom-select">
+                <option value="none" selected>Autres</option> 
+              </select>
+              </div>
+              <div class="form-group col-12" >
+                <label for="inpStoreAdress">Adresse (Si aucune idée, la laisser vide, ton ami t'en proposera une)</label>
+                <textarea class="form-control store-address-input" name='inpStoreAdress' id="inpStoreAdress" rows="2"></textarea> 
+              </div>
+
+              <div class="form-group col-4">
+                <button class="btn btn-primary" onclick="setStoreToGo(true)"  type="button">OK</button>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
+ 
+<!-- Bootstrap core JavaScript -->
+<script src="./js/jquery.min.js"></script>
+<script src="./js/bootstrap.min.js"></script> 
+<script src="./js/jquery-ui.js"></script> 
+<script  src="./js/js.cookie.min.js"></script>
+<script  src="./js/data.js"></script>
+<script type="text/javascript" src="./js/bootstrap-datetimepicker.min.js"></script>
+
+<script type="text/javascript">
+  function descriptionCheck(e, value){
+    if (e.checked) {
+      $("#inpProduct").val($("#inpProduct").val() + value)  
+    } else {
+      $("#inpProduct").val($("#inpProduct").val().replace(value,""))
+    }
+  }
+ 	function addProduct(){
+		$( "#exemple" ).remove();
+ 		var description =  $("#inpProduct").val();
+    var qty =  $("#inpQuantity").val();
+    var link =  $("#inpLink").val(); 
+ 		$('#lstToBuy').append(`<li class="list-group-item d-flex">
+			   <label class="flex-grow-1">${description} ${validURL(link)? "| <a href="+ link +">Link</a>" : ""}</label>
+	    	<span class="text-secondary font-weight-bold mr-4">${qty}</span>
+        <i onclick="this.parentElement.remove()" class="fas fa-trash text-danger"></i>
+	  	</li>`);
+    $("#inpLink").val('')
+		$("#inpProduct").val('')
+		 $("#inpQuantity").val(1);
+ 	} 
+  var publicStatus = 'share'
+ 	function uploadTobuy(ps){
+    var tobuys = getToBuyLst()
+    if (tobuys.length === 0) {
+      alert("La liste nécessite au moins un article avant d'être enregistrée")
+      return
+    }
+    publicStatus  = ps
+    if (demandId ==null){
+      $.ajax({
+        url: '/guest/toBuy',
+        type: 'POST', 
+        data: JSON.stringify({ 
+          tobuys :  tobuys
+        }),
+        contentType: "application/json"
+      }).done(function( data ) { 
+        if (typeof Cookies.get("uId") === "undefined" && ps === 'perso') {
+           $('#mdlBlockNotaccount').modal('show');
+        } else if (typeof Cookies.get("uId") === "undefined" && ps === 'share') {
+           $('#mdlBuyWithCode').modal('show');
+        } else {
+          $('#mdlUserAddress').modal('show');
+        }
+      }).fail((e) => console.log(e)); 
+    } else {
+      $.ajax({
+        url: '/demand/update?f=tobuys,sharing',
+        type: 'POST', 
+        data: JSON.stringify({ 
+          'id':  demandId, 
+          'tobuys' :  getToBuyLst(),
+          'sharing' : ps
+        }),
+        contentType: "application/json"
+      }).done(function( data ) { 
+        window.location.href = '/detail.html?id='+demandId
+      }).fail(function() {
+        alert( "Quelque chose s'est mal passé" );
+      });
+    }
+ 	}
+  function loadAddress() {
+    $.get( "/users/getaddress?uid="+Cookies.get('uId'))
+    .done(function( data ) { 
+      $('#sltAddressId').empty()
+      data.forEach(function (addr, index) {
+        $('#sltAddressId').append(`<option value="${addr._id}"> 
+           ${addr.line1}, ${addr.postCode}, ${addr.extra} 
+        </option>`);
+      })
+      if (data.length === 0 ){
+        $( ".addAddressForm" ).show();
+      } else {
+        $( ".addAddressForm" ).hide();
+      }
+      $('#sltAddressId').append(`<option value="none"> 
+         Create new address
+      </option>`);
+    }).fail(function() {
+      alert( "Quelque chose s'est mal passé" );
+    });
+  }
+  function paid(){
+    $.ajax({
+        url: ' /guest/setPaid',
+        type: 'POST', 
+    data: JSON.stringify({ 
+      'id' : Cookies.get('offId'),
+      'paid' : true
+    }),
+    contentType: "application/json",
+        success: function(data){
+            alert(data)
+        }
+    }); 
+  }
+  function showRegisterForm(){
+    $('.loginForm').hide();
+    $('.registerForm').show();
+  }
+  function showLoginForm(){
+    $('.loginForm').show();
+    $('.registerForm').hide();
+  }
+  showLoginForm()
+  function register(){
+    $.post( "/users/register", { 
+      username:  $("#rgtUsername").val(),
+      password :  $("#rgtPassword").val(),
+      fullname:  $("#rgtFullname").val()
+    }).done(function( data ) { 
+      Cookies.set('username', data.user.fullname, { expires: 7 }) 
+      Cookies.set('token', data.message, { expires: 7 }) 
+      console.log(data.user)
+      buyWithUser(data)
+    });
+  }
+  function buyWithUser(data){
+    $('#mdlUserId').modal('hide'); 
+    $.ajax({
+        url: '/guest/buyWithUser',
+        type: 'POST', 
+    data: JSON.stringify({ 
+      'tobuys' : getToBuyLst(),
+      'user':  data.user
+    }),
+    contentType: "application/json",
+    success: function(data){
+        console.log(data.id)
+        Cookies.set('offId', data.id) 
+        setTimeout(function(){ 
+            $('#mdlPaymentDecision').modal('show');
+        }, 1500);
+    }
+    }); 
+  }
+  function login(){
+     $.post( "/users/login", { 
+      username:  $("#username").val(),
+      password:  $("#password").val()
+    }).done(function( data ) { 
+          Cookies.set('username', data.fullname, { expires: 7 }) 
+          Cookies.set('token', data.message, { expires: 7 }) 
+          $('#mdlLogin').modal('hide');
+          window.location.href = './offre.html'
+    });
+  }
+ 	function buyWithPhone(){  
+    $('#mdlUserId').modal('hide');
+	 	$.ajax({
+        url: '/guest/buyWithPhone',
+        type: 'POST', 
+   	data: JSON.stringify({ 
+      'tobuys' : getToBuyLst(),
+      'phone':  $("#inpPhone").val()
+    }),
+		contentType: "application/json",
+        success: function(data){
+            console.log(data.id)
+            Cookies.set('offId', data.id) 
+            setTimeout(function(){ 
+                $('#mdlPaymentDecision').modal('show');
+            }, 1500);
+        }
+    }); 
+ 	}
+  buyWithCode = () => {
+    if (!$("#inpCode").val() || !$("#inpName").val() || !$("#inpEmail").val()) {
+      alert("Please fill in the code secret, your name and email for security your demand")
+    } else {
+      var tobuys=  getToBuyLst()
+      $('#mdlBuyWithCode').modal('hide');
+      $.ajax({
+          url: '/guest/buyWithCode',
+          type: 'POST', 
+      data: JSON.stringify({ 
+        'tobuys' : tobuys,
+        'code':  $("#inpCode").val(),
+        'name':  $("#inpName").val(),
+        'email':  $("#inpEmail").val(),
+      }),
+      contentType: "application/json",
+          success: function(data){
+              window.location.href = '/detail.html?id='+data.id
+          }
+      });   
+    }
+  }
+  function validURL(str) {
+    var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+      '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+    return !!pattern.test(str);
+  } 
+  var sltedStore = {}
+  loadStoreToGo = function() {
+    if (Cookies.get('store')) {
+      sltedStore = JSON.parse(Cookies.get('store'))
+      setStoreToGo(false)
+    } else {
+      $('#mdlSetStoreToGo').modal('show'); 
+    }
+  }
+  loadToBuyList = function(){
+    $.ajax({
+      url: '/guest/toBuy',
+      type: 'GET', 
+      contentType: "application/json"
+    }).done(function( data ) { 
+      if (Array.isArray(data) && data.length >0) {
+        $('#lstToBuy').empty()
+        data.forEach(function (item) {
+          $('#lstToBuy').append(`<li class="list-group-item d-flex">
+         <label class="flex-grow-1">${item.name} ${validURL(item.link)? "| <a href="+ item.link +">Link</a>" : ""}</label>
+        <span class="text-secondary font-weight-bold mr-4">${item.qty}</span>
+        <i onclick="this.parentElement.remove()" class="fas fa-trash text-danger"></i>
+      </li>`);
+        })
+      }
+    }).fail((e) => console.log(e)); 
+  }
+  setStoreToGo = function(fromSubmit){
+    if (fromSubmit) {
+      if ($('#sltStoreName').val() === 'none'){ 
+        if ($('#inpStoreAdress').val().length < 3) {
+          alert("Veuillez saisir l'adresse du magasin avant de cliquer sur OK")
+          return
+        }
+        $.ajax({
+          url: '/store/addUnknow',
+          type: 'POST', 
+          data: JSON.stringify({ 
+            code : $('#inpCodePost').val(),
+            address: $('#inpStoreAdress').val(),
+            name: "unknow",
+            brand: $('#sltStoreBrand').val()
+          }),
+          contentType: "application/json"
+        }).done(function( data ) { 
+          sltedStore = data
+          $('#lblStoreToGo').text(`Magasin: ${sltedStore.name}, ${sltedStore.code}`)
+        }).fail((e) => console.log(e)); 
+      } 
+      sltedStore._id = $('#sltStoreName').val()
+      sltedStore.code = $('#inpCodePost').val()
+      sltedStore.name = $('#sltStoreBrand').val() +": "+ $('#inpStoreAdress').val()  
+      $('#mdlSetStoreToGo').modal('hide'); 
+    } 
+    if (sltedStore._id !== 'none') {
+      $.ajax({
+        url: '/demand/setStore',
+        type: 'POST', 
+        data: JSON.stringify({ 
+          'storeId' : sltedStore._id
+        }),
+        contentType: "application/json"
+      }).done(function( data ) {  
+        $('#lblStoreToGo').text(`Magasin: ${sltedStore.name}, ${sltedStore.code}`)
+      }).fail((e) => console.log(e)); 
+    }
+
+  }
+  function fillItem(value) {
+    $("#inpProduct").val(value)
+    loadCategory()
+  }
+  var subCatArray = []
+  function loadSub(name) {
+    var sltedCat = subCatArray.find(function (item) { return item.name === name})
+    $("div.item-category").empty()
+    if (sltedCat.sub) {
+      subCatArray = sltedCat.sub
+      subCatArray.forEach(function(item){
+        $("div.item-category").append(
+          `<div class=" col-4 col-sm-3 col-md-2">
+            <button type="button" class="btn btn-outline-primary" onclick='loadSub("${item.name}")'>
+              <i class="${item.icon}"></i>
+              <div>${item.name}</div>
+            </button>  
+          </div>`)
+      }); 
+    } else if (sltedCat.items) {
+      subCatArray = sltedCat.items
+      subCatArray.forEach(function(item){
+        $("div.item-category").append(
+          `<div class="mx-1">
+            <button type="button" class="btn btn-outline-primary" onclick='fillItem("${item}")'>
+              ${item}
+            </button>  
+          </div>`)
+      }); 
+    }
+  }
+  function loadCategory(){
+    subCatArray = catFood;
+    $("div.item-category").empty()
+    catFood.forEach(function(item){
+      $("div.item-category").append(
+        `<div class=" col-4 col-sm-3 col-md-2">
+          <button type="button" class="btn btn-outline-primary" onclick='loadSub("${item.name}")'>
+            <i class="${item.icon}"></i>
+            <div>${item.name}</div>
+          </button>  
+        </div>`); 
+    });
+  }
+  function loadDemandDetail() {
+    $.ajax({
+      url: ' /demand/detail',
+      type: 'POST', 
+      data: JSON.stringify({ 
+        'id' : demandId
+      }),
+      contentType: "application/json",
+      success: function(data){
+        $('#lstToBuy').empty()
+        data.tobuys.forEach(function (item) {
+          $('#lstToBuy').append(`<li class="list-group-item d-flex">
+             <label class="flex-grow-1">${item.name} ${validURL(item.link)? "| <a href="+ item.link +">Link</a>" : ""}</label>
+            <span class="text-secondary font-weight-bold mr-4">${item.qty}</span>
+            <i onclick="this.parentElement.remove()" class="fas fa-trash text-danger"></i>
+          </li>`);
+        })
+        sltedStore = data.store
+        $('#lblStoreToGo').text(`Magasin: ${sltedStore.name}, ${sltedStore.code}`)
+      }
+    }); 
+  }
+  var url = new URL(window.location.href);
+  var demandId = url.searchParams.get("did");
+  $( document ).ready(function() {
+    if (demandId !== null) {
+      loadDemandDetail()
+    } else {
+      loadStoreToGo()
+      loadToBuyList()
+    }
+    $("#includedFooter").load("./footer.html"); 
+    $( "#inpProduct" ).autocomplete({
+      source: availableTags,
+      minLength: 4
+    }); 
+    $('#inpWishedDate').datetimepicker({
+        format: 'DD/MM/YYYY',
+        defaultDate: new Date(),
+        minDate: new Date(),
+    });
+
+    $('#mdlUserAddress').on('show.bs.modal', function (event) {
+      loadAddress()
+    });
+    loadCategory()
+    $('#sltAddressId').change(function() { 
+       if ($( this ).val() === 'none') {
+        // $( ".store-address-input" ).show();
+         $( ".addAddressForm" ).show();
+       } else {
+         $( ".addAddressForm" ).hide();      
+       }
+    });
+
+    $('#checkPhoneProfile').click(function(){ 
+      $(this).is(':checked') ? $('#inpPhoneAddr').prop( "disabled", true ) : $('#inpPhoneAddr').prop( "disabled", false );
+       $(this).is(':checked') ? $('#inpPhoneAddr').val( "-- Use phone number in your accout --" ) : $('#inpPhoneAddr').val('');
+    }); 
+  })
+  function addAddress () {
+    $.get("https://api-adresse.data.gouv.fr/search/?q="+ $("#inpAddress1").val()+ "&postcode="+$("#inpPostCode").val()+"&limit=1")
+    .done(function( data ) {
+      console.log(data.features[0].geometry.coordinates[1])
+      console.log(data.features[0].geometry.coordinates[0])
+      $.post( "/users/addaddress", {  
+        newPhone: $('#checkPhoneProfile').prop("checked"),
+        line1:  $("#inpAddress1").val(),
+        line2: $("#inpAddress2").val(),
+        extra:  $("#inpExtra").val(),
+        x:data.features[0].geometry.coordinates[1],
+        y:data.features[0].geometry.coordinates[0],
+        postCode :  $("#inpPostCode").val(),
+        phone :  $("#inpPhoneAddr").val()
+      }).done(function( data ) {
+        loadAddress()
+      }).fail((e) => {
+        console.log(e)
+        alert("Quelque chose s'est mal passé")
+      }); 
+    }).fail((e) => {
+      console.log(e)
+      alert("Quelque chose s'est mal passé")
+    }); 
+
+  }
+  function getToBuyLst(){
+    var tobuys = []
+    var liTag =  $("#lstToBuy").children() 
+    for  (const li of liTag) {
+      tobuys.push({
+        name: $(li).children( 'label' ).text().replace(" | Link",""),
+        qty: $(li).children( 'span' ).text(),
+        link: $(li).children( 'label' ).children('a').attr('href')
+      })
+    }
+    if (tobuys[0].name === "Aucun article ajouté") {
+      tobuys = [];
+    }
+    return tobuys;
+  }
+  orderWithUser = function() { 
+    if ($('#sltAddressId').val() === null || $('#sltAddressId').val() === "none") {
+      alert('Veuillez créer une nouvelle adresse avec le formulaire dessous')
+    } else {
+      var tobuys=  getToBuyLst() 
+      $('#mdlBuyWithCode').modal('hide');
+      $.ajax({
+        url: '/demand/makeOrder',
+        type: 'POST', 
+        data: JSON.stringify({ 
+          'tobuys' : tobuys,
+          'sharing' : publicStatus,
+          'wishedDate' :  $('#inpWishedDate').val(),
+          'addressId' :  $('#sltAddressId').val()
+        }),
+        contentType: "application/json",
+        success: function(data){
+            window.location.href = '/detail.html?id='+data.id
+        }
+      });   
+    }
+  }
+</script>
+ 
+</html>
+<!-- Block send RB message not aloow click oursite -->
+<div  class="portfolio-modal modal fade" id="mdlBlockNotaccount" tabindex="-1" role="dialog" aria-labelledby="mdlBlockNotaccountLabel" aria-hidden="true"  data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="mdlBlockNotaccountLabel">Cette fonction est réservée aux utilisateurs enregistrés</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body"> 
+       <a class="btn btn-primary" href="./connect.html?redurl=./tobuylist.html">Se connecter</a>
+        <a class="btn btn-secondary" href="./connect.html?redurl=./tobuylist.html">Créer un nouveau compte</a>
+      </div>
+    </div>
+  </div>
+</div>  
+
+<!-- Load address and create new -->
+<div class="portfolio-modal modal fade" id="mdlUserAddress" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addressMdlLabel">Sélectionne l'adresse pour cette liste</h5> 
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body ">
+        <div class="container">
+          <div class="form-group col-6">
+              <label for="sltAddressId">Adresses enregistrées</label>
+              <select class="form-control" name="sltAddressId"  id="sltAddressId">
+                <option>Créer une nouvelle</option>
+              </select> 
+          </div> 
+          <div>
+            <button type="button" onclick="orderWithUser()" class="btn btn-primary col-6 offset-3 col-md-4 offset-md-4"> 
+            OK
+            </button>
+          </div>
+
+          <div class="row addAddressForm border-top mt-3 pt-1">
+            <div class="form-group col-12">
+              <label for="inpAddress1">Adresse ligne 1</label>
+              <input type="text" class="form-control" id="inpAddress1" aria-describedby="address1Ex">
+              <small id="address1Ex" class="form-text text-muted">ex: 655 avenue du Technopôle</small>
+            </div>
+            <div class="form-group col-12">
+              <label for="inpAddress2">Adresse ligne 2</label>
+              <input type="text" class="form-control" id="inpAddress2" aria-describedby="address2Ex">
+              <small id="address2Ex" class="form-text text-muted">ex: bâtiment A, salle 1</small>
+            </div>
+            <div class="form-group col-4 col-md-2">
+              <label for="inpPostCode">Code Postal</label>
+              <input type="text" class="form-control" id="inpPostCode" aria-describedby="extraPost">
+              <small id="extraPost" class="form-text text-muted">ex: 29280</small>
+            </div> 
+            <div class="form-group col-8 col-md-6">
+              <label for="inpExtra">Message supplémentaire pour l'acheteur</label>
+              <input type="text" class="form-control" id="inpExtra" aria-describedby="extraEx">
+              <small id="extraEx" class="form-text text-muted">ex : code d'accès 1234</small>
+            </div> 
+            <div class="form-group col-12 col-md-4">
+              <label for="inpPhoneAddr">Tel <input type='checkbox' checked id='checkPhoneProfile'/>utiliser le numéro du compte</label>
+              <input type="text" class="form-control" id="inpPhoneAddr" disabled="disabled" aria-describedby="phoneExplain" value="Utilisez le numéro de téléphone dans votre compte">
+              <small id="phoneExplain" class="form-text text-muted">Que l'acheteur puisse vous contacter à votre arrivée</small>
+            </div>
+            <div class="col-12 d-flex align-items-center flex-column">
+              <button type="button" onclick="addAddress()" class="btn btn-primary"> 
+                Ajouter une nouvelle adresse
+              </button>  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
+

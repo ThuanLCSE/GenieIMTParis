@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Log out successful</h1>
+ 	<a href="./connect.html">Login again</a>
+
+</body>
+</html>
+ <script src="./js/jquery.min.js"></script>
+  <script src="./js/bootstrap.min.js"></script>
+  <script  src="./js/js.cookie.min.js"></script> 
+  <script  src="./js/data.js"></script>
+  <!-- Plugin JavaScript -->
+  <script src="./js/jquery.easing.min.js"></script> 
+</body>
+<script type="text/javascript">   
+ Cookies.remove('uId')
+ Cookies.remove('token')
+   
+  $.get( "/sessionremove").done(function( data ) {  
+     
+  }).fail(function() {
+     
+  }); 
+</script>

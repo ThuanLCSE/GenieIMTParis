@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> 
+
+    <title>Profile</title>
+
+  <link href="./css/all.min.css" rel="stylesheet" type="text/css">
+   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css"> 
+  
+   <link href="./css/freelancer.min.css" rel="stylesheet"> 
+
+    <!-- Custom styles for this template -->
+    <link href="./css/profile.css" rel="stylesheet">
+   <script src="https://homologation-payment.cdn.payline.com/cdn/scripts/widget-min.js" charset="utf-8"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://homologation-payment.cdn.payline.com/cdn/styles/widget-min.css" charset="utf-8">
+
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href=".">Bonjour, Courses</a> 
+    </div>
+  </nav>
+<div class="page-section portfolio">
+    <div class="container">
+      <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link " href="#perso">
+                  <i class="fas fa-user"></i>
+                  Informations personnelles
+                </a>
+              </li>
+              <li class="nav-item ">
+                <a class="nav-link active" href="#credit">
+                  <i class="fa fa-coins"></i>
+                   Credit Account
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#helped">
+                  <i class="fas fa-shopping-cart"></i>
+                  Courses réalisées
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#demand">
+                  <i class="fas fa-shopping-cart"></i>
+                  Demandes
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#address">
+                  <span data-feather="users"></span>
+                  Adresse
+                </a>
+              </li> 
+            </ul>
+
+           <!--  <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+              <span>Saved reports</span>
+              <a class="d-flex align-items-center text-muted" href="#">
+                <span data-feather="plus-circle"></span>
+              </a>
+            </h6>
+            <ul class="nav flex-column mb-2">
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="file-text"></span>
+                  Current month
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="file-text"></span>
+                  Last quarter
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="file-text"></span>
+                  Social engagement
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="file-text"></span>
+                  Year-end sale
+                </a>
+              </li>
+            </ul> -->
+          </div>
+        </nav>
+        
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+      <section class="page-section portfolio" id="perso">
+        <h1>Profil personel </h1>
+         <div class="card text-center">
+          <div class="card-header" id="lblName">
+            Name() 
+          </div>
+          <div class="card-body">
+            <h5 class="card-title"  id="lblEmail">Email() </h5>
+            <p class="card-text" id="lblPhone">Téléphone()</p>
+            <button class="btn btn-primary ml-4" data-toggle="modal" data-target="#mdlEditProfil" >Modifier</button>
+            <button class="btn btn-secondary ml-4" data-toggle="modal" data-target="#mdlEditProfil" >Changer le mot de passe</button>
+          </div> 
+        </div>
+      </section>
+      <section class="page-section portfolio" id="address">
+        <h1>Adresse enregistrée<button class="btn btn-primary ml-3" data-toggle="modal" data-target="#mdlAddress" >Ajouter une nouvelle adresse</button> </h1>
+        <div class="row" id="lstAddress">
+            <div class="col-12 col-md-6 mb-2">
+                <div class="card"> 
+                <div class="card-body">
+                  <h5 class="card-title">655 avenue line 1</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">line 2</h6>
+                  <h6 class="card-subtitle mb-2 text-muted">Phone 0630190887</h6>
+                  <p class="card-text"> 
+                    extra message
+                  </p>
+                  <button class="btn btn-secondary"  onclick="loadContact('${offre.phone}','${offre.userId}',${index})">Modify</button>   
+                  <button class="btn btn-danger"  onclick="getDemandDone(${index})">Delete</button>  
+                </div>
+              </div>
+            </div> 
+        </div>
+      </section>
+    	<section class="page-section portfolio " id="credit">
+        <div>
+      		<h1>Your credit : <span class="badge badge-success" id="lblCredit"></span></h1>
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-6 border">
+                <h4 class="mb-2"> Recharge 5 credit with 5€ </h4>
+                <p> <span class="h6 badge-warning h4">This beta version won't cost you anything</span>  Please use this Paypal account for making this process
+                  <ul>
+                    <li>Username: <b class="text-primary">sb-pffqj1728175@personal.example.com</b></li>
+                    <li>Password: <b class="text-primary">bonjourcourses</b></li>
+                  </ul>
+                </p>
+                <div id="paypal-button-container"></div>
+              </div>
+              <div class="col-12 col-md-6 border">
+                <h4 class="mb-2"> Transfer credit to my bank account </h4>
+                <form  onsubmit="sendCreditBank(); return false">
+                    <div class="form-group">
+                        <span class="badge badge-pill badge-danger" id="errMsg"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="inpRIB" placeholder="Bank RIB" value="" />
+                    </div>
+                    <div class="form-group input-group">
+                       <input type="number" class="form-control" id='inpCredit' placeholder="Amount of credit" value="0" aria-describedby="to-eur-addon" onblur="showEur(this.value)"/> 
+                      <div class="input-group-append">
+                          <span class="input-group-text" id="to-eur-addon"> = <span id='lblToEur' />0</span>€</span>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="inpPassword" placeholder="Re-enter password" value="" />
+                    </div> 
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary" value="Transfer" />
+                    </div> 
+                </form>
+              </div>
+            </div>
+          </div>
+          <div id="PaylineWidget" data-template="column" data-event-didshowstate="customPaymentMethodList">
+          </div>
+          <div id="orderData">
+              <ul>
+                  <li>
+                      <span class="label">N° de commande</span>
+                      <span class="value">#PaylineOrderRef#</span>
+                  </li>
+                  <li>    
+                      <span class="label">Montant: </span>
+                      <span class="value">#PaylineFormattedAmount#</span>
+                  </li>
+                  <li>
+                      <span class="label">Acheteur</span>
+                      <span class="value">#PaylineBuyerFirstName# #PaylineBuyerLastName#</span>
+                  </li>
+              </ul>
+          </div>
+        </div>
+		  </section>
+      <section class="page-section portfolio " id="helped">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+            <h1>Courses réalisées</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+              <select id="filterTime">
+                <option value="week">Cette semaine</option>
+                <option value="month">Cette mois</option>
+                <option value="all">Tous</option>
+              </select>
+            </div>
+          </div>
+          <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">La description</th>
+                <th scope="col">Quantité</th>
+                <th scope="col">Statut</th>
+                <th scope="col">Tchat</th>
+              </tr>
+            </thead>
+            <tbody id="tblHelped"> 
+              
+            </tbody>
+          </table>
+        </section>
+      <section class="page-section portfolio " id="demand">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+            <h1>Demandes</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+              <div class="btn-group mr-2">
+                <button class="btn btn-sm btn-outline-secondary" onclick="filterDemand('waiting')">En attente</button>
+                <button class="btn btn-sm btn-outline-secondary" onclick="filterDemand('done')">En traitement</button>
+              </div>
+              <select id="filterTime">
+                <option value="week">Cette semaine</option>
+                <option value="month">Cette mois</option>
+                <option value="all">Tous</option>
+              </select>
+            </div>
+          </div>
+          <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">La description</th>
+                <th scope="col">Quantité</th>
+                <th scope="col">Statut</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody id="tblDemand"> 
+              
+            </tbody>
+          </table>
+        </section>
+         <div id="includedFooter"></div>  
+ 
+        </main>
+      </div>
+    </div>
+</div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+<script src="./js/jquery.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script  src="./js/js.cookie.min.js"></script>
+<script  src="./js/data.js"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=ATR9u7_nptazjD4bAf2rRQ0dmDjiTMrPQ1N2AnceSxxtuXOXAJ7eCsyY74ddRjlct7LCh609y_Hity1F" async>  
+</script>
+
+<script type="text/javascript">
+ 	getCredit().done(function( data ) {  
+     $('#lblCredit').html(data.a +" "+ data.c);
+  }).fail(function() {
+     $('#lblCredit').html('Unvailable');
+  });
+  showEur = function(value) {
+    $('#lblToEur').html(value/10)
+  }
+  sendCreditBank = function () {
+    alert("This demo using virtual money, there is no legal stuff to transfer to real bank account. Thank you for trusting us")
+  }
+  loadProfile = () => {
+    $.get( "/users/get")
+    .done(function( data ) {
+      
+      $('#lblPhone').text(`Téléphone( ${data.phone} )`)
+      $('#lblName').text(`Prénom( ${data.name} )`)
+      $('#lblEmail').text(`Email( ${data.email} )`)
+      loadDemand()
+      loadHelped()
+    }).fail((e) => {
+      window.location.href = "./connect.html"
+    }); 
+  }
+  function filterDemand(status) {
+    if (demands.length > 0) {
+      $('#tblDemand').empty()
+      demands.filter(function(item) {
+        return item.status === status;
+      }).forEach(function (demand, index) {
+        var qtyTotal = 0
+        var shortDescrition = ""
+        for (const article of demand.tobuys) {
+            qtyTotal += parseInt(article.qty)
+            if (shortDescrition.length <= 100) {
+              shortDescrition +=  article.name + ", "
+            }
+        } 
+        var chatBtn = demand.shopperId? `<a href="./chatBox.html?id=${demand.shopperId}&did=${demand._id}">${demand.shopperName} <i class="fas fa-comments"></i></a>` : `<button class="fb-share-button" data-href="http://www.bonjourcourses.fr/detail.html?id=${demand._id}" data-layout="button" data-size="large"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.bonjourcourses.fr%2Fdetail.html%3Fid%3D${demand._id}&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Partager <i class="fab fa-facebook-f"></i></a></button>`  
+        $('#tblDemand').append(`  <tr> 
+            <td>${(new Date(demand.time)).toLocaleString()}</td>
+            <td>${shortDescrition}</td>
+            <td>${qtyTotal}</td>
+            <td>${getStatusFrench(demand.status)}</td>
+            <td> ${chatBtn} </td>
+          </tr>`)
+      });
+    } 
+  }
+  loadHelped = function() {
+     $.get( "/demand/allshopped").done(function( data ) {
+      if (data.length > 0) {
+        $('#tblHelped').empty()
+        data.forEach(function (demand, index) {
+          var qtyTotal = 0
+          var shortDescrition = ""
+          for (const article of demand.tobuys) {
+              qtyTotal += parseInt(article.qty)
+              if (shortDescrition.length <= 100) {
+                shortDescrition +=  article.name + ", "
+              }
+          } 
+
+          $('#tblHelped').append(`  <tr> 
+              <td>${(new Date(demand.time)).toLocaleString()}</td>
+              <td>${shortDescrition}</td>
+              <td>${qtyTotal}</td>
+              <td>${getStatusFrench(demand.status)}</td>
+              <td> <a href="./chatBox.html?id=${demand.userId}&did=${demand._id}">${demand.name} <i class="fas fa-comments"></i></a> </td>
+            </tr>`)
+        });
+      } 
+    }).fail((e) => {
+      console.log(e)
+      alert("Something went wrong")
+    }); 
+  }
+  demands = [];
+  loadDemand = function() {
+    $.get( "/demand/allme").done(function( data ) {
+      demands  =data;
+      if (data.length > 0) {
+        $('#tblDemand').empty()
+        data.forEach(function (demand, index) {
+          var qtyTotal = 0
+          var shortDescrition = ""
+          for (const article of demand.tobuys) {
+              qtyTotal += parseInt(article.qty)
+              if (shortDescrition.length <= 100) {
+                shortDescrition +=  article.name + ", "
+              }
+          } 
+          var chatBtn = demand.shopperId? `<a href="./chatBox.html?id=${demand.shopperId}&did=${demand._id}">${demand.shopperName} <i class="fas fa-comments"></i></a>` : `<button class="fb-share-button" data-href="http://www.bonjourcourses.fr/detail.html?id=${demand._id}" data-layout="button" data-size="large"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.bonjourcourses.fr%2Fdetail.html%3Fid%3D${demand._id}&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Partager <i class="fab fa-facebook-f"></i></a></button>`  
+          $('#tblDemand').append(`  <tr> 
+              <td>${(new Date(demand.time)).toLocaleString()}</td>
+              <td>${shortDescrition}</td>
+              <td>${qtyTotal}</td>
+              <td>${getStatusFrench(demand.status)}</td>
+              <td> ${chatBtn} </td>
+            </tr>`)
+        });
+      } 
+    }).fail((e) => {
+      console.log(e)
+      alert("Something went wrong")
+    }); 
+  }
+  addressSaved= []
+  loadAddress = () => {
+    $.get( "/users/getaddress/")
+    .done(function( data ) {  
+      addressSaved = data
+        $('#lstAddress').empty()   
+        data.forEach(function (address, index) {   
+          $('#lstAddress').append(` <div class="col-12 col-md-6 mb-2">
+            <div class="card"> 
+            <div class="card-body">
+              <h5 class="card-title">${address.line1}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">${address.line2}</h6>
+              <h6 class="card-subtitle mb-2 text-muted">Phone: ${address.phone}</h6>
+              <p class="card-text"> 
+                ${address.extra}
+              </p>
+              <button class="btn btn-secondary"  onclick="editAddress(${index})">Modifier</button>   
+              <button class="btn btn-danger"  onclick="deleteAddress(${index})">Supprimer</button>  
+            </div>
+          </div>
+        </div> `) 
+        });
+    }).fail(function() {
+       $('#lblCredit').html('Unvailable');
+    });
+  }
+  addAddress = () => { 
+    $.post( "/users/addaddress", {  
+      newPhone: !$('#checkPhoneProfile').prop("checked"),
+      line1:  $("#inpAddress1").val(),
+      line2: $("#inpAddress2").val(),
+      extra:  $("#inpExtra").val(),
+      postCode :  $("#inpCodeAddr").val(),
+      phone :  $("#inpPhoneAddr").val()
+    }).done(function( data ) {
+      console.log("Address added : " + data );
+      $('#mdlAddress').modal('hide');
+    }).fail((e) => {
+      console.log(e)
+      alert("Something went wrong")
+    }); 
+  } 
+  $(window).on('load', function() {
+    $("#includedFooter").load("./footer.html"); 
+    if (Cookies.get('uId')){
+      getCredit()
+      loadAddress()
+      loadProfile()
+      paypal.Buttons({
+        createOrder: function(data, actions) {
+          // This function sets up the details of the transaction, including the amount and line item details.
+          return actions.order.create({
+            purchase_units: [{
+              amount: {
+                "currency_code": "USD",
+                "value": "5.00"
+              }
+            }]
+          });
+        },
+        onApprove: function(data, actions) { 
+          return fetch('/trans/add', {
+            headers: {
+              'content-type': 'application/json'
+            },
+            method: 'post',
+            body: JSON.stringify({
+              orderID: data.orderID,
+              'userId': Cookies.get('uId'),
+              'amount': 5,
+              'time': (new Date()).getTime(),
+              'description' : "Recharge with paypal"
+            })
+          }).then(function(res) {
+            res.json().then(function(json) {
+              $('#lblCredit').html((+json.a + 5 ) +" "+ json.c);
+            });
+            return res;
+          }).then(function(details) {
+            console.log(details)
+            if (details.error === 'INSTRUMENT_DECLINED') {
+              return actions.restart();
+            } else {
+              alert('Transaction completed by ' + details.payer.name.given_name);
+            }
+          });
+        },
+        onCancel: function (data) {
+          console.log(data)
+          alert('Payment cancelled')
+        }
+        }).render('#paypal-button-container');
+    }
+    $('#checkPhoneProfile').click(function(){ 
+      $(this).is(':checked') ? $('#inpPhoneAddr').prop( "disabled", true ) : $('#inpPhoneAddr').prop( "disabled", false );
+       $(this).is(':checked') ? $('#inpPhoneAddr').val( "-- Use phone number in your accout --" ) : $('#inpPhoneAddr').val('');
+    }); 
+  });
+</script>
+  <script>
+            // On récupère le token sans le #
+            var urlToken = location.hash.substr(1);
+            if (urlToken) {
+                var element = document.getElementById('PaylineWidget');
+                element.setAttribute('data-token', urlToken);
+            }
+             
+            // Fonction parsant toutes les chaînes contenues entre des caractères #
+            function parse(str) {
+                return str.match(/#([^#]*)#/g);
+            }
+            // Fonction remplaçant toutes les chaines
+            function replace(blockId) {
+                // Récupération du tableau de toutes les chaines à remplacer de la div "main"
+                var block = $('#' + blockId);
+                var stringArrayToReplace = parse(block.text());
+                // Pour chaque élément du tableau on remplace avec les données fournies par le Widget
+                var result = block.html();
+                for (i = 0; i < stringArrayToReplace.length; i++) {
+                    var hashedKey = stringArrayToReplace[i];
+                    var key = hashedKey.substring(1, hashedKey.length-1);
+                    result = result.replace(hashedKey,Payline.Api.getContextInfo(key));
+                }
+                block.html(result);
+                block.show();
+            }
+             
+            // Fonction permettant de customiser le PAYMENT_METHOD_LIST
+            function customPaymentMethodList(state) {
+                replace('orderData');
+                <!-- S'il c'est un contexte PAYMENT_METHODS_LIST (liste des moyens de paiement) ou PAYMENT_NEEDS_MORE_INFOS (confirmation d'une donnée de paiement) alors je procède aux modifications suivantes  -->
+                if (state.state === "PAYMENT_METHODS_LIST" || state.state === "PAYMENT_NEEDS_MORE_INFOS") {
+                    <!-- On remplace le label de la case à cocher -->
+                    $('.pl-remember-text').text('Enregistrer mes informations pour mes prochains paiements');
+              
+                    <!-- S'il y a des wallets je procède à certaines modifications -->
+                    if ($('#pl-wLayout-view') !== undefined) {
+                        <!-- Je retire les titres -->
+                        $('.pl-wallets-title').remove();
+                        $('.pl-container-title').remove();
+              
+                        <!-- Je remplace le titre des wallets -->
+                        $('.pl-wallets').before('<span style="font-size:12pt !important">Je valide mon paiement en sélectionnant ma carte ou mon compte Paypal</span>');
+              
+                        <!-- Je retire le message du CVV du wallet -->
+                        $('.pl-cvv-message').remove();
+                    }
+                }
+            }          
+        </script>
+  </body>
+</html>
+<!-- New address modal -->
+<div  class="portfolio-modal modal fade" id="mdlAddress" tabindex="-1" role="dialog" aria-labelledby="addressMdlLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addressMdlLabel">Entrez ton adresse</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">  
+          <div class="form-group col-12">
+            <label for="inpAddress1">Address line 1</label>
+            <input type="text" class="form-control" id="inpAddress1" aria-describedby="address1Ex">
+            <small id="address1Ex" class="form-text text-muted">ex: 655 avenue du Technopôle</small>
+          </div>
+          <div class="form-group col-12">
+            <label for="inpAddress2">Address line 2</label>
+            <input type="text" class="form-control" id="inpAddress2" aria-describedby="address2Ex">
+            <small id="address2Ex" class="form-text text-muted">ex: building A room 1</small>
+          </div>
+          <div class="form-group col-12">
+            <label for="inpExtra">Extra message for shopper?</label>
+            <input type="text" class="form-control" id="inpExtra" aria-describedby="extraEx">
+            <small id="extraEx" class="form-text text-muted">ex: access code 1234</small>
+          </div>
+          <div class="form-group col-12 col-md-6">
+            <label for="inpCodeAddr">Code postal</label>
+            <input type="text" class="form-control" id="inpCodeAddr" aria-describedby="codePostalEx">
+            <small id="codePostalEx" class="form-text text-muted">ex: 29280</small>
+          </div>
+          <div class="form-group col-12 col-md-6">
+            <label for="inpPhoneAddr">Phone <input type='checkbox' checked id='checkPhoneProfile'/>use the phone number of my account</label>
+            <input type="text" class="form-control" id="inpPhoneAddr" disabled="disabled" aria-describedby="phoneExplain" value="-- Use phone number in your accout --">
+            <small id="phoneExplain" class="form-text text-muted">That the shopper can contact you when arriving</small>
+          </div>
+          <div class=" container d-flex align-items-center flex-column">
+            <button type="button" onclick="addAddress()" class="btn btn-primary"> 
+              Add
+            </button>  
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

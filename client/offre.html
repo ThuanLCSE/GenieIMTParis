@@ -1,0 +1,234 @@
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Bonjour, Courses - Livraison des courses a domicile</title>
+
+  <!-- Custom fonts for this theme -->
+  <link href="./css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="./css/bjrc.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+  <!-- Theme CSS -->
+  <link href="./css/freelancer.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+    <div class="container"> 
+   <a class="navbar-brand" href="./">
+      <img src="./img/logo.png" alt="logo">
+    </a> 
+      <a class="navbar-brand js-scroll-trigger">Bonjour, Courses</a>
+    <div class="navbar-toggler navbar-toggler-right text-uppercase  text-white rounded" >
+      </div>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+    </div>   
+    </div>
+  </nav>
+
+  <!-- Masthead -->
+  <header class="masthead bg-primary text-white text-center">  
+      <!-- Masthead Heading -->
+      <h3 class="masthead-heading">Your buddies are looking for your</h3>
+      
+  </header>
+
+  <!-- Portfolio Section -->
+  <section class="page-section portfolio" id="offre">
+    <div class="container"> 
+      <!-- Portfolio Grid Items -->
+      <div class="row" id ='lstOffre'>
+ 
+        <div class="col-md-4 col-lg-3">
+         	<div class="card" style="height: 37rem;width: 18rem;">
+			  <img src="./img/crf.png" class="card-img-top">
+			  <div class="card-body">
+			    <h5 class="card-title"><i class="fas fa-store"></i>
+
+			    	126 Boulevard de Plymouth, 29200 Brest</h5>
+			    <h6 class="card-subtitle mb-2 text-muted"><i class="fas fa-shipping-fast"></i>
+à 655 avenue du technopôle 29280 plouzané</h6>
+			    <p class="card-text">
+		    	 	<ul>
+			            <li>Articles: 15</li>
+			            <li>Frais de dépôts: payé</li>
+			        </ul>
+			    </p>
+			    <button class="btn btn-primary"  data-toggle="modal" data-target="#numMdl">Contacte l'acheteur</button>
+			  </div>
+			</div>
+        </div> 
+      <!-- /.row -->
+    </div>
+  </section>
+  
+
+  <!-- Footer -->
+  <footer class="footer text-center">
+    <div class="container">
+      <div class="row">
+
+        <!-- Footer Location -->
+        <div class="col-lg-4 mb-5 mb-lg-0">
+          <h4 class="text-uppercase mb-4">Location</h4>
+          <p class="lead mb-0">655 avenue du technopôle 29280 plouzané</p>
+        </div>
+
+        <!-- Footer Social Icons -->
+        <div class="col-lg-4 mb-5 mb-lg-0">
+          <h4 class="text-uppercase mb-4">Around the Web</h4>
+          <a class="btn btn-outline-light btn-social mx-1" href="https://www.facebook.com/thuan.Luong.family">
+            <i class="fab fa-fw fa-facebook-f"></i>
+          </a>
+          <a class="btn btn-outline-light btn-social mx-1" href="https://twitter.com/LUONGCongThuan2/status/1225366504708956160">
+            <i class="fab fa-fw fa-twitter"></i>
+          </a>
+          <a class="btn btn-outline-light btn-social mx-1" href="https://www.linkedin.com/in/thuan-luong-dad251195/">
+            <i class="fab fa-fw fa-linkedin-in"></i>
+          </a> 
+        </div>
+
+        <!-- Footer About Text -->
+        <div class="col-lg-4">
+          <h4 class="text-uppercase mb-4">About Thuan</h4>
+          <p class="lead mb-0">Business Development at Alcatel-Lucent Enterprise.</p>
+        </div>
+
+      </div>
+    </div>
+  </footer>
+
+  <!-- Copyright Section -->
+  <section class="copyright py-4 text-center text-white">
+    <div class="container">
+      <small>Copyright &copy; My Website 2020</small>
+    </div>
+  </section>
+
+  <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
+  <div class="scroll-to-top d-lg-none position-fixed ">
+    <a class="js-scroll-trigger d-block text-center text-white rounded" href="#page-top">
+      <i class="fa fa-chevron-up"></i>
+    </a>
+  </div>
+ 
+  <!-- Bootstrap core JavaScript -->
+  <script src="./js/jquery.min.js"></script>
+  <script src="./js/bootstrap.min.js"></script> 
+  <script  src="./js/js.cookie.min.js"></script>
+  <script  src="./js/data.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="./js/jquery.easing.min.js"></script> 
+ 
+</body>
+<script type="text/javascript">  
+	var settings = {
+	    "async": true,
+	    "crossDomain": true,
+	    "url": "/demand/allAround",
+	    "method": "POST",
+	    "headers": {
+	        "Content-Type": "application/x-www-form-urlencoded",
+	        "Authorization": "Bearer "+ Cookies.get('token') 
+	    },
+	    "data": { x: Cookies.get('geoX') ,y: Cookies.get('geoY')  }
+	}
+  var listOffre = []
+  $.ajax(settings).done(function (data) {
+      $('#lstOffre').empty()  
+      listOffre = data
+      data.forEach(function (offre, index) {
+        var qtyTotal = 0
+        for (const article of offre.tobuys) {
+          qtyTotal += parseInt(article.qty)
+        }
+        console.log(offre) 
+        offre.userId = offre.user?offre.user.id:null;
+        $('#lstOffre').append(` <div class="col-md-4 col-lg-3 mb-2">
+              <div class="card" style="min-height: 25rem;">
+            <img src="${imgSrc[offre.store.brand.trim()]}" class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title"><i class="fas fa-store"></i> ${offre.store.name}: ${offre.store.address}</h5>
+              <h6 class="card-subtitle mb-2 text-muted"><i class="fas fa-shipping-fast"></i> ${offre.address}</h6>
+              <p class="card-text">
+                <ul>
+                      <li>Articles: ${qtyTotal}</li>
+                      <li>Frais de dépôts: ${offre.paid? "Already" : "Not yet"}</li>
+                  </ul>
+              </p>
+              <button class="btn btn-primary"  onclick="loadContact('${offre.phone}','${offre.userId}',${index})">Consulter</button>
+            </div>
+          </div>
+            </div> `) 
+      });
+  })
+ 
+  function loadContact(phone,userId,index) {
+    if (phone !== 'null'){
+      let data = listOffre[index]
+        $('#lblName').text(data.name) 
+          $('#lblAddress').text(data.address)
+        $('#lblTel').attr("href","tel:"+data.phone) 
+        for  (const item of data.tobuys) { 
+          $('#offreLst').append(`<li class="list-group-item d-flex justify-content-between align-items-center">
+             ${item.name}  ${validURL(item.link)? "| <a href="+ item.link +">Link</a>" : ""}
+            <span class="badge badge-primary badge-pill">${item.qty}</span>
+          </li>`);
+        }
+        $('#detailMdl').modal('show');
+
+    } else if (userId) {
+      console.log(userId);
+
+    }
+  }
+</script>
+</html>
+<!-- Detail courses Modal 1 -->
+  <div class="portfolio-modal modal fade" id="detailMdl" tabindex="-1" role="dialog" aria-labelledby="portfolioModal1Label" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">
+            <i class="fas fa-times"></i>
+          </span>
+        </button>
+        <div class="modal-body ">
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-md-8">
+                <!-- Portfolio Modal - Title -->
+                <h5 class="text-secondary mb-0">Faire les courses pour <span id='lblName'></span></h5> 
+                <!-- Portfolio Modal - Text -->
+                <p class="mb-5"> 
+                  <div class="form-group">
+                    <span><b>Adresse :</b> </span> <span id='lblAddress'></span>
+                  </div>
+                  
+                  <ul class="list-group" id="offreLst">
+                   
+                  </ul>
+                  <div class="form-group">
+                    <b><a class="btn btn-primary" href="tel:123-456-7890" id='lblTel'>Envoie texto</a></b> 
+                  </div> 
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+

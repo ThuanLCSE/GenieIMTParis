@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<script data-ad-client="ca-pub-3937720286333723" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Bonjour, Courses - Relier l'expéditeur et les courses</title>
+  <link rel="manifest" href="/manifest.json">     
+  <link rel="icon" sizes="192x192" href="./img/logo192.png">
+  <meta name="theme-color" content="#1abc9c"> 
+
+  <!-- Custom fonts for this theme -->
+  <link href="./css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css"> 
+  <!-- Theme CSS -->
+  <link href="./css/freelancer.min.css" rel="stylesheet">
+  <link href="./css/bjrc.css" rel="stylesheet">
+  <link href="./css/profile.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+   crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+   crossorigin=""></script>
+
+  <div id="fb-root"></div>
+  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v6.0"></script>
+</head>
+ 
+<body id="page-top">
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-md bg-secondary fixed-top" id="mainNav">
+    <div class="container">
+      <div>
+        <a class="d-block navbar-brand js-scroll-trigger text-uppercase" href="#page-top">Bonjour, Courses</a> 
+        <small class="text-light">Tes courses livrées à domicile par ton pote</small>
+      </div>
+      <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto" id="ulNavBar"> 
+          <li class="nav-item mx-0 mx-md-1 text-uppercase small-screen">
+            <a class=" nav-link" href="javascript:showMdlTrajet();">
+             Voir les courses correspondante au trajet</a>
+          </li> 
+          <li class="nav-item mx-0 mx-md-1 text-uppercase small-screen ">
+            <a class=" nav-link" href="javascript:loadCard('mydemand');">
+             Mes listes de courses </a> 
+          </li>
+          <li class="nav-item mx-0 mx-md-1 text-uppercase small-screen " onclick="loadCard('demand')">
+             <a class=" nav-link" href="javascript:loadCard('demand');">
+             Courses en recherche une aide</a> 
+          </li>
+          <li class="nav-item mx-0 mx-md-1 text-uppercase small-screen " onclick="loadCard('trajet')">
+            <a class=" nav-link" href="javascript:loadCard('demand');">
+             Trajets proposés</a>  
+          </li>
+          <li class="nav-item">
+            <a class="nav-link py-3 px-0 px-md-3 js-scroll-trigger" href="javascript:showMdlDemand();">
+               Creer une liste 
+              <span data-feather="users"></span>
+            </a>  
+          </li>
+          <li class="nav-item text-uppercase">
+            <a class="nav-link py-3 px-0 px-md-3 js-scroll-trigger" href="#about">Comment ça marche</a>
+          </li>
+          <li class="nav-item mx-0 mx-md-1" id="notificationDrop">
+            <div class="dropdown">
+              <a class="nav-link py-3 px-0 px-md-3 rounded dropdown-toggle" href="#" id="notiDropBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                <span class="badge badge-pill badge-danger" id="notiBadge">2</span>
+                <i class="fas fa-bell"></i>
+              </a> 
+              <div class="dropdown-menu" id="notiDropDown" aria-labelledby="notiDropBtn">
+                
+              </div>
+            </div>
+          </li> 
+        </ul>
+      </div> 
+    </div>
+  </nav>
+  <style type="text/css"> 
+  .clickable{
+    cursor: pointer;
+  }
+  #notiDropDown {
+    width: 16em;
+  }
+  #notiDropDown > .top-bottom-border{
+    max-height: 6em;
+  }
+  </style> 
+  <div class="page-section portfolio">
+  <div class="container">
+  <div class="row">
+    <nav class="col-2 d-none d-md-block sidebar">
+        <div class="sidebar-sticky pl-4">
+          <ul class="nav flex-column">
+            <li>
+              <button class="btn btn-secondary mb-2" onclick="showMdlTrajet()"> 
+                <i class="fas fa-car"></i> Voir les courses correspondante au trajet
+              </button>
+            </li>
+            <li>
+              <button class="btn btn-secondary mb-2" onclick="loadCard('mydemand')"> 
+                <i class="fas fa-plus"></i> Mes listes de courses 
+              </button>   
+            </li> 
+            <li class="nav-item nav-link clickable" onclick="loadCard('demand')">
+              Courses en recherche d'aide 
+            </li>
+             <li class="nav-item nav-link clickable" onclick="loadCard('trajet')">
+              Trajets proposés  
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="javascript:showMdlDemand();">
+                 Creer une liste 
+                <span data-feather="users"></span>
+              </a>  
+            </li> 
+          </ul> 
+        </div>
+    </nav> 
+    <!-- <div class="col-4 mb-2">
+      <button class="btn btn-primary" data-toggle="modal" data-target="#mdlSetStoreToGo"> 
+          <i class="fas fa-edit"></i> Changer
+      </button>
+    </div> -->
+    <div class="col-11 col-sm-6  ml-sm-auto"> 
+      <div class="row" id="lstDemandTrajet">
+        
+      </div>
+    </div>
+    <div class="col-12 col-sm-4" >
+      
+      <div id="mapid" style="height: 400px;"></div>
+    </div>
+ </div>
+ </div>
+  </div> 
+
+<script type="text/javascript">
+var mymap = L.map('mapid').setView([48.395509, -4.497542], 12);
+L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoidGh1YW5sdW9uZyIsImEiOiJja2Exb3JjeXcwMmhtM2lvMWhyYnltaGs1In0.XZm0-E9-GacMF7JEIWBR3w', {
+    maxZoom: 18,
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+      '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+      'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    id: 'mapbox/streets-v11',
+    tileSize: 512,
+    zoomOffset: -1
+  }).addTo(mymap);
+  let storeIcon = L.icon({
+    iconUrl: './img/logo.png',
+    iconSize: [40, 45]
+});
+</script> 
+  <!-- About Section -->
+  <section class="page-section bg-primary text-white mb-0" id="about">
+    
+  </section>
+
+  <!-- Contact Section -->
+  <section class="page-section pl-5" id="contact">
+    <div class="container">
+
+      <!-- Contact Section Heading -->
+      <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Vos commentaires sont notre motivation! Envoyez-les ici</h2>
+
+      <!-- Icon Divider -->
+      <div class="divider-custom">
+        <div class="divider-custom-line"></div>
+        <div class="divider-custom-icon">
+          <i class="fas fa-star"></i>
+        </div>
+        <div class="divider-custom-line"></div>
+      </div>
+
+      <!-- Contact Section Form -->
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <form name="sentMessage" action="/contact" method="POST" >
+            <div class="control-group">
+              <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                <input class="form-control" id="name" type="text" placeholder="Nom" name="name" required="required" data-validation-required-message="Please enter your name.">
+                <p class="help-block text-danger"></p>
+              </div>
+            </div>
+            <div class="control-group">
+              <div class="form-group floating-label-form-group controls mb-0 pb-2"> 
+                <input class="form-control" id="email" type="email" name="email" placeholder="Email">
+                <p class="help-block text-danger"></p>
+              </div>
+            </div> 
+            <div class="control-group">
+              <div class="form-group floating-label-form-group controls mb-0 pb-2"> 
+                <textarea class="form-control" id="message" rows="3" name="message" placeholder="Franchement, j'aimerais plus si ..."></textarea>
+                <p class="help-block text-danger"></p>
+              </div>
+            </div>
+            <br>
+            <div id="success"></div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton">Envoyer</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+   <div id="includedFooter"></div>  
+   
+  <!-- Portfolio Modal 1 -->
+  <div class="portfolio-modal modal fade" id="detailMdl" tabindex="-1" role="dialog" aria-labelledby="portfolioModal1Label" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">
+            <i class="fas fa-times"></i>
+          </span>
+        </button>
+        <div class="modal-body ">
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-md-8">
+                <!-- Portfolio Modal - Title -->
+                <h5 class="text-secondary mb-0">Faire les courses pour <span id='lblName'></span></h5> 
+                <!-- Portfolio Modal - Text -->
+                <p class="mb-5"> 
+                  <div class="form-group">
+                    <span><b>Adresse :</b> </span> <span id='lblAddress'></span>
+                  </div>
+                  
+        					<ul class="list-group mb-3" id="offreLst">
+        					 
+					        </ul> 
+                  <a href="tel:123-456-7890"  class="btn btn-outline-primary"  id='lblTel'><i class="fas fa-mobile-alt"></i> Texto</a>  
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 
+  <div  class="portfolio-modal modal fade" id="mdlSetAddress" tabindex="-1" role="dialog" aria-labelledby="mdlSetAddressLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="mdlSetAddressLabel"></h5> 
+      </div>
+      <div class="modal-body">
+        <h3 >Mets ton adresse</h3>
+        <div class="divider-custom">
+          <div class="divider-custom-line"></div>
+          OU <a class="btn btn-primary ml-3" href="./connect.html?redurl=./tobuylist.html">SE CONNECTER</a> 
+          <div class="divider-custom-line"></div>
+        </div>
+         <div class="container">
+            <div class="row">
+              <div class="form-group col-12">
+                  <span class="badge badge-pill badge-danger" id="errMsgSendAddr"></span>
+              </div>
+              <div class="form-group col-12">
+                <label for="inpAddress">Adresse</label>
+                <input type="text" name='address' class="form-control" id="inpAddress"  aria-describedby="exAddress"/>
+                  <small id="exAddress" class="form-text text-muted">655 avenue du Technopôle</small>
+              </div>
+              <div class="form-group col-12 col-md-4">
+                <label for="inpCode">Code postal</label>
+                <input type="text" name='codePostal' class="form-control" id="inpCode">
+              </div>
+              <div class="form-group col-12 col-md-8">
+                <label for="inpTel">Numero portable</label>
+                <input type="text" name='telephone' class="form-control" id="inpTel" aria-describedby="explainPhone"/>
+                  <small id="explainPhone" class="form-text text-muted">pour que ton pote pourras te contacte</small>
+              </div>
+              <div class="mx-auto">
+                <button type="button" onclick="sendAddress()" class="btn btn-primary"> 
+                  OK
+                </button>  
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">
+                    Retour
+                  </button>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Login Modal -->
+<div class="portfolio-modal modal fade" id="mdlLogin" tabindex="-1" role="dialog" aria-labelledby="portfolioModal1Label" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document"> 
+        <div class="modal-content"> 
+          <div class="modal-body ">
+            <div class="container">
+              <div class="row loginForm">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="col-12"> 
+                  <h5 class="portfolio-modal-title text-secondary mb-6">Se connecter avec mon compte</h5>
+                 
+                </div>
+                  <div class="form-group col-12 ">
+                  <label for="username"><b>Numero de telephone</b></label>
+                  <input type="text" class="form-control"  id="username" required>
+                  </div>
+                      <div class="form-group col-12 ">
+                  <label for="password"><b>Password</b></label>
+                  <input type="password" class="form-control"  id="password" required>
+                  </div>
+                  <button class="btn btn-primary col-12 " onclick="login()" type="button">Connexion</button> 
+                  <span class="psw"><a href="./forgotpwd.html">Mot de passe oublié?</a></span>
+                  <button class="btn btn-primary col-12 " onclick="showRegisterForm()" type="button">Créer un nouveau compte</button> 
+                </div>
+                <div class="row registerForm">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="col-12"> 
+                  <h5 class="portfolio-modal-title text-secondary mb-6">Créer un nouveau compte</h5>
+                </div>
+                  <div class="form-group col-12 ">
+                    <label for="rgtUsername"><b>Numéro de téléphone</b></label>
+                    <input type="text" class="form-control"  id="rgtUsername" required>
+                  </div>  
+                   <div class="form-group col-12  mb-3">
+                    <label for="rgtPassword"><b>Mot de passe</b></label>
+                    <div class="input-group"> 
+                      <input type="password" class="form-control" id="rgtPassword" aria-describedby="basic-addon2">
+                      <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2"><i class="fas fa-eye"></i></span>
+                      </div>
+                    </div> 
+                  </div> 
+                  <button class="btn btn-primary col-12 " onclick="register()" type="button">S'inscrire</button>   
+                   <p><font color="green">* Lorsque vous cliquez sur ce bouton, vous acceptez notre condition d'utilisation des cookies. Nous utilisons les cookies pour enregistrer votre identifiant et votre numéro de téléphone</font></p>
+                  <button class="btn btn-primary col-12 " onclick="showLoginForm()" type="button">Se connecter</button> 
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> 
+ 
+</body>
+<script type="text/javascript">
+ if ('serviceWorker' in navigator) {
+    console.log("Will the service worker register?");
+    navigator.serviceWorker.register('./js/service-worker.js')
+      .then(function(reg){
+        console.log("Yes, it did.");
+     }).catch(function(err) {
+        console.log("No it didn't. This happened:", err)
+    });
+ }
+</script>
+
+</html>
+<div class="portfolio-modal modal fade" id="mdlDelTrajetWithCode" tabindex="-1" role="dialog" aria-labelledby="mdlDelTrajetWithCode" aria-hidden="true">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">
+          <i class="fas fa-times"></i>
+        </span>
+      </button>
+      <div class="modal-body ">
+        <div class="container">
+          <div class="row">
+              <div class="form-group col-6">
+                  <label for="inpCodeSecurite"><b>Code (4 chiffres)</b></label>
+                  <input type="text" class="form-control"  name="code" id="inpCodeSecurite" required>
+              </div> 
+               <div class="form-group col-6 ">
+                <button class="btn btn-primary" onclick="sendCode()" type="button">Envoie code par email</button> 
+              </div>
+              <h4>Es-tu sûr de vouloir supprimer ?</h4>
+            <button class="btn btn-primary col-6 " data-dismiss="modal" type="button">Non</button> 
+            <button class="btn btn-danger col-6 " onclick="deleteTrajetWithCode()" type="button">Oui</button> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
+<!-- Get demande Done Modal With Code button -->
+<div class="portfolio-modal modal fade" id="getDemandDoneMdl" tabindex="-1" role="dialog" aria-labelledby="getDemandDoneMdl" aria-hidden="true">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-body ">
+        <div class="container">
+          <div class="row">
+              <div class="form-group col-6">
+                  <label for="inpCodeDemande"><b>Entrer le code (4 chiffres)</b></label>
+                  <input type="text" class="form-control"  name="code" id="inpCodeDemande" required>
+              </div> 
+               <div class="form-group col-6 ">
+                <button class="btn btn-primary" onclick="sendCodeDemand()" type="button">Envoie code par email</button> 
+              </div>
+              <div class="form-group col-8">
+                <label>As-tu bien reçu tes courses?</label>
+              </div>
+              <div class="form-group col-4">
+                <button class="btn btn-primary" onclick="getDemandDoneWithCode()"  type="button">Oui</button>
+                <button class="btn btn-danger" data-dismiss="modal" type="button">Non</button> 
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
+
+<!-- Confirm connect or continue as guest before proposing trajet -->
+<div class="portfolio-modal modal fade" id="mdlConnectOrGuest" tabindex="-1" role="dialog" aria-labelledby="mdlConnectOrGuestLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="mdlConnectOrGuestLabel">Créer une nouvelle demande</h5> 
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body ">
+        <div class="container">          
+          <div class="row"> 
+            <h4 class="text-uppercase col-12">Veux-tu te connecter ?</h4>
+            <div class="form-group col-12 text-center">
+              <a class="btn btn-primary" href="./connect.html?redurl=./trajet.html">Se connecter</a>
+              <a class="btn btn-secondary" href="./connect.html?a=rgt&redurl=./trajet.html">Créer un nouveau compte</a>
+            </div>
+            <h4 class="text-uppercase col-12">Pas maintenant </h4> 
+            <div class="text-center col-12">
+              <a href='./trajet.html'>Continuer en tant qu'invité</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>  
+<!-- Set store to go modal -->
+<div class="portfolio-modal modal fade" id="mdlSetStoreToGo" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Entres le code postal pour voir les magasins</h5> 
+      </div>
+      <div class="modal-body ">
+        <div class="container">
+          <div class="row">
+            <div class="form-group col-6 col-sm-2">
+              <label for="inpCodePost">Code postal</label>
+              <input type="text" class="form-control" id="inpCodePost" name="pcode" onblur="loadStoreByPCode(this.value)">
+              <small id="errPostCode" class="form-text text-danger"></small>
+            </div>
+              <div class="form-group col-6 col-sm-2">
+                <label for="sltStoreBrandToGo">Magasin</label>
+                <select id="sltStoreBrand" class="browser-default custom-select" >
+                  <option selected>Ouvre ce menu de sélection</option> 
+                </select>
+              </div>
+              <div class="form-group col-12 col-sm-8">
+                <label for="sltStoreName">Nom du magasin</label>
+                <select id="sltStoreName" name='storeId' class="browser-default custom-select" >
+                <option value="none" selected>Autres</option> 
+              </select>
+              </div>
+              <div class="form-group col-12" >
+                <label for="inpStoreAdress">Adresse (Si aucune idée, la laisser vide, ton ami t'en proposera une)</label>
+                <textarea class="form-control store-address-input" name='inpStoreAdress' id="inpStoreAdress" rows="2"></textarea> 
+              </div>
+
+              <div class="form-group col-4">
+                <button class="btn btn-primary" onclick="setStoreToGo(true)"  type="button">OK</button>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
+<!-- Block send RB message not aloow click oursite -->
+<div  class="portfolio-modal modal fade" id="mdlBlockNotaccount" tabindex="-1" role="dialog" aria-labelledby="mdlBlockNotaccountLabel" aria-hidden="true"  data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="mdlBlockNotaccountLabel">Cette fonction est réservée aux utilisateurs enregistrés</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body"> 
+       <a class="btn btn-primary" id="lgnBtn" href="">Se connecter</a>
+        <a class="btn btn-secondary" id="rgtBtn" href="">Creer nouveau compte</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Block send RB message not aloow click oursite -->
+<div  class="portfolio-modal modal fade" id="mdlSelectDmd" tabindex="-1" role="dialog" aria-labelledby="mdlSelectDmdLabel" aria-hidden="true"  data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="mdlSelectDmdLabel">Chosir la demande a envoyer</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body"> 
+        <p id='lblCredit'></p>
+        <div class="list-group mb-3" id="lstDemandToChat">
+          <button onclick="selectDemande(this)" class="list-group-item list-group-item-action flex-column align-items-start active">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">Carrefour Valy Hir to 655 Avenue du Technopole</h5>
+              <small>35 article</small>
+            </div>
+            <p class="mb-1">Lait demi cree</p>
+          </button> 
+        </div>
+        <div class="text-center">
+          <button id="btnSendShopper" class="btn btn-primary" disabled="disabled" > Utilise 0.3 credit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Bootstrap core JavaScript -->
+<script src="./js/jquery.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script  src="./js/js.cookie.min.js"></script> 
+<script  src="./js/moment.min.js"></script> 
+<script  src="./js/data.js"></script>
+<!-- Plugin JavaScript -->
+<script src="./js/jquery.easing.min.js"></script> 
+<script type="text/javascript"> 
+  if ("geolocation" in navigator){ //check geolocation available 
+      navigator.geolocation.getCurrentPosition(function(position){ 
+          Cookies.set('geoX', position.coords.latitude) 
+          Cookies.set('geoY', position.coords.longitude)  
+          $.get( "https://api-adresse.data.gouv.fr/reverse/", { 
+            lon:  position.coords.longitude,
+            lat :   position.coords.latitude
+          }).done(function( data ) {
+            if (data.features.length > 0) { 
+               $("#inpCodePost").val(data.features[0].properties.citycode)
+               $("#inpCodePost").blur()
+            } 
+          }).fail((e) => {
+            console.log(e)
+          });
+      });
+  }else{
+    console.log("Browser doesn't support geolocation!");
+  } 
+  function sendAddress() {
+    if (!$("#inpAddress").val() || !$("#inpTel").val()) {
+      $('#errMsgSendAddr').html("Veuillez indiquer l'adresse et le téléphone")
+    } else if (!validatePhone($("#inpTel").val())) {
+      $('#errMsgSendAddr').html("Numéro de téléphone non valable");
+    } else {
+      $('#errMsgSendAddr').html()
+      $.get("https://api-adresse.data.gouv.fr/search/?q="+ $("#inpAddress").val()+ "&postcode="+$("#inpCode").val()+"&limit=1")
+      .done(function( data ) {
+          console.log(data.features[0].geometry.coordinates[1])
+          console.log(data.features[0].geometry.coordinates[0])
+          $.ajax({
+            method: "POST",
+            url: "/guest/setAddress",
+            data: JSON.stringify({ 
+              address:  {
+                line1: $("#inpAddress").val(),
+                x: data.features[0].geometry.coordinates[1],
+                y: data.features[0].geometry.coordinates[0]
+              },
+              codePostal :  $("#inpCode").val(),
+              telephone :  $("#inpTel").val()
+            }),
+            dataType: "json",
+            contentType:"application/json; charset=utf-8"
+          }).done(function( data ) { 
+            window.location.href = '/tobuylist.html'
+          }).fail((e) => console.log(e)); 
+      }).fail((e) => $('#errMsgSendAddr').html("L'adresse n'existe pas, veuillez vérifier votre adresse et votre code postal")); 
+    } 
+  }
+  function login(){
+    $.post( "/users/login", { 
+      username:  $("#username").val(),
+      password :  $("#password").val()
+    }).done(function( data ) { 
+      Cookies.set('username', data.user.fullname, { expires: 7 }) 
+      Cookies.set('token', data.message, { expires: 7 }) 
+      $('#mdlLogin').modal('hide');
+      window.location.href = './offre.html'
+    });
+  }
+  function showRegisterForm(){
+    $('.loginForm').hide();
+    $('.registerForm').show();
+  }
+  function showLoginForm(){
+    $('.loginForm').show();
+    $('.registerForm').hide();
+  } 
+  showLoginForm() 
+  var loadDemandAjax = {
+    "async": true,
+    "crossDomain": true,
+    "url": "/guest/demand/allAround",
+    "method": "POST",
+    "headers": {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Authorization": "Bearer "+ Cookies.get('token') 
+    },
+    "data": { pcode: Cookies.get('pcode')}
+  }
+  var listOffre = []
+  var valLstShow = 'demand'
+  function loadCard(valSelected) {
+    if (valSelected !== valLstShow) {
+      valLstShow = valSelected
+      if (valLstShow === 'demand') {
+        loadDemand()
+      } else if (valLstShow === 'mydemand') {
+        loadMyDemand()
+      } else {
+        loadOffre()
+      }
+    }
+  }
+  var loadMyDemand = function () {
+    loadDemandByUser().done(function (data = []) {
+      $('#lstDemandTrajet').empty()  
+      listOffre = data
+      data.forEach(function (demand, index) {
+        var qtyTotal = 0
+        var shortDescrition = ""
+        for (const article of demand.tobuys) {
+            qtyTotal += parseInt(article.qty)
+            if (shortDescrition.length <= 400) {
+              shortDescrition +=  article.name.replace(" | Link", "") + ", "
+            }
+        } 
+        var storeName = demand.store.name !== 'unknow' ? demand.store.name: "Magasin" 
+        var recuBtn = !demand.userId || (demand.userId === Cookies.get("uId"))? `<button class="btn btn-secondary"  onclick="getDemandDone(${index})">Reçu</button>` : ""
+            /*<img src="${imgSrc[demand.store.brand.trim()]}" class="card-img-top">*/
+        var waitingStt = `<span class="badge ${demand.status==='done'?'badge-success':'badge-warning'}">${demand.status==='done'?'Expédié':'En attente'}</span>`
+        $('#lstDemandTrajet').append(` 
+            <div class="mb-2 col-12">
+            <div class="card ${demand.status==='done'?'border-primary':'border-warning'}">
+              <div class="card-header font-weight-bold d-flex">${storeName} <span class="ml-auto">Crée le ${demand.time?(new Date(demand.time)).toLocaleDateString():(new Date()).toLocaleDateString()}</span></div>
+              <div class="card-body text-secondary">
+                <h5 class="card-title">${demand.address.line1}</h5>
+                <h6 class="card-subtitle mb-2">${waitingStt}</h6>
+                <p class="card-text">${shortDescrition} <b><a href='#' onclick="consultDemand('${demand.phone}','${demand.userId}',${index}); return false;">Voir plus (${qtyTotal} ${qtyTotal>1?"articles":"l'article"})</a> </b>
+                </p>
+                ${recuBtn}
+                <button onClick="showOnMap(${demand.address.x},${demand.address.y},'${demand.name}')" class="btn btn-outline-info"><i class="fas fa-map-marker-alt"> Carte</i></button>
+                <a href="./tobuylist.html?did=${demand._id}" class="btn btn-primary"><i class="fas fa-edit"></i> Modifier</i></a>
+                <button class="fb-share-button" data-href="http://www.bonjourcourses.fr/detail.html?id=${demand._id}" data-layout="button" data-size="large"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.bonjourcourses.fr%2Fdetail.html%3Fid%3D${demand._id}&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore"><i class="fab fa-facebook-f"></i> Partager</a></button>
+              </div>
+            </div>
+          </div>`) 
+      });
+      if (data.length === 0) {$('#lstDemandTrajet').html(`Aucune demande trouvée par ici`)}
+    })
+  }
+  var loadOffre = () => {
+    $.ajax({ 
+      ...loadDemandAjax , 
+      "url" : "/trajet/allAround" })
+    .done(function (data) {
+      $('#lstDemandTrajet').empty()  
+      data.forEach(function (trajet, index) { 
+        var storeName = trajet.store.name !== 'unknow' ? trajet.store.name: "Magasin" 
+        var chatBtn = (trajet.uId == Cookies.get("uId") || trajet.uId == "guest")? "" :`- <button class="btn btn-outline-primary ml-auto" onclick="sendDemandToRainbow('${trajet.uId}')">${trajet.name?trajet.name:"Chat avec Shopper"} <i class="fas fa-comment-medical"></i></button>`;
+        /*<a href="tel:${trajet.phone}"  class="btn btn-primary" ><i class="fas fa-mobile-alt"></i> Texto</a>*/
+        $('#lstDemandTrajet').append(` <div class="mb-2 col-12">
+          <div class="card border-primary">
+            <div class="card-header font-weight-bold d-flex">${storeName} ${chatBtn? chatBtn: ""}</div>
+            <div class="card-body text-secondary"> 
+              <p class="card-text">${trajet.timesOfDay} - ${trajet.date}</p> 
+              <button onClick="showOnMap(${trajet.store.x},${trajet.store.y},'${trajet.store.name}')" class="btn btn-primary">Carte <i class="fas fa-map-marker-alt"></i></button>
+              <button class="btn btn-danger" onclick="setIdTrajet('${trajet._id}')" data-toggle="modal" data-target="#mdlDelTrajetWithCode" type="button"><i class="fas fa-trash"></i></button>
+              <button class="fb-share-button" data-href="http://www.bonjourcourses.fr/detailTrajet.html?id=${trajet._id}" data-layout="button" data-size="large"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.bonjourcourses.fr%2FdetailTrajet.html%3Fid%3D${trajet._id}&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Partager <i class="fab fa-facebook-f"></i></a></button>
+            </div>
+          </div>
+        </div>`) 
+      });
+      if (data.length === 0) {$('#lstDemandTrajet').html(`Aucune trajet trouvée par ici`)}
+    })
+  }
+  var loadDemand = function() {
+    $.ajax(loadDemandAjax).done(function (data = []) {
+      $('#lstDemandTrajet').empty()  
+      listOffre = data
+      data.forEach(function (demand, index) {
+        var qtyTotal = 0
+        var shortDescrition = ""
+        for (const article of demand.tobuys) {
+            qtyTotal += parseInt(article.qty)
+            if (shortDescrition.length <= 200) {
+              shortDescrition +=  article.name.replace(" | Link", "") + ", "
+            }
+        } 
+        var chatBtn = (demand.userId == Cookies.get("uId") || demand.userId === null)? "" : `- <a href="./chatBox.html?id=${demand.userId}&did=${demand._id}" class="btn border-primary text-primary ml-auto">${demand.name} <i class="fas fa-comments"></i></a>`
+        chatBtn = (!demand.userId && demand.phone) ? `<a href="tel:${demand.phone}"  class="btn btn-outline-primary ml-auto" ><i class="fas fa-mobile-alt"></i> Texto</a>` : chatBtn 
+        var storeName = demand.store.name !== 'unknow' ? demand.store.name: "Magasin" 
+        var recuBtn = !demand.userId || (demand.userId === Cookies.get("uId"))? `<button class="btn btn-secondary"  onclick="getDemandDone(${index})">Reçu</button>` : ""
+            /*<img src="${imgSrc[demand.store.brand.trim()]}" class="card-img-top">*/
+        var jetaide = "Je t'aide"
+        var helpingBtn =   (demand.userId !== Cookies.get("uId") || (!demand.userId && demand.phone)) ?`<button onClick="pickDemand('${demand._id}')" class="btn btn-primary"><i class="fas fa-hands-helping"></i>${jetaide}</i></button>`:``
+        $('#lstDemandTrajet').append(` 
+            <div class="mb-2 col-12">
+            <div class="card border-primary">
+              <div class="card-header font-weight-bold d-flex">${storeName} ${chatBtn? chatBtn: ""}</div>
+              <div class="card-body text-secondary">
+                <h5 class="card-title">${demand.address.line1}</h5> 
+                <p class="card-text">${shortDescrition} <b><a href='#' onclick="consultDemand('${demand.phone}','${demand.userId}',${index}); return false;">Voir plus (${qtyTotal} ${qtyTotal>1?"articles":"l'article"})</a> </b>
+                </p>
+                ${recuBtn}
+                <button onClick="showOnMap(${demand.address.x},${demand.address.y},'${demand.name}')" class="btn btn-outline-info"><i class="fas fa-map-marker-alt"></i> Carte</button>
+                ${helpingBtn}
+                <button class="fb-share-button" data-href="http://www.bonjourcourses.fr/detail.html?id=${demand._id}" data-layout="button" data-size="large"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.bonjourcourses.fr%2Fdetail.html%3Fid%3D${demand._id}&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Partager <i class="fab fa-facebook-f"></i></a></button>
+              </div>
+            </div>
+          </div>`) 
+      });
+      if (data.length === 0) {$('#lstDemandTrajet').html(`Aucune demande trouvée par ici`)}
+    }).fail(function (err) { console.log(err)})
+  }
+  function pickDemand(demandId) {
+    window.location.href = './pickDemand.html?did=' + demandId
+  }
+  
+  function resizeScreen() { 
+    if($(window).width() <= 768){
+      $('.small-screen').show()
+    } else {
+      $('.small-screen').hide()
+    }
+  }
+  $( document ).ready(function() {
+    $(window).resize(function() {
+       resizeScreen()
+    }); 
+    resizeScreen()
+    moment.locale('fr')
+    $("#includedFooter").load("./footer.html"); 
+    $("#about").load("./about.html"); 
+    $('#notificationDrop').hide()
+    $.get( "/sessionalive").done(function( data ) {  
+      Cookies.set("uId", data.userId)
+      Cookies.set("token", data.token)
+      $('#notificationDrop').show()
+      $('#ulNavBar').append(`
+      <li class="nav-item mx-0 text-uppercase">
+        <a class="nav-link py-3 px-0 px-md-3 rounded" href="./messagerie.html"><i class="fas fa-envelope-open"></i></a>
+      </li><li class="nav-item mx-0 text-uppercase">
+        <a class="nav-link py-3 px-0 px-md-3 rounded" href="./profile.html">Profil</a>
+      </li>
+      <li class="nav-item mx-0 text-uppercase">
+        <a class="nav-link py-3 px-0 px-md-3 rounded" href="./connect.html">Déconnexion</a>
+      </li>`);
+      
+     /* $('#authDropDown').html(` <a class="dropdown-item" href="./profile.html">Profil</a>
+        <a class="dropdown-item" href="./connect.html">Déconnexion</a> `)*/
+      getCredit().done(function( data ) {  
+       /* $('#authDropDown').append(`
+        <a class="dropdown-item" href="./profile.html#credit">Crédit : <span class="badge badge-success">${data.a} ${data.c}</span>
+        </a>`)*/
+        $('#ulNavBar').append(`<li class="nav-item mx-0 text-uppercase">
+          <a class="nav-link py-3 px-0 px-md-3 rounded" href="./profile.html#credit">Crédit : <span class="badge badge-success">${data.a} ${data.c}</span>
+          </a>
+        </li>`);
+        $('#lblCredit').html(myCreditStr(data))
+      }).fail((e) => console.log(e));
+    }).fail(function(err) { 
+      Cookies.remove('uId')
+      Cookies.remove('token')
+      $('#ulNavBar').append(`<li class="nav-item mx-0 mx-md-1 text-uppercase">
+        <a class="nav-link py-3 px-0 px-md-3 rounded" href="./connect.html">Connexion</a>
+      </li>
+      <li class="nav-item mx-0 mx-md-1 text-uppercase">
+        <a class="nav-link py-3 px-0 px-md-3 rounded" href="./connect.html?a=rgt">Inscription</a>
+      </li>`);
+   /*   $('#authDropDown').html(` <a class="dropdown-item" href="./connect.html">Connexion</a>
+        <a class="dropdown-item" href="./connect.html?a=rgt">Inscription</a> `)*/
+    }); 
+    Cookies.get('store')? setStoreToGo(false) : $('#mdlSetStoreToGo').modal('show')  ;
+    $.post( "/noti/allnew", { 
+      'userId': Cookies.get('uId'),
+      'limit': 10
+    }).done(function( data ) {  
+      if (data.length > 0) {
+        $('#notiBadge').show()
+        $('#notiBadge').html(data.length)
+      } else {
+        $('#notiBadge').hide()
+      }
+      $('#notiDropDown').empty()  
+      data.forEach(function (noti, index) {
+        var frmoment = moment(+noti.time)
+        $('#notiDropDown').append(`
+          <a class="dropdown-item top-bottom-border" href="./chatBox.html?id=${noti.fromUserId}&did=${noti.demandId}">${frmoment.fromNow()}</br>${noti.content.substring(0,25)}...</a>
+          `)  
+        });
+      }).fail(function(err) { 
+        console.log(err)
+      });
+    })
+  showMdlTrajet = () => { 
+    if (Cookies.get("uId") == undefined) {
+      $('#mdlConnectOrGuest').modal('show')
+    } else {
+      window.location.href = './trajet.html'
+    }
+  }
+  showMdlDemand = () =>{
+    if (Cookies.get("uId") == undefined) {
+      
+      $('#mdlSetAddressLabel').text(`Faire la liste pour le magasin: ${sltedStore.name}, ${sltedStore.code}`)
+      $('#mdlSetAddress').modal('show')
+    } else {
+      window.location.href = './tobuylist.html'
+    }
+  }
+  var currentDemande = {};
+  function  getDemandDone(index) {
+    currentDemande = listOffre[index]
+    if (Cookies.get('uId') ===  currentDemande.userId) {
+      if (confirm("Votre demande a été expédié ?")) {
+        getDemandDoneWithCode()
+      } 
+    } else $('#getDemandDoneMdl').modal('show')
+  }
+  function consultDemand(phone,userId,index) {
+    if (phone !== 'null'){
+      let data = listOffre[index]
+        $('#lblName').text(data.name) 
+          $('#lblAddress').text(data.address)
+        $('#lblTel').attr("href","tel:"+data.phone) 
+        $('#offreLst').empty()
+        for  (const item of data.tobuys) { 
+          $('#offreLst').append(`<li class="list-group-item d-flex justify-content-between align-items-center">
+             ${item.name.replace(" | Link", "")}  ${validURL(item.link)? "| <a href="+ item.link +">Link</a>" : ""}
+            <span class="badge badge-primary badge-pill">${item.qty}</span>
+          </li>`);
+        }
+        $('#detailMdl').modal('show');
+
+    } else if (userId) {
+      console.log(userId); 
+    }
+  }
+  var idTrajet = "1"
+  setIdTrajet = (id) => {
+    idTrajet = id
+  }
+  sendCode = () => {
+    $.ajax({
+        url: ' /trajet/sendCode',
+        type: 'POST', 
+        data: JSON.stringify({ 
+          'id' : idTrajet
+        }),
+        contentType: "application/json",
+        success: function(data){
+            alert("C'est bon, verifies tes mails: " +data)
+        },error: function()
+         {
+            alert("Error can't find the email address")
+         }
+    }); 
+  }
+  sendCodeDemand = () => {
+    $.ajax({
+        url: ' /demand/sendCode',
+        type: 'POST', 
+        data: JSON.stringify({ 
+          'id' : currentDemande._id
+        }),
+        contentType: "application/json",
+        success: function(data){
+            alert("C'est bon, verifies tes mails: " +data)
+        },error: function()
+         {
+            alert("Error can't find the email address")
+         }
+    }); 
+  }
+  var myDemands= null;
+  sendDemandToRainbow = (shopperId) => { 
+    if (Cookies.get("uId") == undefined) {
+      $('#lgnBtn').attr("href", "./connect.html");
+      $('#rgtBtn').attr("href", "./connect.html?a=rgt");
+      $('#mdlBlockNotaccount').modal('show')
+    } else {
+      $('#btnSendShopper').attr('onClick', `chatToShopper('${shopperId}');`)
+      if (!myDemands){
+        loadDemandByUser().done((data) => {
+          $('#lstDemandToChat').empty()
+          data.forEach(function (demand, index) {
+            var qtyTotal = 0
+            var shortDescrition = ""
+            for (const article of demand.tobuys) {
+                qtyTotal += parseInt(article.qty)
+                if (shortDescrition.length <= 200) {
+                  shortDescrition +=  article.name.replace(" | Link", "") + ", "
+                }
+            } 
+            var storeName = demand.store.name !== 'unknow'? demand.store.name :demand.store.address
+            $('#lstDemandToChat').append(`
+              <button demandid="${demand._id}" onclick="selectDemande(this)" class="list-group-item list-group-item-action flex-column align-items-start">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">${storeName} to ${demand.address}</h5>
+                <small>${qtyTotal} ${qtyTotal>1?"articles":"l'article"}</small>
+              </div>
+              <p class="mb-1">${shortDescrition}</p>
+            </button> 
+            `)  
+          });
+          $('#mdlSelectDmd').modal('show')
+        }).fail((e) => console.log(e))
+      } else {
+        $('#mdlSelectDmd').modal('show')
+      }
+    }
+  }
+  chatToShopper = (shopperId) => {
+    var demandId = $('#lstDemandToChat > button.active').attr('demandid')
+    makeTransaction(Cookies.get('uId'),-5,"Chat with shopper "+shopperId).done(function( data ) {
+      window.location.href = './chatBox.html?id=' + shopperId + '&did=' + demandId
+    }).fail((e) => console.log(e));
+  }
+  selectDemande = (e) => {
+    $('#lstDemandToChat > button').removeClass("active") 
+    $(e).addClass("active")
+    $('#btnSendShopper').prop( "disabled", false );
+  }
+  deleteTrajetWithCode = () => {
+    $.ajax({
+       type: 'POST',
+       url: '/trajet/delWthCode',
+       data:  { 
+          id:   idTrajet,
+          code:  $("#inpCodeSecurite").val()
+      },
+       success: function()
+       {
+          window.location.href = './index.html'
+       },
+       error: function()
+       {
+          alert("Code n'est pas valid")
+       }
+    })
+  } 
+  var sltedStore = {}
+  setStoreToGo = function(forcely) {
+    if (Cookies.get('store') && !forcely) {
+      sltedStore = JSON.parse(Cookies.get('store'))
+    } else {
+      sltedStore = lstStores.find(obj => obj._id === $('#sltStoreName').val());
+    }
+     
+    Cookies.set("store", JSON.stringify(sltedStore))
+    Cookies.set("pcode", sltedStore.code)
+    loadDemandAjax.data.pcode = sltedStore.code
+    //loadOffre()
+    loadDemand() 
+    $('#mdlSetStoreToGo').modal('hide');
+    //Set market 
+    showOnMap(sltedStore.x, sltedStore.y,`<b>${sltedStore.name}</b><br />${sltedStore.address}`,storeIcon)
+  }
+  function showOnMap(x,y,detail, customIcon){
+    if (customIcon) 
+      var marker = L.marker([x, y], {icon: customIcon}).addTo(mymap).bindPopup(detail).openPopup(); 
+    else 
+      var marker = L.marker([x, y]).addTo(mymap).bindPopup(detail).openPopup(); 
+    marker.on('mouseover',function(ev) {
+      ev.target.openPopup();
+    });
+  }
+  function getDemandDoneWithCode() {
+    $.ajax({
+       type: 'POST',
+       url: '/demand/setDone',
+       data:  { 
+          id:   currentDemande._id,
+          code:  $("#inpCodeDemande").val()
+      },
+      success: function()
+      {
+        window.location.href = './index.html'
+      },
+      error: function()
+      {
+        alert("Code n'est pas valid")
+      }
+    })
+  }
+</script>

@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html>
+ <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> 
+
+    <title>Message</title>
+
+  <link href="./css/all.min.css" rel="stylesheet" type="text/css">
+
+  <link href="./css/bjrc.css" rel="stylesheet" type="text/css">
+   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css"> 
+  
+   <link href="./css/freelancer.min.css" rel="stylesheet"> 
+
+    <!-- Custom styles for this template -->
+    <link href="./css/profile.css" rel="stylesheet">   
+    <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/es6-promise/4.0.5/es6-promise.min.js"></script>
+    <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="//cdn.jsdelivr.net/momentjs/2.15.1/moment-with-locales.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.5/angular.min.js"></script>
+    <script src="./js/vendors-sdk.min.js"></script>
+    <script src="./js/data.js"></script>
+
+<style> 
+
+.message-frame {
+  border: 2px solid #dedede;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+  width: 80%;
+}
+
+.darker {
+  border-color: #ccc;
+  background-color: #ddd;
+  margin-left: 20%;
+}
+
+.message-frame::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.message-frame .avatar {
+  float: left;
+  max-width: 60px;
+  width: 100%;
+  margin-right: 20px;
+  border-radius: 50%;
+}
+
+.message-frame .avatar-right {
+  float: right;
+   max-width: 60px;
+  width: 100%;
+  margin-left: 20px;
+  margin-right:0;
+  border-radius: 50%;
+}
+
+.time-right {
+  float: right;
+  color: #aaa;
+}
+
+.time-left {
+  float: left;
+  color: #999;
+}
+.message-box {
+  height: 65vh;
+  overflow: scroll;
+}
+.logo-rainbow{
+  height: 2em;
+}
+.chat-box-label {
+  color: white;
+  background-color: #2ecc71;
+}
+</style>
+</head>
+
+<body id="page-top">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+    <div class="container"> 
+   <a class="navbar-brand" href="./">
+      <img src="./img/logo.png" alt="logo">
+    </a> 
+      <a class="navbar-brand js-scroll-trigger">Bonjour, Courses</a>
+    <div class="navbar-toggler navbar-toggler-right text-uppercase  text-white rounded" >
+      </div>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+    </div>   
+    </div>
+  </nav>
+
+  <!-- Portfolio Section -->
+  <section class="page-section portfolio" id="shopper">
+    <div class="container">      
+    
+    <h5> <a class="btn btn-outline-primary" href="./"> 
+      <i class="fas fa-arrow-circle-left"></i> Retour
+    </a> Chat: <span id="chatName"></span> | Powered by <img src="https://web.openrainbow.com/cacheV2/images/logo__rainbow--text.svg" class="logo-rainbow" alt="Rainbow logo with word mark and trademark" title="Rainbow logo alcatel-lucent">
+      <a href="https://www.openrainbow.com/">ALE Rainbow</a>  
+    </h5>
+    <div class="row">
+      <div class="col-12 col-sm-4">
+        <b> Nouvelle liste de courses, dernière mise à jour le <span id="lblDate">Inconnue</span> </b>
+        <ul class="list-group  mh-75" id='lstToBuy'>
+                
+        </ul> 
+      </div>
+      <div class="col-12 col-sm-8">
+        <div class="message-box border" id="lstMessage">  
+          <div id="demandStatus" class="sticky-top chat-box-label p-1 px-2" > 
+            <span id="lblStatus">Demande en cours</span> 
+          </div>  
+        </div>
+        <div class="input-group">
+          <textarea class="form-control" aria-label="With textarea"   id="inpMessage" rows="2"></textarea>
+          <div class="input-group-prepend">
+            <button class="btn btn-primary" id="btnSend">Send</button>
+          </div>
+          <div class="input-group-prepend">
+              <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  id="actionDropup" >
+                Action
+              </button>
+            <div class="dropdown-menu dropdown-menu-right"  aria-labelledby="actionDropup">
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#mdlReglement">Je t'aide</a>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#askCodeBuyer">Courses livrées</a>
+                <a class="dropdown-item" href="#" href="javascript:proposeAddThermoBag()">Demande d'ajouter un sac thermomatique</a>
+                <a class="dropdown-item" href="#">Signaler l'utilisateur</a>
+                <div class="dropdown-divider"></div>
+            </div>
+          </div>
+        </div> 
+      </div>
+    </div>
+
+    </div>
+  </section>
+  <div id="includedFooter"></div>   
+</body>
+</html>
+<!-- Loading modal -->
+<div  class="portfolio-modal modal fade" id="mdlLoading" tabindex="-1" role="dialog" aria-labelledby="chgNameMdlLabel" aria-hidden="true"  data-backdrop="static" data-keyboard="false">
+  <div class="h-100 modal-dialog modal-lg" role="document">
+    <div class="h-75 modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="chgNameMdlLabel">Loading</h5>
+      </div>
+      <div class="modal-body"> 
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+   
+<script src="./js/bootstrap.min.js"></script>
+<script  src="./js/js.cookie.min.js"></script>
+<script src="./js/initial.js"></script>
+<script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+<script type="text/javascript">
+  var url = new URL(window.location.href);
+  var action = url.searchParams.get("act");
+  var demandId = url.searchParams.get("did")
+  $(document).ready(function(){
+    $.post( "/demand/findpcsingorder", { 
+      'userId': url.searchParams.get("id")
+    }).done(function( data ) {  
+      console.log(data)
+      Cookies.set("demandId", data._id)
+      if (data._id !== url.searchParams.get("did"))  {
+        $("#mdlLastOrderNotYet").modal('show')
+      } else {
+        $('#mdlLoading').modal('show')
+        updateDemandStatus()
+      }
+    }).fail(function(err) {
+        Cookies.set("demandId", demandId) 
+       $('#mdlLoading').modal('show')
+        updateDemandStatus()
+    });
+
+    $("#includedFooter").load("./footer.html"); 
+    $('#lblStatus').text(dmdStatus.done)
+    if (action ==="pickDemand") {
+      pickDemand()
+    } else {
+      $( "a[data-target='#mdlReglement']").show()
+      $( "a[data-target='#askCodeBuyer']").hide() 
+    }
+  }) 
+  function closeLastOrder() {
+    var lastDemand = Cookies.get("demandId") 
+    Cookies.set("demandId", url.searchParams.get("did"))
+    updateDemandStatus()
+  }
+  function loadLastOrder() {
+    demandId = Cookies.get("demandId")
+    updateDemandStatus()
+  }  
+  function proposeAddThermoBag(){
+    $('#inpMessage').val(dmdStatus.cartneedThermoBag);
+    setTimeout(function(){ $('#btnSend').click(); }, 800);
+  }
+  function pickDemand() { 
+    $.post( "/demand/process", { 
+      'userId': Cookies.get('uId'), 
+      'demandId' : demandId
+    }).done(function( data ) {  
+      console.log(data)
+      $( "a[data-target='#mdlReglement']").hide()
+      $( "a[data-target='#askCodeBuyer']").show() 
+      $('#lblStatus').text(dmdStatus.processing)
+      $('#demandStatus').show()
+      $('#inpMessage').val(dmdStatus.processMessage);
+      setTimeout(function(){ $('#btnSend').click(); }, 800);
+    }).fail(function(err) { 
+      console.log(err)
+    });
+  }
+  addMessageRight = (mess,time,ava,name) => {
+    var imgTag = ava !== null? `<img src="${ava}" alt="Avatar" class="avatar-right" />`: `<img data-name="${name}"  class="profile avatar-right" />` 
+    $('#lstMessage').append(`
+      <div class="message-frame darker">
+        ${imgTag}
+        <p>${mess}</p>
+        <span class="time-left">${time}</span>
+      </div>
+    `)
+    $('.profile').initial();
+  }
+  addMessageLeft = (mess,time,ava,name) => {
+    var imgTag = ava !== null? `<img src="${ava}" alt="Avatar" class="avatar" />`: `<img data-name="${name}"  class="profile avatar" />` 
+    $('#lstMessage').append(`
+      <div class="message-frame">
+        ${imgTag}
+        <p>${mess}</p>
+        <span class="time-left">${time}</span>
+      </div>
+    `)
+    $('.profile').initial();
+  }
+  validDemandCode =function() { 
+    $.post( "/demand/valid", { 
+      'demandId' : demandId,
+      'code':$('#inpCode').val()
+    }).done(function( data ) {
+       
+      $('#lblStatus').text(dmdStatus.done)
+      $('#inpMessage').val(dmdStatus.validMessage);
+      $('#btnSend').click()
+      $('#askCodeBuyer').modal('hide')
+    }).fail(function(err) { 
+      $("#errCodeMsg").text("Code non valide! Veuillez réessayer.")
+      console.log(err)
+    });
+  }
+  var updateDemandStatus = function(){
+  $('#demandStatus').hide()
+  $.post( "/demand/detail", { 
+    'id' : demandId
+  }).done(function( data ) { 
+    $('#chatName').html(data.name)
+    if (Cookies.get('uId') !== url.searchParams.get("id")) {
+      $('#inpMessage').attr("placeholder", "Salut, t'as toujours besoin de ces courses?");
+    }
+    data.time ? $('#lblDate').text((new Date(data.time)).toLocaleDateString()) : "Inconnue"
+    $('#lstToBuy').empty()
+    for  (const item of data.tobuys) { 
+      $('#lstToBuy').append(`<li class="list-group-item d-flex justify-content-between align-items-center">
+         <label>${item.name}  ${validURL(item.link)? "| <a href="+ item.link +">Link</a>" : ""}</label>
+        <span class="badge badge-primary badge-pill">${item.qty}</span>
+      </li>`);
+    }   
+    if (data !== null) {
+      if (data.status == dmdStatus.PROCESSING) {
+        $( "a[data-target='#mdlReglement']").hide()
+        $( "a[data-target='#askCodeBuyer']").show() 
+        $('#lblStatus').text(((data.userId === Cookies.get('uId') && data.status === "processing") ? ` Le code de vérification: ${data.code}. ` : "") + dmdStatus[data.status])
+        $('#demandStatus').show()
+      } else { 
+        $( "a[data-target='#mdlReglement']").show()
+        $( "a[data-target='#askCodeBuyer']").hide() 
+      }
+    }
+  }).fail(function(err) { 
+    console.log(err)
+  });
+}
+</script>
+
+
+<script type="module">
+import rainbowSDK from './js/rainbow-sdk.min.js'; // If you do not use the bundler
+var conversation = {}
+var chat = () => {
+  var messageContent = $('#inpMessage').val();
+  if (messageContent === "") return
+  //update new notification from MongoDB conversation.id 
+  $.post( "/noti/update", { 
+    'userId': url.searchParams.get("id"),
+    'fromUserId': Cookies.get('uId'),
+    'content' :  messageContent,
+    'time' : (new Date()).getTime(),
+    'demandId' : demandId
+  }).done(function( data ) {  
+    rainbowSDK.im.sendMessageToConversation(conversation, messageContent);
+    addMessageRight(messageContent, 
+          (new Date()).toLocaleString(),
+          authUser.avatarSrc ,
+          authUser.account.userData.displayName)
+    $('#inpMessage').val('')
+    console.log(data)
+    gotoBottom('lstMessage')
+  }).fail(function(err) { 
+    console.log(err)
+  });
+}
+var onReady = function onReady() {
+    console.log('[Hello World] :: On SDK Ready !');
+    rainbowSDK.setVerboseLog(false)
+};
+
+var onLoaded = function onLoaded() {
+    console.log('[Hello World] :: On SDK Loaded !');
+
+    rainbowSDK
+        .initialize('76dbc140d4a011e9a94d7f03d54868e7', 'gol2gKAx89jumFx17p1eMlcj6nhWlAlWazhmvxKECLDkHpdDWnYfu8N8MGVEvRcB')
+        .then(() => {
+            console.log('[Hello World] :: Rainbow SDK is initialized!');
+
+            // The SDK for Web is ready to be used, so you can sign in
+            rainbowSDK.connection.signinSandBoxWithToken(authUser.token)
+            .then(function(account) {
+              authUser = {...authUser, account}
+              var contact = rainbowSDK.contacts.getConnectedUser()
+              authUser.avatarSrc = contact.avatarSrc
+
+              rainbowSDK.contacts.searchByLogin(authUser.chatEmail).then((contactFound) => {
+                rainbowSDK.conversations.openConversationForContact(contactFound).then(function(conversationFound) {
+                  conversation = conversationFound
+                  // updateDemandStatus()
+                  rainbowSDK.im.getMessagesFromConversation(conversation, 50).then(function() {
+                    conversation.messages.forEach(function (message, index) {
+                      let sender = message.from;
+                      if (message.side === 'R') {
+                          addMessageRight(message.data, 
+                          (new Date(message.date)).toLocaleString(),
+                            sender.avatarSrc,
+                            sender.firstname)
+                      } else {
+                        addMessageLeft(message.data, 
+                        (new Date(message.date)).toLocaleString(),
+                        sender.avatarSrc,
+                        sender.firstname)
+                      }
+                    });
+                    maskReadNotification()
+                    gotoBottom('lstMessage')
+                    $('#mdlLoading').modal('hide')
+                  })
+                  }).catch(function(err) { 
+                  console.log(err)
+                  });
+                }).catch(function(err) {
+                  console.log(err)
+                });              
+
+            })
+            .catch(function(err) {
+              console.log(err)
+            });
+        })
+        .catch(err => {
+            console.log('[Hello World] :: Something went wrong with the SDK.', err);
+        });
+};
+let onNewMessageReceived = function(event) {   
+    let message = event.detail.message;
+    let sender = event.detail.message.from;
+    let cc = event.detail.cc;
+    console.log("onNewMessageReceived",message)
+    if (conversation.id === event.detail.conversation.id){
+      if (message.data.indexOf("INFO: ") === 0 ){
+        //key message
+        updateDemandStatus()
+      } else {
+        addMessageLeft(message.data, 
+          (new Date(message.date)).toLocaleString(),
+          sender.avatarSrc,
+          sender.firstname)
+        rainbowSDK.im.markMessageFromConversationAsRead(conversation, message);
+      }
+      maskReadNotification()
+      gotoBottom('lstMessage')
+    }
+} 
+let maskReadNotification = () => {
+  $.post( "/noti/read/conversation", { 
+    'userId': Cookies.get("uId"),  
+    'demandId' : demandId
+  }).done(function( data ) {  
+    console.log(data)
+  }).fail(function(err) { 
+    console.log(err)
+  });
+}
+var authUser = {};
+// add event listener
+document.addEventListener(rainbowSDK.im.RAINBOW_ONNEWIMMESSAGERECEIVED, onNewMessageReceived)
+
+document.addEventListener(rainbowSDK.RAINBOW_ONREADY, onReady);
+
+document.addEventListener(rainbowSDK.RAINBOW_ONLOADED, onLoaded);
+document.getElementById ("btnSend").addEventListener ("click", chat, false);
+var url = new URL(window.location.href);
+var toUserId= url.searchParams.get("id"); 
+var demandId= Cookies.get("demandId");
+ 
+if (toUserId && Cookies.get("uId") && demandId) {
+  $.post( "/rb/login", { 
+    'toUserId': toUserId
+  }).done(function( data ) {  
+    rainbowSDK.start();
+    rainbowSDK.load();
+    authUser = data
+  }).fail(function(err) {
+    alert('Une erreur occure '+err.message)
+  }); 
+} else {
+  $('#mdlBlockNotaccount').modal('show')
+}
+
+</script>
+<!-- Block send RB message not aloow click oursite -->
+<div  class="portfolio-modal modal fade" id="mdlBlockNotaccount" tabindex="-1" role="dialog" aria-labelledby="mdlBlockNotaccountLabel" aria-hidden="true"  data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="mdlBlockNotaccountLabel">Cette fonction est réservée aux utilisateurs enregistrés</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body"> 
+       <a class="btn btn-primary" id="lgnBtn" href="./connect.html">Se connecter</a>
+        <a class="btn btn-secondary" id="rgtBtn" href="./connect.html">Creer nouveau compte</a>
+      </div>
+    </div>
+  </div>
+</div>  
+<!-- Confirm go back to last order -->
+<div  class="portfolio-modal modal fade" id="mdlLastOrderNotYet" tabindex="-1" role="dialog" aria-hidden="true"  data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Continuer la dernière liste d'achats</h5> 
+      </div>
+      <div class="modal-body row">
+        <p class="mx-3">La dernière commande entre vous doit être expédiée et effectuée avant de continuer cette commande</p> 
+      </div>
+       <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="loadLastOrder()">Continuer la dernière commande</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" data-dismiss="modal" onclick="closeLastOrder()">Fermer la dernière commande et continuer cette commande</button>
+      </div>
+    </div>
+  </div>
+</div>  
+
+<!-- Block send RB message not aloow click oursite -->
+<div  class="portfolio-modal modal fade" id="askCodeBuyer" tabindex="-1" role="dialog" aria-hidden="true"  data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Code de vérification</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body row">
+       <div class="form-group col-10 offset-1">
+            <span class="badge badge-pill badge-danger" id="errCodeMsg"></span>
+        </div>
+        <p class="mx-3">
+          Votre acheteur doit entrer le code de vérification ici pour valider l'expédition
+        </p>
+        <div class="form-group col-6 offset-2 ">
+            <input type="text" class="form-control" placeholder="Code (4 chiffres)" id="inpCode">
+        </div> 
+        <div class="form-group col-4 ">
+          <button class="btn btn-primary" onclick="validDemandCode()" type="button">OK</button>  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>  
+<!-- Reglementation modal -->
+<div  class="portfolio-modal modal fade" id="mdlReglement" tabindex="-1" role="dialog" aria-hidden="true"  data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Veuillez lire les conseils ci-dessous</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-unstyled">
+          <li>C'est vous qui proposez et negociez le frais de livraison. On vous conseille d'un montant entre 1 et 4 euros si son adresse vous convient.</li>
+          <li>Essayez de mettre en d'accord entre vous avant de payer les courses (la methode de virement, le frais de livraison, choisir le lieu exact de rendez-vous). Sinon, vous pouvez annuler le service à tout moment.</li>
+          <li>Il vaut mieux demander lui de faire un depot sur le website si le montant des courses est eleve pour vous. Cela vous permet de faire confiance avec lui</li>
+          <li>Demander s'il y a les produits frais ou surgelés dans la liste, si oui, demander lui d'ajouter un sac isotherme dans la liste et de le payer. S'il n'est pas d'accord, vous avez tout le droit de ne les acheter pas.</li>
+          <li>Il vaut mieux prevenir l'heure precise de faire les courses et l'heure d'arrivée. Demandez-lui d'etre presente vers cet temps.</li>
+          <li>Quand vous livrer les courses, demande-lui de confirmer la bonne reception sur le site.</li>
+          <li>Vous recevrez toujours 100% du prix des courses en tous cas. Vous receverez le frais de livraison, une foie il confirme la bonne reception des courses</li>
+          <li>Prevenir lui de la decale de l'heure d'arrivee en cas d'un accident pendant une livraison</li>    
+          <li>Mettre en accord entre vous de ne pas utiliser les données personelles apres la transaction (adresse postale, numéro de téléphone, adresse e-mail, etc.).</li>
+        </ul>
+        Comment faire lorsde la livraison:
+        <ol>
+          <li>Appelez-le 2 fois entre 2-3 minutes avec le numero ci-dessous</li>
+          <li>Si il ne vous contacte pas apres la 2e appel, signaler la livraison est bonne mais personne a domicile sur le website</li>
+          <li>Vous pouvez garder les courses</li>
+        </ol>
+        <div class="form-group col-4 ">
+          <button class="btn btn-primary" data-dismiss="modal"  onclick="pickDemand()" type="button">Je comprends</button>  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

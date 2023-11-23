@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<header>
+
+	<script src="./js/jquery.min.js"></script>
+	<script src="./js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+</header>
+<html>
+<body>
+<div>
+Bonjour Course
+</div>
+<div>
+	<input class="btn" type="submit" value="Login"   
+    onclick="window.location='/login.html';" />       
+</div>
+<div>
+	<button type="button" class="btn" data-toggle="modal" data-target="#addressMdl">
+	  	Find your shopping buddy
+	</button>
+</div>
+<div class="modal fade" id="addressMdl" tabindex="-1" role="dialog" aria-labelledby="addressMdlLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addressMdlLabel">Enter your address</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/setAddress" method="post">
+		  <div class="form-group">
+		    <label for="exampleInputEmail1">Address (ex 655 avenue du technopôle 29280 plouzané)</label>
+		    <input type="text" name='address' class="form-control" id="exampleInputEmail1" aria-describedby="addressHelp">
+		    <small id="addressHelp" class="form-text text-muted">We'll never share your address with anyone else.</small>
+		  </div>
+		  <div class="form-group">
+		    <label for="inPassword">Code postal (ex 29280)</label>
+		    <input type="text" name='codePostal' class="form-control" id="inPassword">
+		  </div>
+		  <button type="submit" class="btn">OK</button>
+		</form>
+      </div>
+    </div>
+  </div>
+</div>
+</body> 
+</html>
